@@ -4,9 +4,13 @@
 
 ## 1. Guiding decisions
 
-- **Next.js is a new presentation layer; Laravel stays the system of record.** The admin panel, database, uploads, emails and any business logic remain in Laravel. Next.js reads content and forwards form submissions.
-- **Nothing breaks during the switch.** Any request Next.js does not handle is proxied to Laravel (admin, storage, PDFs, legacy URLs).
-- **Build before the API exists.** A data adapter layer lets the frontend run on fixtures captured from the live site (`DATA_SOURCE=mock`) and switch to the real API (`DATA_SOURCE=api`) without touching components.
+**Scope (2026-09-29): the Next.js frontend only.** There is no Laravel source and no backend work in this project. A **Django backend will be built later**, by someone else.
+
+- **The frontend is self-contained.** It runs on the Phase 0 snapshot — `src/fixtures/*.json` plus the mirrored media in `public/media/` — so nothing depends on the old server being up.
+- **The zod schemas are the contract.** `src/lib/data/schemas.ts` defines exactly what Django must return; `pnpm contract:export` publishes it as JSON Schema plus `docs/API-CONTRACT.md`. Field names, text values and slugs stay as captured, and Django must reproduce every current URL (`/gold-ownership-2`, `/events/{slug}`, `/blog-details/{slug}`, …).
+- **Two adapters, one interface.** `mock` reads the fixtures (default); `api` is a generic REST client against `API_BASE_URL`, written to the contract and unused until Django exists. Pages and components cannot tell them apart.
+- **The snapshot seeds the database.** `src/fixtures/` + `public/media/` are the content handoff for whoever builds Django.
+- **Legacy fallback is opt-in.** A rewrite to the old site is available via `LEGACY_ORIGIN` for a transitional deployment, but it is unset by default and the frontend does not assume it.
 
 ## 2. Folder structure
 
@@ -15,6 +19,8 @@
 ├─ CLAUDE.md · README.md
 ├─ pnpm-workspace.yaml · package.json   # workspace: services/frontend, audit/scripts
 ├─ docs/                            # this kit + PROGRESS.md + OWNER-REPORT.md
+│  ├─ API-CONTRACT.md               # handoff for the Django developer
+│  └─ api-contract/                 # JSON Schemas generated from the zod schemas
 ├─ prompts/                         # phase prompts
 ├─ audit/                           # Phase 0 outputs (html, links.json, forms.json, meta.json, screenshots, scripts/)
 └─ services/frontend/               # the Next.js app (all paths below are relative to it)
@@ -27,7 +33,7 @@
    │  │  │  ├─ page.tsx             # Home
    │  │  │  ├─ about-us/page.tsx
    │  │  │  │                        # (no about_us/ route — next.config redirects it 308 → /about-us)
-   │  │  │  ├─ [ownershipSlug]/page.tsx   # gold-ownership-2 … (validated against packages; else notFound)
+   │  │  │  ├─ [ownershipSlug]/page.tsx   # gold-ownership-2 … (generateStaticParams; else notFound)
    │  │  │  ├─ offer/page.tsx
    │  │  │  ├─ book-now/page.tsx
    │  │  │  ├─ event/page.tsx
@@ -38,8 +44,8 @@
    │  │  │  ├─ contact/page.tsx
    │  │  │  └─ not-found.tsx
    │  │  ├─ api/
-   │  │  │  ├─ forms/contact/route.ts     # proxy → Laravel /contact-form/submit (mocked in DATA_SOURCE=mock)
-   │  │  │  ├─ events/filter/route.ts     # same params + logic as Laravel /events/filter (mock: filters fixtures)
+   │  │  │  ├─ forms/contact/route.ts     # submitForm target (mocked in DATA_SOURCE=mock)
+   │  │  │  ├─ events/filter/route.ts     # same params + logic as the live filter (mock: filters fixtures)
    │  │  │  └─ revalidate/route.ts        # on-demand cache invalidation (secret)
    │  │  ├─ sitemap.ts
    │  │  └─ robots.ts
@@ -63,14 +69,16 @@
    │  │  ├─ data/
    │  │  │  ├─ index.ts        # public API used by pages: getHome(), getPackage(slug) …
    │  │  │  ├─ schemas.ts      # zod schemas = the contract (types inferred)
-   │  │  │  ├─ adapters/mock.ts
-   │  │  │  └─ adapters/laravel.ts
+   │  │  │  ├─ adapters/mock.ts        # the Phase 0 fixtures (default)
+   │  │  │  └─ adapters/api.ts         # generic REST against API_BASE_URL (for Django)
    │  │  ├─ lang.ts            # autoLang(), isBangla()
    │  │  ├─ sanitize.ts        # CMS HTML sanitizer (allowlist)
    │  │  ├─ format.ts          # date/time display helpers (display only, never mutate data)
    │  │  └─ seo.ts             # metadata + JSON-LD builders
-   │  ├─ fixtures/             # JSON captured in Phase 0 from the live site
+   │  ├─ fixtures/             # JSON captured in Phase 0 — the Django seed data
    │  └─ styles/globals.css
+   ├─ public/media/            # mirrored Phase 0 media, original relative paths
+   ├─ scripts/                 # fixtures-media.mjs, export-contract.mjs
    └─ tests/                   # Playwright; baselines read from ../../audit/
       ├─ parity/   # links, forms, routes, interactions, allowed-diffs.ts
       ├─ a11y/
@@ -84,7 +92,7 @@
 | `/` | `(site)/page.tsx` | `getHome()` |
 | `/about-us` | `(site)/about-us/page.tsx` | `getAboutPage()` |
 | `/about_us` | `next.config` `redirects` → 308 `/about-us` (rule 9c) | — |
-| `/{package-slug}` | `(site)/[ownershipSlug]/page.tsx` | `getPackage(slug)`; `generateStaticParams` from `getPackages()` |
+| `/{package-slug}` | `(site)/[ownershipSlug]/page.tsx` | `getPackage(slug)`; `generateStaticParams` from `getPackages()`, `notFound()` otherwise |
 | `/offer` | `(site)/offer/page.tsx` | `getOffer()` |
 | `/book-now` | `(site)/book-now/page.tsx` | `getBookNow()` |
 | `/event` | `(site)/event/page.tsx` | `getEvents()` for the initial list; filtering calls `app/api/events/filter` from a client leaf with the live site's params `start_date`, `end_date`, `category_id` (dates `d-m-Y`) and the same guard/empty-state logic (`audit/interactions.md §5`). Results always link to `/events/{slug}` (allowed diff vs the live `/event-details/{id}`). No URL change — the live site does not change it |
@@ -94,18 +102,16 @@
 | `/gallery` | `(site)/gallery/page.tsx` | `getGallery()` |
 | `/contact` | `(site)/contact/page.tsx` | `getContactPage()` |
 
-**Verified in Phase 1 (Next 16.3.6):** a root-level dynamic segment such as `[ownershipSlug]` **defeats the Laravel fallback** for every unknown single-segment path — the segment matches first, `notFound()` renders Next's own 404, and `fallback` rewrites never run (they only apply when no route matches). Two-segment paths still fall back. Phase 7 therefore must not use a root dynamic segment. Options, decided in Phase 7:
+**Ownership routing.** One dynamic segment, `(site)/[ownershipSlug]/page.tsx`, with `generateStaticParams()` from `getPackages()` and `notFound()` for anything else. A package added in Django gets its page automatically.
 
-1. **Four static route folders** (`gold-ownership-2/`, `platinum-ownership-3/`, `signature-ownership-4/`, `silver-ownership-5/`) sharing one `PackagePage` template fed by `getPackage(slug)`. Simplest and safest; a package added in the admin panel needs a one-line route file. *(recommended)*
-2. `afterFiles` rewrite with a negative-lookahead source built at build time from `getPackages()` (`/:slug((?!gold-ownership-2|…)[^/]+)` → Laravel). Data-driven, but a new package still needs a rebuild.
-3. `proxy.ts` (Next 16's middleware) that rewrites unknown single-segment paths to Laravel using the package list. Fully dynamic, but runs on every request.
+> **Caveat, verified in Phase 1 (Next 16.3.6):** a root-level dynamic segment **defeats a `fallback` rewrite** for every unknown single-segment path — the segment matches first, `notFound()` renders Next's own 404, and `fallback` never runs (it only applies when no route matches). Two-segment paths still fall back. This only matters if `LEGACY_ORIGIN` is set for a transitional deployment; if it ever is, and unknown single-segment paths must reach the old site, use `proxy.ts` (Next 16's middleware) to rewrite them before routing.
 
 ## 4. Rendering & caching
 
 - All pages are Server Components, statically rendered and revalidated (target: 300s), plus tag-based on-demand invalidation: `packages`, `gallery`, `events`, `posts`, `settings`, `pages`.
-- Use the caching primitives of the installed Next.js version (check its docs: fetch cache options / `revalidateTag` / cache components). Keep all caching inside `src/lib/data/adapters/laravel.ts` so pages stay version-agnostic.
+- Use the caching primitives of the installed Next.js version (check its docs: fetch cache options / `revalidateTag(tag, profile)` / cache components). Keep all caching inside `src/lib/data/adapters/api.ts` so pages stay version-agnostic.
 - `/event` renders statically with every event; filtering is a client-side request to `/api/events/filter` (mock: filters fixtures; api: forwards to Laravel `/events/filter`). Same params and logic as the live AJAX filter; no query string (the live site has none).
-- `POST /api/revalidate?secret=…&tag=…` lets the Laravel admin (optional hook) refresh content immediately after a save.
+- `POST /api/revalidate?secret=…&tag=…` lets the future Django admin refresh content immediately after a save.
 - Client components: only interactive leaves. Wrap motion with `LazyMotion`.
 
 ## 5. Data layer & API contract
@@ -114,12 +120,17 @@
 
 ```ts
 // src/lib/data/index.ts
-const adapter = process.env.DATA_SOURCE === "api" ? laravelAdapter : mockAdapter;
+const adapter = process.env.DATA_SOURCE === "api" ? apiAdapter : mockAdapter;
 export const getHome = () => adapter.getHome();   // returns HomeData (zod-validated)
 // … one function per page / entity
 ```
 
-Every adapter response is parsed with the zod schema. A schema failure in production logs and falls back to the last good cache rather than crashing the page.
+Every adapter response is parsed with its zod schema, so a backend that drifts from the contract fails loudly instead of rendering wrong content.
+
+- **`mock`** (default) reads `src/fixtures/*.json` and reproduces the live ordering and filtering documented in `audit/interactions.md`.
+- **`api`** is a plain REST client against `API_BASE_URL` — no backend-specific code, no hand-written endpoint list beyond the contract in §5.3.
+
+A production build with `DATA_SOURCE=mock` **fails** unless `PREVIEW_MODE=true`, so fixture content can never be shipped as if it were live. In preview mode the site shows a slim bar reading "Preview — forms are not sent".
 
 ### 5.2 Contract (TypeScript shape; zod schemas mirror this)
 
@@ -204,38 +215,45 @@ type FormField = { name: string; label: string; type: "text"|"tel"|"email"|"text
 
 Field names and texts are captured from the live site in Phase 0, never invented.
 
-### 5.3 Laravel API (only if none exists)
+### 5.3 The API contract (for the future Django backend)
 
-Add **read-only** JSON endpoints in Laravel that reuse the existing models and the same queries the Blade controllers use (same ordering, same filters, same visibility rules). No schema changes, no business-logic changes.
+Generated from the zod schemas by `pnpm contract:export` into `docs/api-contract/*.json` (JSON Schema) and summarised in `docs/API-CONTRACT.md`. That file is the handoff document; this section is the shape of it.
 
 ```
-GET  /api/v1/settings
-GET  /api/v1/pages/home | about | offer | book-now | contact
-GET  /api/v1/packages            GET /api/v1/packages/{slug}
-GET  /api/v1/gallery
-GET  /api/v1/events?{original filter params}     GET /api/v1/events/{slug}
-GET  /api/v1/posts?page=         GET /api/v1/posts/{slug}
-POST /api/v1/forms/contact       # calls the same logic as the current contact controller
-# (no comment endpoint — the live site has no comment backend)
+GET  /settings
+GET  /pages/home | about | offer | book-now | contact
+GET  /packages                    GET /packages/{slug}
+GET  /gallery
+GET  /events                      GET /events/{slug}
+GET  /events/filter?start_date=&end_date=&category_id=
+GET  /posts                       GET /posts/{slug}
+POST /forms/contact
 ```
 
-Write endpoints: same validation rules, same side effects (DB rows, emails), rate-limited, honeypot field, CORS locked to the Next.js origin. If the Laravel source is not available, stop and ask the owner; keep running on fixtures meanwhile.
+- **`/events/filter`** keeps the live parameter names and formats: `start_date` and `end_date` as `d-m-Y` (e.g. `29-09-2026`), `category_id` as the category's id, empty meaning "all". The same guard applies: one date without a category returns the unfiltered list.
+- **Validation errors** are `HTTP 422` with `{"errors": {"field": ["message", …]}}`, so the form layer can map them back onto fields.
+- **Media** URLs may be absolute or relative; the frontend resolves them through `assetUrl()` against `MEDIA_BASE_URL`.
 
 ## 6. Forms
 
-- react-hook-form + zod schema generated from the Phase 0 field list (names, required, types, max lengths identical to the original).
-- Submit → Next.js route handler (`/api/forms/*`) → Laravel endpoint. The handler forwards exactly the original field names, adds nothing but the honeypot check, and relays Laravel's validation errors field-by-field.
-- UX states: idle → submitting (button shows spinner, disabled) → success (original success text) / error (field errors inline + a summary line; network error message).
-- The contact modal and the contact page share `ContactForm` only if their fields are identical; otherwise two schemas. Phase 0: same field names, **different rules** (modal: name/phone/email required, `address` hidden; page: nothing required, `phone` is `type=number`) → two schemas.
-- Comment form: **none exists** on the live site (decorative markup, no endpoint). Not rendered; `features.eventCommentForm = false`.
+- react-hook-form + zod, with the field list, names and client-side rules captured in `audit/forms.json`. The contact modal and the contact page have the **same field names but different rules** (the modal marks name/phone/email required and hides `address` with the literal value `N/A`; the page form enforces nothing and uses `type=number` for phone), so they get two schemas.
+- Submission goes through one adapter function:
 
-## 7. Laravel coexistence
+```ts
+submitForm(kind: "contact", payload: Record<string, string>): Promise<SubmitResult>
+```
 
-- Deploy Next.js on the main domain. Move Laravel to an origin such as `cms.indexecoresort.com` (or keep it on the same server on another port).
-- `next.config` **fallback rewrites**: any path not matched by Next.js → Laravel origin. This keeps `/admin`, login, `/public/storage/*`, `/public/images/*`, PDFs and unknown legacy URLs working.
-- `images.remotePatterns` for the Laravel media host(s) and `i.ytimg.com`.
-- Media URLs from the API are used as-is (they already point at `/public/storage/...`; the rewrite serves them).
-- Cookies/CSRF: Next.js never posts to Blade routes directly; it uses the API endpoints (CSRF-exempt, protected by origin check + rate limit + honeypot).
+  - **mock** — waits ~600ms, logs the payload in development only, returns success. Nothing leaves the browser.
+  - **api** — `POST {API_BASE_URL}/forms/{kind}`, relaying `422` field errors back to the form.
+- UX states: idle → submitting (button disabled, "Sending…") → success (the original success text) or error (field errors inline plus a summary line).
+- **No comment endpoint**: the live "Leave a Reply" block has no backend at all, so it is not rendered (`features.eventCommentForm = false`).
+
+## 7. Legacy fallback (opt-in) and media
+
+- The frontend is self-contained; it needs no other origin to render.
+- **`LEGACY_ORIGIN` is unset by default.** When set, `next.config` adds a `fallback` rewrite sending any path Next.js does not own to that origin — useful only for a transitional deployment where the old site still answers `/admin`, `/public/storage/*` and legacy URLs. The tests for it skip when it is unset.
+- **Media** is served from `public/media/` (the Phase 0 mirror, original relative paths preserved). Every URL goes through `assetUrl()`, which prefixes `MEDIA_BASE_URL` when set — that is the single switch for pointing at Django's media storage later.
+- `images.remotePatterns` covers `MEDIA_BASE_URL`, `i.ytimg.com` and the two images the CMS hotlinks from a theme demo.
 
 ## 8. Performance budgets
 
@@ -269,14 +287,19 @@ Techniques: hero video starts after LCP with `preload="none"`; LiteYouTube facad
 ## 11. Environment variables
 
 ```
-NEXT_PUBLIC_SITE_URL=https://indexecoresort.com
-DATA_SOURCE=mock            # mock | api
-CMS_API_URL=https://cms.indexecoresort.com/api/v1
-LARAVEL_ORIGIN=https://cms.indexecoresort.com
+NEXT_PUBLIC_SITE_URL=https://indexecoresort.com   # canonical URLs; https also enables upgrade-insecure-requests
+DATA_SOURCE=mock            # mock (fixtures, default) | api (Django, once it exists)
+API_BASE_URL=               # Django REST base, e.g. https://api.indexecoresort.com/v1
+MEDIA_BASE_URL=             # empty = serve public/media locally; later, Django's media origin
+PREVIEW_MODE=false          # true allows a production build to run on fixtures, with a visible banner
+LEGACY_ORIGIN=              # unset. Set only for a transitional deploy that still proxies the old site
 REVALIDATE_SECRET=change-me
 ```
 
+**Build guard:** `NODE_ENV=production` + `DATA_SOURCE=mock` + `PREVIEW_MODE` unset ⇒ the build fails, so fixture content cannot ship as if it were live.
+
 ## 12. Deployment
 
-- Node runtime (Vercel or a VPS with `next start` behind Nginx). Nginx example and cut-over steps go in `docs/DEPLOY.md` (written in the final phase).
-- Cut-over plan: run Next.js on a staging subdomain against the real API → run parity suite → switch DNS/proxy → keep Laravel reachable via fallback rewrites → monitor 404s for a week.
+**Now — preview.** Deploy to Vercel with `DATA_SOURCE=mock` and `PREVIEW_MODE=true`. The site renders the Phase 0 snapshot end to end, forms are inert behind the preview bar, and `LEGACY_ORIGIN` stays unset. This is what the owner reviews and what the Django developer builds against.
+
+**Later — production.** Once Django implements `docs/API-CONTRACT.md`: set `DATA_SOURCE=api`, `API_BASE_URL` and `MEDIA_BASE_URL`, drop `PREVIEW_MODE`, run the parity suite against it, then move DNS. `docs/DEPLOY.md` (final phase) carries the step-by-step for both.

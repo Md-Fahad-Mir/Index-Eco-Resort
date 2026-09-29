@@ -11,7 +11,8 @@ const baseURL = process.env.BASE_URL ?? `http://localhost:${PORT}`;
 export default defineConfig({
   testDir: "tests",
   // The styleguide needs a dev server (it 404s in production), so it has its
-  // own config: playwright.styleguide.config.ts.
+  // own config: playwright.styleguide.config.ts. NOTE: a project's own
+  // testIgnore replaces this one, so each project below restates it.
   testIgnore: /styleguide/,
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
@@ -31,14 +32,19 @@ export default defineConfig({
   },
   projects: [
     {
+      // Data-layer checks: no browser page, so they run once rather than per device.
+      name: "data",
+      testMatch: /tests\/data\//,
+    },
+    {
       name: "parity-desktop",
-      testIgnore: /visual/,
+      testIgnore: /visual|styleguide|tests\/data\//,
       use: { ...devices["Desktop Chrome"], viewport: { width: 1440, height: 900 } },
     },
     {
       // 390 px wide — the primary design width.
       name: "parity-mobile",
-      testIgnore: /visual/,
+      testIgnore: /visual|styleguide|tests\/data\//,
       use: { ...devices["iPhone 13"], defaultBrowserType: "chromium", browserName: "chromium" },
     },
     {
@@ -46,7 +52,7 @@ export default defineConfig({
       // upgrade-insecure-requests is production-only (it made WebKit force https
       // on http://localhost and fail TLS).
       name: "parity-mobile-webkit",
-      testIgnore: /visual/,
+      testIgnore: /visual|styleguide|tests\/data\//,
       use: { ...devices["iPhone 13"] },
     },
     {

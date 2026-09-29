@@ -2,7 +2,7 @@
   "hero": {
     "title": "Offers",
     "image": {
-      "src": "https://indexecoresort.com/public/storage/images/general-settings/homepage_footer_img/eV3Ocr4Tj0S4aklU3mvOn1wJLts1OWBPhKPaycHa.png",
+      "src": "/media/public/storage/images/general-settings/homepage_footer_img/eV3Ocr4Tj0S4aklU3mvOn1wJLts1OWBPhKPaycHa.png",
       "alt": ""
     },
     "breadcrumb": {
@@ -20,7 +20,7 @@
   ],
   "note": "*শর্ত প্রযোজ্য",
   "poster": {
-    "src": "https://indexecoresort.com/public/storage/images/admin/offers/Oz8yziqcPbE7N2wIsPb6JaM1VIYi9wu0RmCZ2wFb.png",
+    "src": "/media/public/storage/images/admin/offers/Oz8yziqcPbE7N2wIsPb6JaM1VIYi9wu0RmCZ2wFb.png",
     "alt": "Krishibid Sea Palace - 5 Star Hotel Kuakata"
   }
 }

@@ -2,7 +2,7 @@
   "hero": {
     "title": "Contact Us",
     "image": {
-      "src": "https://demo.awaikenthemes.com/inclub/wp-content/uploads/2024/12/page-header-bg-1.jpg",
+      "src": "/media/_external/demo.awaikenthemes.com/inclub/wp-content/uploads/2024/12/page-header-bg-1.jpg",
       "alt": ""
     },
     "breadcrumb": {

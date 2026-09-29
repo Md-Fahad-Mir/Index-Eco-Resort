@@ -227,7 +227,7 @@ These come from data or templates. The new frontend renders them as-is and lists
 11. Project name reads "Indexvilla.veotech"; hero subline mentions "IndexVilla – Smart Property Buying, Selling & Rental Platform".
 12. Event times shown raw (`20:51:00 - 17:54:00`), one event has time "-".
 13. Contact info cards talk about "dream apartment"/"dream home"; core values mention "beachfront setting in Kuakata" while location is Gazipur.
-14. ~~Gallery markup renders items twice (once from `/public/storage/images/...`, once from `/public/images/...`).~~ **Not reproducible in Phase 0**: every image uses one path; the repetition is Bootstrap tab panes (the set is rendered once per pane). Nothing to deduplicate.
+14. Gallery markup renders items twice (once from `/public/storage/images/...`, once from `/public/images/...`). **Partly confirmed (corrected in Phase 3):** the `<img>` tags all use the working storage path and the pane repetition is just Bootstrap tabs — but the **lightbox links in the category panes** use `/public/images/...` and all 20 **404**, so clicking a tile in a category opens nothing. Repaired to the storage path of the same file (rule 9c).
 15. Blog "Categories" sidebar lists event categories and links to `/event`.
 
 ## 10. Unknowns Phase 0 must resolve
@@ -265,7 +265,7 @@ Where it contradicts §1–§10 above, **this section wins**. Full detail in
 | 5.11 | Contact page hotline links to the number | `href="#"`. Not a `tel:` link. |
 | 5.5 | Download Booking Form → a PDF | `href="https://indexecoresort.com/public/storage"` — **no file path**. The download is broken. |
 | 8 | Top bar phone/email hrefs "verify" | **Plain text, not links.** Only the three social icons are anchors. |
-| 9.14 | Gallery renders items twice from two paths | **Not reproducible.** All images come from `/public/storage/images/admin/gallery/`. The repetition is Bootstrap tab panes (the set is rendered once per pane). |
+| 9.14 | Gallery renders items twice from two paths | **Partly confirmed — correction to the Phase 0 note.** Every `<img src>` does use `/public/storage/...`, and the repetition across panes is Bootstrap tab panes. But in the **category panes** the lightbox anchor (`<a href>`) points at `/public/images/admin/gallery/...`, and **all 20 of those return 404** — so clicking a tile in any category opens nothing on the live site. The "All" pane's anchors are fine. Phase 3 repairs the link to the working `/public/storage/...` file of the same name (rule 9c). |
 
 ## 11.2 Answers to §10 "Unknowns"
 
@@ -281,7 +281,7 @@ Where it contradicts §1–§10 above, **this section wins**. Full detail in
    button, and after 2400ms resets the form and closes the panel; errors `alert()`
    `xhr.responseJSON.message`. The page form's behavior was **not tested** — submitting
    would create a real inquiry. Open question for the owner.
-4. **Gallery.** Bootstrap pill tabs, server-rendered per pane. Home "All" = **12**
+4. **Gallery.** Bootstrap pill tabs, server-rendered per pane. **The category panes' lightbox links are broken** (see the 9.14 correction above). Home "All" = **12**
    (capped), `/gallery` "All" = **20**. Category counts (both pages): Business
    Conference 11, Community Hall 1, Room 2, Cottage 1, Indoor **0**, Outdoor 3,
    Swimming pool 3 (that tab is on Home but **missing from `/gallery`**). Because "All"
@@ -322,3 +322,6 @@ Where it contradicts §1–§10 above, **this section wins**. Full detail in
     so all inner pages are malformed HTML.
 26. ~200KB of CSS/JS is loaded on every page for libraries bound to selectors that
     exist nowhere (Magnific Popup, Fancybox, real3d-flipbook, two Swiper builds).
+
+27. The Silver package's hero image (`.../ownership/PYWTVMFnxbKL56Lyeos45BMc6Pgl6QfRNzICohTd.jpg`) returns **404** — the file is missing from storage, so that page hero has no image. Unlike the gallery links there is no equivalent file to fall back to, so the data keeps the URL and the frontend degrades to a tinted panel.
+28. Clicking any gallery tile **inside a category tab** opens nothing: those lightbox links point at `/public/images/...`, which 404s (see the §9.14 correction).

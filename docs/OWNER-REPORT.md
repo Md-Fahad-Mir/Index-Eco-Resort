@@ -1,21 +1,23 @@
 # OWNER-REPORT — things only the site owner can fix or decide
 
-Living document: every phase adds to it; the final phase (prompts/15) turns it into the plain-language handoff. Nothing here is changed in code — the new frontend renders the live data as-is until the owner acts.
+Living document: every phase adds to it; the final phase (prompts/15) turns it into the plain-language handoff. Nothing here is changed in code — the new frontend renders the captured data as-is until the owner acts.
+
+**How the site runs today.** The new frontend is self-contained: it serves a snapshot of your current content (`services/frontend/src/fixtures/` + `services/frontend/public/media/`, 139 MB of images and video copied from your server on 2026-09-29). It does not depend on the old site staying up. A **Django backend will be built later**; when it exists, the same frontend switches to it with two environment variables. `docs/API-CONTRACT.md` is the document its developer builds against, and this snapshot is what seeds its database.
 
 ## A. Decisions needed from the owner
 
 | # | Topic | What's needed | Status |
 |---|---|---|---|
 | 1 | `/about_us` | ~~Decide how to handle the broken route.~~ **Decided 2026-09-29: permanent redirect (308) to `/about-us`;** no Who We Are page is built, and the WhoWeAre record stays the source of Home's "Why Buy Our Share" block. | resolved |
-| 2 | Laravel source & API | Location of the source; permission to add read-only `/api/v1/*` and a form proxy endpoint. Until then the site runs on Phase 0 fixtures. | open |
-| 3 | Contact page form rules | Server-side validation rules and the post-submit behavior of `/contact-form/submit` for the page form (not tested live to avoid creating a real inquiry). | open |
-| 4 | Admin panel URL | `/admin` and `/login` return 404. | open |
+| 2 | Backend | ~~Laravel source & API access.~~ **Settled 2026-09-29: there is no Laravel source and no backend work in this project.** A Django backend comes later; the frontend runs on the content snapshot until then. | resolved |
+| 3 | Contact form behaviour | The old server's validation rules were never captured (submitting would have created a real inquiry). The contract proposes `422 {"errors": {...}}`; Django decides the actual rules. Until then forms are inert and the site shows a "Preview — forms are not sent" bar. | for Django |
+| 4 | Admin panel URL | `/admin` and `/login` return 404 on the old site. Only needed if you want a transitional deployment that still proxies it (`LEGACY_ORIGIN`). | optional |
 
 ## B. Fix in the admin panel (content)
 
 | # | Where | Issue | Fix |
 |---|---|---|---|
-| 1 | Book Now | "Download Booking Form" link has no file — `href` is `https://indexecoresort.com/public/storage` | Upload the booking-form PDF in the Book Now page settings |
+| 1 | Book Now | "Download Booking Form" link has no file — `href` is `https://indexecoresort.com/public/storage`. Nothing was mirrored for it, and no URL was invented. | Provide the booking-form PDF so it can be added to the snapshot / Django |
 | 2 | Package pages | Gold, Platinum and Signature headings all read "Silver Ownership: N Shares" | Correct the heading field on each package |
 | 3 | Top bar | Placeholder phone `01700000000` and email `info@veotech.com` | Enter the real values in General Settings |
 | 4 | Project slider | Test slide "3454 / 45645645" | Delete the slide |
@@ -30,13 +32,9 @@ Living document: every phase adds to it; the final phase (prompts/15) turns it i
 | 13 | Footer / socials | Facebook link is the relative `www.facebook.com/indexecoresort` (broken); TikTok is `#`; top-bar socials point to `bdresellhub` accounts | Enter full URLs |
 | 14 | Many CTAs | Read More, Learn More, Buy Share, Book Your Share, room/restaurant Book Now, event Booking Now, blog share links, contact hotline all go to `#` | Set real targets when ready — kept verbatim until then |
 
-## C. Adding a new ownership package needs a code change
+## C. Adding a new ownership package
 
-Ownership pages are four static routes (`/gold-ownership-2`, `/platinum-ownership-3`, `/signature-ownership-4`, `/silver-ownership-5`) that share one template. A root-level dynamic route was ruled out because it would swallow the Laravel fallback for every unknown URL — unknown paths would hit a Next.js 404 instead of reaching your existing site.
-
-**What this means for you:** if you add a fifth package in the admin panel, the new site has no page for it and Laravel serves it **in the old design** until a developer adds a route folder (a one-line file). Nothing breaks and nothing 404s. `tests/parity/ownership-routes.spec.ts` fails as soon as package data contains a slug with no route folder, so this is caught in CI rather than noticed by a visitor.
-
-Tell us if you plan to add or rename packages and we will wire the route up in the same release.
+Ownership pages are one dynamic route driven by the package data, so **a package added in Django automatically gets its page** at whatever slug the backend gives it — no code change. Until Django exists, packages come from the snapshot, so a new one needs the snapshot refreshed.
 
 ## D. Decorative UI not rendered (rule 9d)
 
@@ -44,10 +42,32 @@ Tell us if you plan to add or rename packages and we will wire the route up in t
 |---|---|---|
 | Event detail | "Leave a Reply" comment block — on the live site it has no form, no endpoint and no script; nothing was ever submitted | `features.eventCommentForm = false` |
 
-## E. Server / hosting
+## E. Content snapshot (what seeds the Django database)
+
+`services/frontend/src/fixtures/*.json` is every piece of text, link and setting captured from your site, and `services/frontend/public/media/` is 75 files (139 MB) of images and video mirrored from it, keeping their original paths. Two things to know:
+
+- **One image is missing from your server.** The Silver package's hero image returns 404, so that page has no hero photo. There is no copy to recover — it needs re-uploading.
+- **The gallery lightbox is broken on the live site inside category tabs.** Clicking a tile under any category opens nothing (those links point at a path that 404s); the "All" tab works. The new site points them at the same image file that already works, so every tile opens correctly.
+
+## F. For whoever builds the Django backend
+
+Everything they need is in the repository:
+
+| What | Where |
+|---|---|
+| The contract to implement | `docs/API-CONTRACT.md` — 16 endpoints, query parameters, response shapes, the contact-form payload and the error format |
+| Machine-readable schemas | `docs/api-contract/*.json` (14 JSON Schemas). The frontend validates every response against these, so a mismatch fails loudly |
+| Data to seed the database | `services/frontend/src/fixtures/*.json` — every text, link and setting captured from the current site |
+| Media to import | `services/frontend/public/media/` — 75 files, 139 MB, original paths preserved |
+
+Three rules that matter: the existing URLs must keep working (slugs come from the API), text must not be "cleaned up" on the way through (the typos are real data the admin panel should fix), and links that currently go nowhere must keep going nowhere.
+
+When it is ready, the frontend switches over by setting `DATA_SOURCE=api`, `API_BASE_URL` and `MEDIA_BASE_URL` — no code change.
+
+## G. Server / hosting
 
 | # | Item | Status |
 |---|---|---|
 | 1 | `APP_DEBUG=true` on production leaked stack traces, server paths and Blade source on every 404/500 | Owner reported switching it off on 2026-09-29 — verify after cut-over |
-| 2 | Laravel moves to a subdomain (e.g. `cms.indexecoresort.com`); Next.js takes the apex domain with fallback rewrites | planned |
+| 2 | Deployment: a Vercel **preview** now (snapshot content, forms inert), production cut-over once Django is ready | planned |
 | 3 | No `sitemap.xml` / `robots.txt` on the live site | the new site adds both |

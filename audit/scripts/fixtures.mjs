@@ -78,16 +78,27 @@ const galleryBlock = ($) => {
     name: t($, b),
   })).get();
   const items = [];
+  // PARITY (rule 9c): in the category panes the lightbox anchor points at
+  // /public/images/admin/gallery/... which returns 404 on the live site, while
+  // the <img> beside it uses the working /public/storage/... path with the same
+  // filename. Clicking a tile in any category therefore opens nothing today.
+  // We keep the image and repair the link to its evident working target.
+  const repairFullSrc = (fullSrc, imgSrc) => {
+    if (!fullSrc || !fullSrc.includes("/public/images/")) return fullSrc;
+    const file = fullSrc.split("/").pop();
+    return imgSrc && imgSrc.split("/").pop() === file ? imgSrc : fullSrc;
+  };
   $("#galleryTabContent .tab-pane").each((_, pane) => {
     const paneId = ($(pane).attr("id") || "").replace("pills-", "");
     $(pane).find(".gird_gallery_card").each((_, card) => {
       const a = $(card).find("a").first();
+      const image = img($, $(card).find("img")[0]);
       items.push({
         pane: paneId,
         categoryName: t($, $(card).find(".gallery_tag span").first()),
         title: t($, $(card).find(".gallery_title span").first()),
-        image: img($, $(card).find("img")[0]),
-        fullSrc: a.attr("href") || a.attr("data-src") || "",
+        image,
+        fullSrc: repairFullSrc(a.attr("href") || a.attr("data-src") || "", image?.src),
       });
     });
   });

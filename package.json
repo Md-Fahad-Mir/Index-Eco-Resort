@@ -14,5 +14,9 @@
     "audit:extract": "pnpm --filter index-eco-resort-audit extract",
     "audit:fixtures": "pnpm --filter index-eco-resort-audit fixtures",
     "audit:shots": "pnpm --filter index-eco-resort-audit shots"
+  },
+  "engines": {
+    "node": "24.x",
+    "pnpm": ">=10"
   }
 }

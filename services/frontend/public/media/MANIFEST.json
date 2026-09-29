@@ -1,0 +1,12 @@
+{
+  "generatedAt": "2026-09-29T15:21:06.828Z",
+  "primaryHost": "indexecoresort.com",
+  "count": 0,
+  "bytes": 0,
+  "failures": [
+    {
+      "url": "https://indexecoresort.com/public/storage/images/admin/ownership/PYWTVMFnxbKL56Lyeos45BMc6Pgl6QfRNzICohTd.jpg",
+      "status": 404
+    }
+  ]
+}

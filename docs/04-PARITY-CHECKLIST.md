@@ -15,7 +15,7 @@ Tick an item only after testing it on the new site at 390px and 1440px. "Same" =
 - [ ] Contact modal: same fields, same required rules, submits to the same backend logic, shows "Message sent successfully!"
 - [ ] Page hero titles and breadcrumb texts/hrefs same on every inner page — except Events breadcrumb "Home" → `/` *(allowed diff: live `/people-leading` is a 500)*
 - [ ] Footer: description, 5 social links, Quick Links (4), Ownership Packages (4), phone/email/hours, WhatsApp link, bottom bar texts
-- [ ] Unknown paths and `/admin`, `/public/storage/*` still reach Laravel
+- [ ] With `LEGACY_ORIGIN` set, unknown paths and `/admin`, `/public/storage/*` reach it (skipped when unset — the frontend is self-contained)
 - [ ] Exactly one non-empty `<h1>` on every page (rule 9e)
 
 ## Home `/`
@@ -24,7 +24,7 @@ Tick an item only after testing it on the new site at 390px and 1440px. "Same" =
 - [ ] 3 highlights with CMS icons, texts, Read More links
 - [ ] About: 3 images, video modal opens/plays/closes, texts, 2 features, Learn More, "Call Us 24/7" number
 - [ ] Project at a glance: all 9 facts; slider with all slides and captions, prev/next, position indicator
-- [ ] Gallery: all categories, filtering matches original counts ("All" = 12 on Home, category tabs = full sets — `audit/interactions.md §4`), lightbox full image
+- [ ] Gallery: all categories, filtering matches original counts ("All" = 12 on Home, category tabs = full sets — `audit/interactions.md §4`), lightbox opens the full image from **every** tab *(allowed diff: the live category-tab links 404)*
 - [ ] CTA strip: avatar, text, Buy Share
 - [ ] Choose Your Plan: 4 cards in data order, each links to its package page
 - [ ] Why buy: title, 4 features, image

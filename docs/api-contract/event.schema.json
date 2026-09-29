@@ -1,0 +1,207 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "slug": {
+      "type": "string"
+    },
+    "href": {
+      "type": "string"
+    },
+    "banner": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "src": {
+              "type": "string"
+            },
+            "alt": {
+              "default": "",
+              "type": "string"
+            },
+            "width": {
+              "type": "number"
+            },
+            "height": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "src",
+            "alt"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "meta": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "html": {
+      "type": "string"
+    },
+    "infoTitle": {
+      "type": "string"
+    },
+    "info": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string"
+      },
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "bookingCta": {
+      "type": "object",
+      "properties": {
+        "label": {
+          "default": "",
+          "type": "string"
+        },
+        "href": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "label",
+        "href"
+      ],
+      "additionalProperties": false
+    },
+    "comments": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "const": false
+        },
+        "title": {
+          "type": "string"
+        },
+        "note": {
+          "type": "string"
+        },
+        "saveInfoLabel": {
+          "type": "string"
+        },
+        "saveInfoChecked": {
+          "type": "boolean"
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "text",
+                  "tel",
+                  "email",
+                  "textarea",
+                  "checkbox",
+                  "url",
+                  "hidden",
+                  "number"
+                ]
+              },
+              "required": {
+                "default": false,
+                "type": "boolean"
+              },
+              "placeholder": {
+                "default": null,
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "value": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "name",
+              "type",
+              "placeholder"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "submitLabel": {
+          "type": "string"
+        },
+        "endpoint": {
+          "type": "null"
+        }
+      },
+      "required": [
+        "enabled",
+        "title",
+        "note",
+        "saveInfoLabel",
+        "saveInfoChecked",
+        "fields",
+        "submitLabel",
+        "endpoint"
+      ],
+      "additionalProperties": false
+    },
+    "relatedTitle": {
+      "type": "string"
+    },
+    "related": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "href": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "title",
+          "href"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "slug",
+    "href",
+    "banner",
+    "meta",
+    "html",
+    "infoTitle",
+    "info",
+    "bookingCta",
+    "comments",
+    "relatedTitle",
+    "related"
+  ],
+  "additionalProperties": false
+}

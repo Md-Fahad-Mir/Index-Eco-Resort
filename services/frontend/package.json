@@ -10,9 +10,12 @@
     "typecheck": "tsc --noEmit",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "test:e2e": "playwright test --project=parity-desktop --project=parity-mobile --project=parity-mobile-webkit",
+    "test:e2e": "playwright test --project=data --project=parity-desktop --project=parity-mobile --project=parity-mobile-webkit",
     "test:visual": "playwright test --project=visual",
-    "test:styleguide": "playwright test --config=playwright.styleguide.config.ts"
+    "test:styleguide": "playwright test --config=playwright.styleguide.config.ts",
+    "fixtures:media": "node scripts/fixtures-media.mjs",
+    "contract:export": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/export-contract.mts",
+    "test:data": "playwright test --project=data"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.9.1",
@@ -52,5 +55,9 @@
     "tailwindcss": "^4",
     "typescript": "^5"
   },
-  "packageManager": "pnpm@12.6.0"
+  "packageManager": "pnpm@12.6.0",
+  "engines": {
+    "node": "24.x",
+    "pnpm": ">=10"
+  }
 }

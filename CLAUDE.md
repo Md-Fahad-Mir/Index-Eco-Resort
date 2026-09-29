@@ -2,9 +2,11 @@
 
 ## Mission
 
-Rebuild the public website of **https://indexecoresort.com** as a Next.js frontend with a premium, luxury design — **without changing any existing feature, content, route, link target, form field or data flow.** This is a design upgrade, not a product change.
+Rebuild the public website of **https://indexecoresort.com** as a Next.js frontend with a premium, luxury design — **without changing any existing feature, content, route, link target or form field.** This is a design upgrade, not a product change.
 
-The current site is a Laravel (Blade) app with an admin panel. Content (settings, packages, gallery, events, blogs, rooms, testimonials, offers) is managed in that admin panel and must keep working exactly as today.
+**Scope (set 2026-09-29): the Next.js frontend only.** There is no Laravel source and no backend work in this project. The old site is a Laravel app whose behaviour and content were captured in Phase 0; a **Django backend will be built later, by someone else**. Until it exists the site runs entirely on the Phase 0 snapshot (`src/fixtures/` + `public/media/`), which is also what will seed the Django database.
+
+**The zod schemas in `src/lib/data/schemas.ts` are the contract Django will implement.** Field names, text values and slugs stay exactly as captured, and Django must be able to reproduce every current URL. `pnpm contract:export` publishes that contract to `docs/api-contract/` and `docs/API-CONTRACT.md` for the backend developer.
 
 ## Repo layout (set after Phase 0, 2026-09-29)
 
@@ -28,8 +30,8 @@ The current site is a Laravel (Blade) app with an admin panel. Content (settings
 ## Non-negotiables (re-read before every task)
 
 1. **Parity first.** Every page, section, link, form field, validation rule, button target, filter, slider, tab, modal, lightbox, video, download and contact action that exists on the live site must exist in the new site and behave the same way. Sources of truth: `docs/01-SITE-AUDIT.md` (§11 overrides earlier sections), `docs/04-PARITY-CHECKLIST.md`, and the Phase 0 outputs in `audit/`.
-2. **URLs are frozen.** Every public path stays exactly as it is today (route map in `docs/03-ARCHITECTURE.md §3`), including odd ones like `/gold-ownership-2`, `/event` (list) vs `/events/{slug}` (detail) and `/blog-details/{slug}`. `/about_us` stays a working URL, as a permanent redirect to `/about-us` (rule 9c). Any path Next.js does not own falls back to the Laravel origin.
-3. **Content is data.** Never hardcode CMS content in components. All copy, images, packages, events, posts, gallery items and settings come through `src/lib/data/*`. Render what the data says — including the known content mistakes listed in `docs/01-SITE-AUDIT.md §9` and §11.3. Do not "fix" them in code; the owner fixes them in the admin panel.
+2. **URLs are frozen.** Every public path stays exactly as it is today (route map in `docs/03-ARCHITECTURE.md §3`), including odd ones like `/gold-ownership-2`, `/event` (list) vs `/events/{slug}` (detail) and `/blog-details/{slug}`. `/about_us` stays a working URL, as a permanent redirect to `/about-us` (rule 9c). The future Django backend must serve these same paths. A legacy fallback to the old site is available but **opt-in** via `LEGACY_ORIGIN` and unset by default.
+3. **Content is data.** Never hardcode CMS content in components. All copy, images, packages, events, posts, gallery items and settings come through `src/lib/data/*`, and every media URL through `assetUrl()`. Render what the data says — including the known content mistakes listed in `docs/01-SITE-AUDIT.md §9` and §11.3. Do not "fix" them in code; the owner fixes them in the admin panel.
 4. **Link targets are preserved verbatim**, including `href="#"`, `tel:` and `wa.me` values that differ from the visible number. Mark such places with `// PARITY:` comments.
 5. **No new features.** Optional enhancements live in `src/config/features.ts` and are `false` by default (`smoothScroll`, `viewTransitions`, `offerPosterLightbox`, `eventCommentForm`). Accessibility requirements (e.g. a pause control for the autoplay hero, focus management, skip link) are not "features" and are always on.
 6. **What you may change:** layout, typography, color, spacing, imagery treatment, component styling, motion, responsiveness, accessibility, performance, semantic HTML, SEO metadata.
@@ -50,11 +52,12 @@ The current site is a Laravel (Blade) app with an admin panel. Content (settings
 ## Stack
 
 - Next.js — latest stable, App Router, TypeScript `strict`, React Server Components by default
+- Data: two adapters behind one interface — `mock` (the Phase 0 fixtures, the default) and `api` (a generic REST client against `API_BASE_URL`, written to the contract and unused until Django exists). No backend-specific code in either page or component.
 - Tailwind CSS v4 (CSS-first `@theme` tokens in `src/styles/globals.css`)
 - shadcn/ui on Radix primitives, fully restyled to our tokens (Dialog, Sheet, Tabs, Select, Popover, Calendar, NavigationMenu, Accordion, Tooltip, Sonner)
 - `motion` (import from `motion/react`) for interaction and the few orchestrated moments
 - Embla Carousel for every slider; yet-another-react-lightbox for image lightboxes
-- react-hook-form + zod for forms (rules mirror what Phase 0 found in `audit/forms.json`)
+- react-hook-form + zod for forms (rules mirror what Phase 0 found in `audit/forms.json`); submissions go through `submitForm(kind, payload)`, which is mocked until Django exists
 - lucide-react for UI icons; brand/social icons as local inline SVG components
 - `next/font/google` — Tiro Bangla (display) + Anek Bangla (UI/body)
 - Playwright (+ @axe-core/playwright) for parity, a11y and visual checks
@@ -69,6 +72,8 @@ Run app commands inside `services/frontend/`, or from the repo root with `pnpm -
 ```bash
 pnpm install        # at the repo root — installs both workspace packages
 pnpm dev            # local dev
+pnpm contract:export # regenerate docs/api-contract/*.json + docs/API-CONTRACT.md
+pnpm fixtures:media  # mirror fixture media into public/media/ and rewrite URLs
 pnpm build          # production build — must pass before any phase is "done"
 pnpm lint           # eslint
 pnpm typecheck      # tsc --noEmit
@@ -81,7 +86,7 @@ pnpm test:visual    # playwright screenshots → ../../audit/screenshots/after/
 - Server Components by default; `"use client"` only on interactive leaves (carousel, tabs, dialog, tilt card, forms, filters).
 - No raw hex values or ad-hoc font sizes in components — tokens only.
 - One component per file, PascalCase. Page sections live in `src/components/sections/<page>/`.
-- Every image goes through `<SmartImage>` (wraps `next/image`, handles remote Laravel URLs, blur placeholder, `sizes`).
+- Every image goes through `<SmartImage>`, and every media URL through `assetUrl()` so `MEDIA_BASE_URL` can point at Django's media storage later.
 - Every piece of CMS text that may contain Bangla goes through `<Text>` / `autoLang()` so it gets `lang="bn"` when needed.
 - CMS HTML (blog/event bodies, rich descriptions) is sanitized, then rendered inside `<Prose>`.
 - Internal links via `next/link`; external links get `rel="noopener noreferrer"` and keep their original target behavior.
@@ -105,7 +110,8 @@ pnpm test:visual    # playwright screenshots → ../../audit/screenshots/after/
 | `docs/03-ARCHITECTURE.md` | Folder structure, routing, data layer & API contract, forms, Laravel coexistence, performance, SEO, testing |
 | `docs/04-PARITY-CHECKLIST.md` | Checklist used to sign off each page |
 | `docs/PROGRESS.md` | Running log you maintain |
-| `docs/OWNER-REPORT.md` | Everything the owner must fix/decide outside the code (content, admin panel, hosting) — created in the final phase, fed by every phase |
+| `docs/OWNER-REPORT.md` | Everything the owner must fix/decide outside the code (content, hosting) — fed by every phase |
+| `docs/API-CONTRACT.md` + `docs/api-contract/` | The handoff for the Django developer: endpoints, params, response shapes, form payloads, error format. Generated by `pnpm contract:export` |
 | `audit/` | Phase 0 baseline (`README.md` inside lists every file) |
 | `prompts/` | One prompt per phase, run in order |
 
@@ -113,6 +119,7 @@ pnpm test:visual    # playwright screenshots → ../../audit/screenshots/after/
 
 - Every item in `docs/04-PARITY-CHECKLIST.md` is ticked.
 - Automated link diff (old vs new hrefs per page) and form-field diff show no unexpected differences (only entries in `tests/parity/allowed-diffs.ts`, each with a reason).
+- `pnpm contract:export` is current, so the Django developer can build against it.
 - Lighthouse (mobile) ≥ 90 Performance, ≥ 95 Accessibility, ≥ 95 Best Practices, 100 SEO on Home, a package page, Events and a blog post.
 - No console errors, no hydration warnings, no layout shift from fonts or images.
 - Works with keyboard only, at 200% zoom, with `prefers-reduced-motion: reduce`, and at 320 px width.

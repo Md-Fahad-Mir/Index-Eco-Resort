@@ -6,7 +6,7 @@
     "hero": {
       "title": "Gold Ownership",
       "image": {
-        "src": "https://indexecoresort.com/public/storage/images/admin/ownership/NgpuS2FyTMfKRKVFyDxm8gTZI9YLEXW99DK6XnRC.jpg",
+        "src": "/media/public/storage/images/admin/ownership/NgpuS2FyTMfKRKVFyDxm8gTZI9YLEXW99DK6XnRC.jpg",
         "alt": ""
       },
       "breadcrumb": {
@@ -24,7 +24,7 @@
       "href": "#"
     },
     "card": {
-      "src": "https://indexecoresort.com/public/storage/images/admin/ownership/M7PT7o7U1pZ5zoj8HTmLOVBm2qSR1YEKJwXq4R30.jpg",
+      "src": "/media/public/storage/images/admin/ownership/M7PT7o7U1pZ5zoj8HTmLOVBm2qSR1YEKJwXq4R30.jpg",
       "alt": "Membership Card"
     },
     "benefitsTitle": "Ownership Benefits",
@@ -50,7 +50,7 @@
           "href": "https://indexecoresort.com/silver-ownership-5",
           "slug": "silver-ownership-5",
           "card": {
-            "src": "https://indexecoresort.com/public/storage/images/admin/ownership/wnYWaDS70Mshli7g6GPTxYHttxa5kEUqbMSP7rnd.jpg",
+            "src": "/media/public/storage/images/admin/ownership/wnYWaDS70Mshli7g6GPTxYHttxa5kEUqbMSP7rnd.jpg",
             "alt": "Royalty Ownership Card"
           }
         },
@@ -59,7 +59,7 @@
           "href": "https://indexecoresort.com/signature-ownership-4",
           "slug": "signature-ownership-4",
           "card": {
-            "src": "https://indexecoresort.com/public/storage/images/admin/ownership/SWhyRod6BC1gK8NW385qLcuk70iiDFVXS1e9rx3n.jpg",
+            "src": "/media/public/storage/images/admin/ownership/SWhyRod6BC1gK8NW385qLcuk70iiDFVXS1e9rx3n.jpg",
             "alt": "Royalty Ownership Card"
           }
         },
@@ -68,7 +68,7 @@
           "href": "https://indexecoresort.com/platinum-ownership-3",
           "slug": "platinum-ownership-3",
           "card": {
-            "src": "https://indexecoresort.com/public/storage/images/admin/ownership/RYz9DmgQsZyQ0yEYFvkShtsddBkg8UPUk8Cg34AP.jpg",
+            "src": "/media/public/storage/images/admin/ownership/RYz9DmgQsZyQ0yEYFvkShtsddBkg8UPUk8Cg34AP.jpg",
             "alt": "Royalty Ownership Card"
           }
         },
@@ -77,7 +77,7 @@
           "href": "https://indexecoresort.com/gold-ownership-2",
           "slug": "gold-ownership-2",
           "card": {
-            "src": "https://indexecoresort.com/public/storage/images/admin/ownership/M7PT7o7U1pZ5zoj8HTmLOVBm2qSR1YEKJwXq4R30.jpg",
+            "src": "/media/public/storage/images/admin/ownership/M7PT7o7U1pZ5zoj8HTmLOVBm2qSR1YEKJwXq4R30.jpg",
             "alt": "Royalty Ownership Card"
           }
         }
@@ -91,7 +91,7 @@
     "hero": {
       "title": "Platinum Ownership",
       "image": {
-        "src": "https://indexecoresort.com/public/storage/images/admin/ownership/3Fr43BrL4RgWR5l5NxxHai7OXmLhDtQRUAUf4HSn.jpg",
+        "src": "/media/public/storage/images/admin/ownership/3Fr43BrL4RgWR5l5NxxHai7OXmLhDtQRUAUf4HSn.jpg",
         "alt": ""
       },
       "breadcrumb": {
@@ -109,7 +109,7 @@
       "href": "#"
     },
     "card": {
-      "src": "https://indexecoresort.com/public/storage/images/admin/ownership/RYz9DmgQsZyQ0yEYFvkShtsddBkg8UPUk8Cg34AP.jpg",
+      "src": "/media/public/storage/images/admin/ownership/RYz9DmgQsZyQ0yEYFvkShtsddBkg8UPUk8Cg34AP.jpg",
       "alt": "Membership Card"
     },
     "benefitsTitle": "Ownership Benefits",
@@ -135,7 +135,7 @@
           "href": "https://indexecoresort.com/silver-ownership-5",
           "slug": "silver-ownership-5",
           "card": {
-            "src": "https://indexecoresort.com/public/storage/images/admin/ownership/wnYWaDS70Mshli7g6GPTxYHttxa5kEUqbMSP7rnd.jpg",
+            "src": "/media/public/storage/images/admin/ownership/wnYWaDS70Mshli7g6GPTxYHttxa5kEUqbMSP7rnd.jpg",
             "alt": "Royalty Ownership Card"
           }
         },
@@ -144,7 +144,7 @@
           "href": "https://indexecoresort.com/signature-ownership-4",
           "slug": "signature-ownership-4",
           "card": {
-            "src": "https://indexecoresort.com/public/storage/images/admin/ownership/SWhyRod6BC1gK8NW385qLcuk70iiDFVXS1e9rx3n.jpg",
+            "src": "/media/public/storage/images/admin/ownership/SWhyRod6BC1gK8NW385qLcuk70iiDFVXS1e9rx3n.jpg",
             "alt": "Royalty Ownership Card"
           }
         },
@@ -153,7 +153,7 @@
           "href": "https://indexecoresort.com/platinum-ownership-3",
           "slug": "platinum-ownership-3",
           "card": {
-            "src": "https://indexecoresort.com/public/storage/images/admin/ownership/RYz9DmgQsZyQ0yEYFvkShtsddBkg8UPUk8Cg34AP.jpg",
+            "src": "/media/public/storage/images/admin/ownership/RYz9DmgQsZyQ0yEYFvkShtsddBkg8UPUk8Cg34AP.jpg",
             "alt": "Royalty Ownership Card"
           }
         },
@@ -162,7 +162,7 @@
           "href": "https://indexecoresort.com/gold-ownership-2",
           "slug": "gold-ownership-2",
           "card": {
-            "src": "https://indexecoresort.com/public/storage/images/admin/ownership/M7PT7o7U1pZ5zoj8HTmLOVBm2qSR1YEKJwXq4R30.jpg",
+            "src": "/media/public/storage/images/admin/ownership/M7PT7o7U1pZ5zoj8HTmLOVBm2qSR1YEKJwXq4R30.jpg",
             "alt": "Royalty Ownership Card"
           }
         }
@@ -176,7 +176,7 @@
     "hero": {
       "title": "Signature Ownership",
       "image": {
-        "src": "https://indexecoresort.com/public/storage/images/admin/ownership/U3ki7ybjxwzqAOPLsnBNWRdAnh69l4saRySz53Uq.jpg",
+        "src": "/media/public/storage/images/admin/ownership/U3ki7ybjxwzqAOPLsnBNWRdAnh69l4saRySz53Uq.jpg",
         "alt": ""
       },
       "breadcrumb": {
@@ -194,7 +194,7 @@
       "href": "#"
     },
     "card": {
-      "src": "https://indexecoresort.com/public/storage/images/admin/ownership/SWhyRod6BC1gK8NW385qLcuk70iiDFVXS1e9rx3n.jpg",
+      "src": "/media/public/storage/images/admin/ownership/SWhyRod6BC1gK8NW385qLcuk70iiDFVXS1e9rx3n.jpg",
       "alt": "Membership Card"
     },
     "benefitsTitle": "Ownership Benefits",
@@ -220,7 +220,7 @@
           "href": "https://indexecoresort.com/silver-ownership-5",
           "slug": "silver-ownership-5",
           "card": {
-            "src": "https://indexecoresort.com/public/storage/images/admin/ownership/wnYWaDS70Mshli7g6GPTxYHttxa5kEUqbMSP7rnd.jpg",
+            "src": "/media/public/storage/images/admin/ownership/wnYWaDS70Mshli7g6GPTxYHttxa5kEUqbMSP7rnd.jpg",
             "alt": "Royalty Ownership Card"
           }
         },
@@ -229,7 +229,7 @@
           "href": "https://indexecoresort.com/signature-ownership-4",
           "slug": "signature-ownership-4",
           "card": {
-            "src": "https://indexecoresort.com/public/storage/images/admin/ownership/SWhyRod6BC1gK8NW385qLcuk70iiDFVXS1e9rx3n.jpg",
+            "src": "/media/public/storage/images/admin/ownership/SWhyRod6BC1gK8NW385qLcuk70iiDFVXS1e9rx3n.jpg",
             "alt": "Royalty Ownership Card"
           }
         },
@@ -238,7 +238,7 @@
           "href": "https://indexecoresort.com/platinum-ownership-3",
           "slug": "platinum-ownership-3",
           "card": {
-            "src": "https://indexecoresort.com/public/storage/images/admin/ownership/RYz9DmgQsZyQ0yEYFvkShtsddBkg8UPUk8Cg34AP.jpg",
+            "src": "/media/public/storage/images/admin/ownership/RYz9DmgQsZyQ0yEYFvkShtsddBkg8UPUk8Cg34AP.jpg",
             "alt": "Royalty Ownership Card"
           }
         },
@@ -247,7 +247,7 @@
           "href": "https://indexecoresort.com/gold-ownership-2",
           "slug": "gold-ownership-2",
           "card": {
-            "src": "https://indexecoresort.com/public/storage/images/admin/ownership/M7PT7o7U1pZ5zoj8HTmLOVBm2qSR1YEKJwXq4R30.jpg",
+            "src": "/media/public/storage/images/admin/ownership/M7PT7o7U1pZ5zoj8HTmLOVBm2qSR1YEKJwXq4R30.jpg",
             "alt": "Royalty Ownership Card"
           }
         }
@@ -279,7 +279,7 @@
       "href": "#"
     },
     "card": {
-      "src": "https://indexecoresort.com/public/storage/images/admin/ownership/wnYWaDS70Mshli7g6GPTxYHttxa5kEUqbMSP7rnd.jpg",
+      "src": "/media/public/storage/images/admin/ownership/wnYWaDS70Mshli7g6GPTxYHttxa5kEUqbMSP7rnd.jpg",
       "alt": "Membership Card"
     },
     "benefitsTitle": "Ownership Benefits",
@@ -305,7 +305,7 @@
           "href": "https://indexecoresort.com/silver-ownership-5",
           "slug": "silver-ownership-5",
           "card": {
-            "src": "https://indexecoresort.com/public/storage/images/admin/ownership/wnYWaDS70Mshli7g6GPTxYHttxa5kEUqbMSP7rnd.jpg",
+            "src": "/media/public/storage/images/admin/ownership/wnYWaDS70Mshli7g6GPTxYHttxa5kEUqbMSP7rnd.jpg",
             "alt": "Royalty Ownership Card"
           }
         },
@@ -314,7 +314,7 @@
           "href": "https://indexecoresort.com/signature-ownership-4",
           "slug": "signature-ownership-4",
           "card": {
-            "src": "https://indexecoresort.com/public/storage/images/admin/ownership/SWhyRod6BC1gK8NW385qLcuk70iiDFVXS1e9rx3n.jpg",
+            "src": "/media/public/storage/images/admin/ownership/SWhyRod6BC1gK8NW385qLcuk70iiDFVXS1e9rx3n.jpg",
             "alt": "Royalty Ownership Card"
           }
         },
@@ -323,7 +323,7 @@
           "href": "https://indexecoresort.com/platinum-ownership-3",
           "slug": "platinum-ownership-3",
           "card": {
-            "src": "https://indexecoresort.com/public/storage/images/admin/ownership/RYz9DmgQsZyQ0yEYFvkShtsddBkg8UPUk8Cg34AP.jpg",
+            "src": "/media/public/storage/images/admin/ownership/RYz9DmgQsZyQ0yEYFvkShtsddBkg8UPUk8Cg34AP.jpg",
             "alt": "Royalty Ownership Card"
           }
         },
@@ -332,7 +332,7 @@
           "href": "https://indexecoresort.com/gold-ownership-2",
           "slug": "gold-ownership-2",
           "card": {
-            "src": "https://indexecoresort.com/public/storage/images/admin/ownership/M7PT7o7U1pZ5zoj8HTmLOVBm2qSR1YEKJwXq4R30.jpg",
+            "src": "/media/public/storage/images/admin/ownership/M7PT7o7U1pZ5zoj8HTmLOVBm2qSR1YEKJwXq4R30.jpg",
             "alt": "Royalty Ownership Card"
           }
         }

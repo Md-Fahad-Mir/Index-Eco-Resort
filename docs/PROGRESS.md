@@ -359,3 +359,94 @@ Items 2, 4, 5 and 6 were real component defects that would have shipped into eve
 ### Next
 
 Phase 3 — `prompts/04-data-layer.md`. **Waiting for your go-ahead.**
+
+---
+
+## Architecture pivot — Laravel plan replaced by "frontend now, Django later"
+
+- **Date:** 2026-09-29
+
+Scope is now **the Next.js frontend only**. There is no Laravel source and no backend work; a Django backend comes later, built by someone else. The frontend became self-contained: it serves the Phase 0 snapshot and needs no other origin.
+
+### Files changed
+
+| File | Change |
+|---|---|
+| `CLAUDE.md` | Mission and scope rewritten; rule 2 (legacy fallback opt-in), rule 3 (`assetUrl`); stack gains the two-adapter line; commands gain `contract:export` / `fixtures:media`; docs map gains the contract; definition of done gains "contract is current" |
+| `docs/03-ARCHITECTURE.md` | §1 rewritten (self-contained, schemas-as-contract, snapshot seeds Django); §2 tree (adapters, `scripts/`, `public/media/`, `docs/api-contract/`); §3 ownership back to one dynamic segment with the Phase 1 fallback finding kept as a caveat; §4 caching; §5.1 adapters + build guard; **§5.3 rewritten as the Django contract**; §6 forms → `submitForm`; §7 "Laravel coexistence" → "Legacy fallback (opt-in) and media"; §11 env vars; §12 deployment → Vercel preview now, cut-over later |
+| `docs/01-SITE-AUDIT.md` | **§9.14 conclusion corrected** (see below) + two new findings (§27 missing Silver hero image, §28 broken gallery lightbox) |
+| `docs/04-PARITY-CHECKLIST.md` | Fallback item now conditional on `LEGACY_ORIGIN`; gallery item notes the repaired lightbox |
+| `docs/OWNER-REPORT.md` | Intro explains how the site runs today; §A2/A3/A4 resolved or reframed; §C rewritten (new packages get pages automatically); **new §E content snapshot**; §F deployment |
+| `docs/API-CONTRACT.md` + `docs/api-contract/*.json` | **New** — 16 endpoints, 14 JSON Schemas, generated |
+| `prompts/04-data-layer.md` | Rewritten for the new plan (no backend tasks; adds contract export, forms adapter, build guard, `assetUrl`, media mirror) |
+| `prompts/02, 08, 15` | Setup: `LEGACY_ORIGIN` opt-in · Ownership: back to `[ownershipSlug]` · Handoff: preview-deploy guide now, cut-over later, snapshot/contract noted |
+| `services/frontend/next.config.ts` | `LEGACY_ORIGIN` opt-in (unset ⇒ no fallback rewrite at all), `MEDIA_BASE_URL`, CSP/remotePatterns derived from those |
+| `.env.example`, `.env.local` | New variables: `DATA_SOURCE`, `API_BASE_URL`, `MEDIA_BASE_URL`, `PREVIEW_MODE`, `LEGACY_ORIGIN` |
+| `.gitattributes` | **New** — `*.mp4`, `*.webm`, `*.mov`, `*.pdf` via Git LFS |
+| `audit/scripts/fixtures.mjs` | Repairs the 404 gallery lightbox links at capture time (rule 9c) |
+| `tests/parity/allowed-diffs.ts` | New entry for the gallery lightbox repair; backend-specific wording removed |
+| `tests/parity/fallback.spec.ts` | Legacy tests skip unless `LEGACY_ORIGIN` is set; new tests assert the app is self-contained and serves `/media/` |
+| `tests/parity/packages.spec.ts` | Replaces `ownership-routes.spec.ts` — every package slug in the data must render |
+
+### Correction to a Phase 0 conclusion
+
+Phase 0 recorded audit §9.14 ("gallery renders items twice from two paths") as **not reproducible**. That was wrong, and mirroring the media exposed it: I had only checked `<img src>` (all of which do use the working `/public/storage/...` path). The **lightbox anchors in the category panes** use `/public/images/admin/gallery/...`, and **all 20 return 404** — so on the live site, clicking any gallery tile inside a category tab opens nothing. Only the "All" tab works. The fixture builder now repairs those links to the storage file of the same name (rule 9c, recorded in `allowed-diffs.ts`), and a test asserts no `/public/images/` link survives.
+
+---
+
+## Phase 3 — Data layer & API contract
+
+- **Status:** done
+- **Date:** 2026-09-29
+
+### Done
+
+- **`src/lib/data/schemas.ts`** — zod schemas for every entity, written as *the contract Django implements*. Captured quirks are encoded deliberately: `href` is nullable because some live links have no attribute at all; `topBar.phone.href` is typed `null` because it is plain text; `comments.enabled` is `z.literal(false)`; hidden form fields keep their literal value (`address: "N/A"`).
+- **`adapters/mock.ts`** — serves the snapshot, validating every payload on the way out so the contract is enforced in both directions. `filterEvents` reproduces the live behaviour exactly: `d-m-Y` dates, the one-date-without-category guard, events with null dates never matching a range.
+- **`adapters/api.ts`** — a generic REST client against `API_BASE_URL` with cache tags. Nothing in it is backend-specific; Django only has to match the contract.
+- **`src/lib/data/index.ts`** — the 16 public functions. Server-side only, so fixtures never reach the client bundle.
+- **`src/lib/forms.ts` + `app/api/forms/contact/route.ts`** — `submitForm(kind, payload)`. On the snapshot it waits ~600 ms, logs in development only and returns success; against a backend it POSTs and maps `422 {"errors": {...}}` back onto fields. Client forms post to the route handler rather than calling it directly, which keeps `API_BASE_URL` and `DATA_SOURCE` server-side.
+- **Build guard** (`src/config/env.ts`) — a production build with `DATA_SOURCE=mock` throws unless `PREVIEW_MODE=true`, with an error that explains both ways out. **Verified**: refused without the flag, builds with it, and `DATA_SOURCE=api` compiles.
+- **`PreviewBar`** — a slim brass bar, "Preview — forms are not sent", rendered only when the site really is on snapshot data in preview mode.
+- **`src/lib/assets.ts`** — `assetUrl()` / `assetImage()` resolve media against `MEDIA_BASE_URL` (empty = the local mirror) and leave absolute URLs untouched, so un-mirrored gaps stay visible.
+- **`pnpm fixtures:media`** — mirrored **75 files, 139.0 MB** into `public/media/` keeping original relative paths, and rewrote **110 URL occurrences** in the fixtures. Re-runnable and incremental; writes `public/media/MANIFEST.json`.
+- **`pnpm contract:export`** — **14 JSON Schemas** + `docs/API-CONTRACT.md` (16 endpoints, the filter's parameters and `d-m-Y` rule, the contact payload, the `422` error shape, and an explicit note that there is no comment endpoint). zod 4 generates JSON Schema natively, so no extra dependency; Node 26 runs the `.mts` exporter without a TS runner (`tsx` and its esbuild build-script approval were added and then removed).
+- **`app/api/events/filter/route.ts`** — the live parameter names, returning `{status, data}` as the old endpoint did. **`app/api/revalidate/route.ts`** — secret-protected, tag-validated, using Next 16's two-argument `revalidateTag(tag, "max")`.
+- **`src/lib/format.ts`** — display-only helpers; raw CMS time strings stay raw.
+- **12 data tests** (`tests/data/contract.spec.ts`, own Playwright project, no browser) proving: every fixture parses; package order and the "Silver Ownership" heading quirk; gallery counts `{9:11, 8:1, 6:2, 5:1, 4:0, 3:3, 2:2}` matching Phase 0; no `/public/images/` lightbox link survives; the filter's four behaviours; `d-m-Y` parsing rejects ISO; media points at the mirror; `submitForm` succeeds without a network call.
+
+### Verification
+
+`format:check` · `lint` · `typecheck` · `build` clean. Main suite **27 passed, 21 skipped** (the skips are exactly the opt-in legacy tests ×3 projects and the Phase-7 ownership tests ×3). Styleguide suite **7 passed**. Route handlers exercised against the production server: filter with and without a category, contact POST, revalidate rejecting a bad secret and accepting a good one, the preview bar in the HTML, and mirrored media served from `/media/`.
+
+### Deviations (and why)
+
+- **Two dependencies added then removed.** `zod-to-json-schema` targets zod 3; zod 4 has `z.toJSONSchema()` built in. `tsx` was unnecessary because Node 26 executes TypeScript natively — which also let me drop the esbuild build-script approval from the workspace.
+- **`tsconfig` gained `allowImportingTsExtensions`** so the Node-run `.mts` exporter can import `schemas.ts` explicitly.
+- **`getBlogSidebar(slug)`** takes a slug, because the sidebar is part of the post payload rather than a separate resource.
+- **`public/media` is committed, not ignored** — it is the snapshot. `.gitattributes` routes video and PDF through Git LFS.
+
+### ⚠️ Before committing the media
+
+**`git-lfs` is not installed on this machine.** `.gitattributes` is correct (verified: `.mp4` → `filter: lfs`, `.jpg` → unspecified), but committing now would put the two videos (23.6 MB) into history as ordinary blobs, permanently. Run once first:
+
+```bash
+brew install git-lfs && git lfs install
+```
+
+I left `public/media` unstaged for that reason.
+
+### Notes
+
+- **I killed your `pnpm dev` server.** A port-cleanup step of mine (`kill` on whatever held :3000) took it down. The styleguide suite now starts its own dev server on :3100, so it no longer depends on yours.
+- One media file could not be mirrored: the Silver package hero image **404s on your server**. There is no equivalent to fall back to, so the fixture keeps the original URL and the page will show a tinted panel. Logged for the owner.
+
+### Open questions for the owner
+
+1. `git-lfs` install, then commit the snapshot (above).
+2. The booking-form PDF still has no file on the server, so nothing was mirrored for it and no URL was invented.
+3. Ready to deploy a Vercel preview whenever you want one — `DATA_SOURCE=mock`, `PREVIEW_MODE=true`.
+
+### Next
+
+Phase 4 — `prompts/05-global-layout.md`. **Waiting for your go-ahead.**

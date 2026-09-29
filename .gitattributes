@@ -1,0 +1,7 @@
+# The Phase 0 media snapshot is a stand-in that Django's media storage will
+# replace, so the whole tree goes through Git LFS — images included. Keeping it
+# out of regular history means it can be dropped later without rewriting it.
+services/frontend/public/media/** filter=lfs diff=lfs merge=lfs -text
+
+# The manifest is small text and useful in diffs.
+services/frontend/public/media/MANIFEST.json !filter !diff !merge text

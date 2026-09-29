@@ -1,10 +1,10 @@
 {
   "siteName": "indexecoresort.com",
   "logo": {
-    "src": "https://indexecoresort.com/public/storage/images/general-settings/logo/zr9Bx3ILzkGWw1KDwhlCkUNz3sk3GfxQozHRYjqJ.png",
+    "src": "/media/public/storage/images/general-settings/logo/zr9Bx3ILzkGWw1KDwhlCkUNz3sk3GfxQozHRYjqJ.png",
     "alt": "Logo"
   },
-  "favicon": "https://indexecoresort.com/public/storage/images/general-settings/fav_icon/HSBQrgk1PzynpNN2f8h8WNQnq9WGNskR1XqTP459.png",
+  "favicon": "/media/public/storage/images/general-settings/fav_icon/HSBQrgk1PzynpNN2f8h8WNQnq9WGNskR1XqTP459.png",
   "topBar": {
     "phone": {
       "label": "01700000000",
@@ -210,7 +210,7 @@
   "announcement": null,
   "footer": {
     "logo": {
-      "src": "https://indexecoresort.com/public/storage/images/general-settings/logo/zr9Bx3ILzkGWw1KDwhlCkUNz3sk3GfxQozHRYjqJ.png",
+      "src": "/media/public/storage/images/general-settings/logo/zr9Bx3ILzkGWw1KDwhlCkUNz3sk3GfxQozHRYjqJ.png",
       "alt": "Company Logo"
     },
     "about": "We are a customer-focused company dedicated to providing high-quality products and dependable services. Our goal is to make everyday solutions simple, affordable, and accessible. With a strong focus on trust, transparency, and innovation, we continuously strive to exceed customer expectations and build lasting relationships.",

@@ -2,7 +2,7 @@
   "hero": {
     "title": "Events",
     "image": {
-      "src": "https://indexecoresort.com/public/storage/images/general-settings/advertisement_image/hEYLc1SXO3V3uNI5dUzK3GUeJPlDXgiqrRqIOmR7.png",
+      "src": "/media/public/storage/images/general-settings/advertisement_image/hEYLc1SXO3V3uNI5dUzK3GUeJPlDXgiqrRqIOmR7.png",
       "alt": ""
     },
     "breadcrumb": {
@@ -64,7 +64,7 @@
       "title": "INDEX Eco Resort, Cox's Bazar - 2026 Business Conference",
       "excerpt": "Cox's Bazar - 2026 Business Conference.",
       "image": {
-        "src": "https://indexecoresort.com/public/storage/images/admin/events/IQ8rZseI6eX59EW3ZBo5diSMueDeaj2vf6sCHTCO.jpg",
+        "src": "/media/public/storage/images/admin/events/IQ8rZseI6eX59EW3ZBo5diSMueDeaj2vf6sCHTCO.jpg",
         "alt": "Sustainable Living"
       },
       "day": "29",
@@ -88,7 +88,7 @@
       "title": "Joyful Birthday & Family Gathering Celebration",
       "excerpt": "A fun-filled birthday party and family celebration with food, music, decoration, and entertainment.",
       "image": {
-        "src": "https://indexecoresort.com/public/storage/images/admin/events/HqHpHVbGtMmm1GQbsmA3KjBkNIQGrndrEp6vFWMQ.webp",
+        "src": "/media/public/storage/images/admin/events/HqHpHVbGtMmm1GQbsmA3KjBkNIQGrndrEp6vFWMQ.webp",
         "alt": "Sustainable Living"
       },
       "day": "07",
@@ -112,7 +112,7 @@
       "title": "Annual Corporate Summit 2026",
       "excerpt": "A professional corporate gathering for meetings, presentations, networking, and business discussions.",
       "image": {
-        "src": "https://indexecoresort.com/public/storage/images/admin/events/Wd1lP34BfDAVB5ozb3NyaE2gkccIbuAtjTKxrmgz.jpg",
+        "src": "/media/public/storage/images/admin/events/Wd1lP34BfDAVB5ozb3NyaE2gkccIbuAtjTKxrmgz.jpg",
         "alt": "Sustainable Living"
       },
       "day": "06",
@@ -136,7 +136,7 @@
       "title": "Royal Wedding Celebration 2026",
       "excerpt": "A luxurious wedding and reception ceremony with family gathering, dinner, music, and photography at the resort.",
       "image": {
-        "src": "https://indexecoresort.com/public/storage/images/admin/events/QMZDrhVkPHjMfcxijvfmGGM8TPcL0DhR01YU2LvY.jpg",
+        "src": "/media/public/storage/images/admin/events/QMZDrhVkPHjMfcxijvfmGGM8TPcL0DhR01YU2LvY.jpg",
         "alt": "Sustainable Living"
       },
       "day": "08",

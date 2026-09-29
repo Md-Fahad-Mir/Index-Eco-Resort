@@ -1,0 +1,200 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "hero": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "image": {
+          "type": "object",
+          "properties": {
+            "src": {
+              "type": "string"
+            },
+            "alt": {
+              "default": "",
+              "type": "string"
+            },
+            "width": {
+              "type": "number"
+            },
+            "height": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "src",
+            "alt"
+          ],
+          "additionalProperties": false
+        },
+        "breadcrumb": {
+          "type": "object",
+          "properties": {
+            "home": {
+              "type": "object",
+              "properties": {
+                "label": {
+                  "default": "",
+                  "type": "string"
+                },
+                "href": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "label",
+                "href"
+              ],
+              "additionalProperties": false
+            },
+            "current": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "home",
+            "current"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "title",
+        "image",
+        "breadcrumb"
+      ],
+      "additionalProperties": false
+    },
+    "form": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string"
+        },
+        "method": {
+          "type": "string"
+        },
+        "submitLabel": {
+          "type": "string"
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "text",
+                  "tel",
+                  "email",
+                  "textarea",
+                  "checkbox",
+                  "url",
+                  "hidden",
+                  "number"
+                ]
+              },
+              "required": {
+                "default": false,
+                "type": "boolean"
+              },
+              "placeholder": {
+                "default": null,
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "value": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "name",
+              "type",
+              "required",
+              "placeholder"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "endpoint",
+        "method",
+        "submitLabel",
+        "fields"
+      ],
+      "additionalProperties": false
+    },
+    "mapEmbedUrl": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "hotline": {
+      "type": "object",
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        },
+        "href": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "label",
+        "value",
+        "href"
+      ],
+      "additionalProperties": false
+    },
+    "infoCards": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "text"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "hero",
+    "form",
+    "mapEmbedUrl",
+    "hotline",
+    "infoCards"
+  ],
+  "additionalProperties": false
+}

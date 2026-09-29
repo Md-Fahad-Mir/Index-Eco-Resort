@@ -29,11 +29,11 @@ export const ALLOWED_DIFFS: AllowedDiff[] = [
   {
     rule: "9c",
     routes: ["/about_us"],
-    live: "/about_us renders Laravel route `who.we.are` and returns HTTP 500",
+    live: "/about_us renders a separate route (`who.we.are`) and returns HTTP 500",
     ours: "/about_us permanently redirects (308) to /about-us",
     reason:
-      "live /about_us returns 500 — its Blade view reads $data->photo_one/two/three off " +
-      "App\\Models\\WhoWeAre, whose columns are id, video, description, core_purpose, " +
+      "live /about_us returns 500 — its template reads photo_one/two/three off a " +
+      "model whose columns are id, video, description, core_purpose, " +
       "core_purpose_bg_video. The page has never rendered. Its data is Home's " +
       '"Why Buy Our Share" block, not About content, so no separate page is built.',
   },
@@ -59,6 +59,17 @@ export const ALLOWED_DIFFS: AllowedDiff[] = [
     reason:
       "/event-details/{id} returns 404 on the live site; /events/{slug} is the " +
       "working detail route the server-rendered cards already use",
+  },
+  {
+    rule: "9c",
+    routes: ["/gallery", "/"],
+    live: "gallery lightbox links in the category tabs point at /public/images/admin/gallery/...",
+    ours: "every tile links to the same image under /public/storage/... (now mirrored to /media/...)",
+    reason:
+      "all 20 of those links return 404 on the live site, so clicking a tile inside any " +
+      "category opens nothing. The <img> beside each one already uses the working path " +
+      "with the same filename, which is the evident working target.",
+    ownerAction: "No action needed; the underlying image files are fine.",
   },
   {
     rule: "9d",

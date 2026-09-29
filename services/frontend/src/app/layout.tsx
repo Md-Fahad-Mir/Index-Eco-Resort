@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Anek_Bangla, Tiro_Bangla } from "next/font/google";
 import { MotionProvider } from "@/components/motion/MotionProvider";
+import { PreviewBar } from "@/components/layout/PreviewBar";
+import { assertDataSourceIsSafe } from "@/config/env";
 import "@/styles/globals.css";
 
 /**
@@ -23,6 +25,10 @@ const anekBangla = Anek_Bangla({
   display: "swap",
 });
 
+// Refuses a production build that would serve snapshot content as if it were
+// live. Runs at module scope so the build fails rather than the request.
+assertDataSourceIsSafe();
+
 export const metadata: Metadata = {
   title: "INDEX Eco Resort",
   description: "INDEX Eco Resort — ownership shares, stays, dining and events.",
@@ -32,6 +38,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${tiroBangla.variable} ${anekBangla.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col">
+        <PreviewBar />
         <MotionProvider>{children}</MotionProvider>
       </body>
     </html>

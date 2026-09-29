@@ -2,7 +2,7 @@
   "hero": {
     "title": "About Us",
     "image": {
-      "src": "https://indexecoresort.com/public/storage/images/admin/about/57duRt3XVC7g5XVxtrk4QYB2JygVyJQDDo0SMJGW.jpg",
+      "src": "/media/public/storage/images/admin/about/57duRt3XVC7g5XVxtrk4QYB2JygVyJQDDo0SMJGW.jpg",
       "alt": ""
     },
     "breadcrumb": {
@@ -16,19 +16,19 @@
   "about": {
     "images": [
       {
-        "src": "https://indexecoresort.com/public/storage/images/admin/about/7eTBdVkWKbTvGePSOjffqZ6lgwDHL1xLfA1QlXTV.webp",
+        "src": "/media/public/storage/images/admin/about/7eTBdVkWKbTvGePSOjffqZ6lgwDHL1xLfA1QlXTV.webp",
         "alt": "Modern house exterior"
       },
       {
-        "src": "https://indexecoresort.com/public/storage/images/admin/about/HwGcZQZtSDNjqYLphxwamIZpdVBERMhXpkaVXAqJ.jpg",
+        "src": "/media/public/storage/images/admin/about/HwGcZQZtSDNjqYLphxwamIZpdVBERMhXpkaVXAqJ.jpg",
         "alt": "Modern apartment building"
       },
       {
-        "src": "https://indexecoresort.com/public/storage/images/admin/about/njXC84Ip38zFrtaVdK0h8R393f5C6dsihtLNptTf.png",
+        "src": "/media/public/storage/images/admin/about/njXC84Ip38zFrtaVdK0h8R393f5C6dsihtLNptTf.png",
         "alt": "Contemporary architecture"
       }
     ],
-    "videoUrl": "https://indexecoresort.com/public/storage/images/admin/about/videos/4TWwAMvTgJ39D96pHV4qtLLLKckaFVlBmtN60rWX.mp4",
+    "videoUrl": "/media/public/storage/images/admin/about/videos/4TWwAMvTgJ39D96pHV4qtLLLKckaFVlBmtN60rWX.mp4",
     "eyebrow": "About Us",
     "title": "Bringing Innovation and Heart to Every Detail",
     "text": "We believe that true luxury lies in the details, which is why every aspect of our designs reflects a thoughtful balance of innovation and personal touch. From the grand design down to the smallest finishes.",
@@ -61,7 +61,7 @@
         "href": "https://indexecoresort.com/gold-ownership-2",
         "slug": "gold-ownership-2",
         "card": {
-          "src": "https://indexecoresort.com/public/storage/images/admin/ownership/M7PT7o7U1pZ5zoj8HTmLOVBm2qSR1YEKJwXq4R30.jpg",
+          "src": "/media/public/storage/images/admin/ownership/M7PT7o7U1pZ5zoj8HTmLOVBm2qSR1YEKJwXq4R30.jpg",
           "alt": "Royalty Ownership Card"
         }
       },
@@ -70,7 +70,7 @@
         "href": "https://indexecoresort.com/platinum-ownership-3",
         "slug": "platinum-ownership-3",
         "card": {
-          "src": "https://indexecoresort.com/public/storage/images/admin/ownership/RYz9DmgQsZyQ0yEYFvkShtsddBkg8UPUk8Cg34AP.jpg",
+          "src": "/media/public/storage/images/admin/ownership/RYz9DmgQsZyQ0yEYFvkShtsddBkg8UPUk8Cg34AP.jpg",
           "alt": "Royalty Ownership Card"
         }
       },
@@ -79,7 +79,7 @@
         "href": "https://indexecoresort.com/signature-ownership-4",
         "slug": "signature-ownership-4",
         "card": {
-          "src": "https://indexecoresort.com/public/storage/images/admin/ownership/SWhyRod6BC1gK8NW385qLcuk70iiDFVXS1e9rx3n.jpg",
+          "src": "/media/public/storage/images/admin/ownership/SWhyRod6BC1gK8NW385qLcuk70iiDFVXS1e9rx3n.jpg",
           "alt": "Royalty Ownership Card"
         }
       },
@@ -88,7 +88,7 @@
         "href": "https://indexecoresort.com/silver-ownership-5",
         "slug": "silver-ownership-5",
         "card": {
-          "src": "https://indexecoresort.com/public/storage/images/admin/ownership/wnYWaDS70Mshli7g6GPTxYHttxa5kEUqbMSP7rnd.jpg",
+          "src": "/media/public/storage/images/admin/ownership/wnYWaDS70Mshli7g6GPTxYHttxa5kEUqbMSP7rnd.jpg",
           "alt": "Royalty Ownership Card"
         }
       }
@@ -104,7 +104,7 @@
         "title": "Building Communities, Inspiring Growth",
         "text": "Our approach is built on a foundation of quality, sustainability, and customer satisfaction. Every decision we make is guided by our commitment to excellence and long-term value creation. We focus on eco-conscious development, ensuring that our infrastructure and operations are designed to minimize environmental impact while maximizing comfort and aesthetic appeal. From architecture to landscaping, every detail reflects our dedication to preserving nature. We believe in delivering premium hospitality services that match international standards. Our team is trained to provide personalized care, ensuring that each guest feels valued and experiences true relaxation. In terms of investment, we follow a transparent and structured model that allows individuals to become part-owners of a luxury resort. This approach not only makes resort ownership more accessible but also creates opportunities for regular income and asset appreciation. Customer satisfaction is at the heart of everything we do. We continuously gather feedback, improve our services, and adopt modern technologies to enhance the overall experience. Our maintenance and management systems ensure that the resort remains in top condition at all times. Ultimately, our approach is about creating a perfect balance—between nature and luxury, relaxation and investment, and present comfort and future growth.",
         "image": {
-          "src": "https://indexecoresort.com/public/storage/images/admin/company/P3xLzoqPR7vcweNEPjKBgMxTnu7TcNMHJ9G4BBRZ.png",
+          "src": "/media/public/storage/images/admin/company/P3xLzoqPR7vcweNEPjKBgMxTnu7TcNMHJ9G4BBRZ.png",
           "alt": ""
         }
       },
@@ -114,7 +114,7 @@
         "title": "Designing With Purpose & Care",
         "text": "Our approach is built on a foundation of quality, sustainability, and customer satisfaction. Every decision we make is guided by our commitment to excellence and long-term value creation. We focus on eco-conscious development, ensuring that our infrastructure and operations are designed to minimize environmental impact while maximizing comfort and aesthetic appeal. From architecture to landscaping, every detail reflects our dedication to preserving nature. We believe in delivering premium hospitality services that match international standards. Our team is trained to provide personalized care, ensuring that each guest feels valued and experiences true relaxation. In terms of investment, we follow a transparent and structured model that allows individuals to become part-owners of a luxury resort. This approach not only makes resort ownership more accessible but also creates opportunities for regular income and asset appreciation. Customer satisfaction is at the heart of everything we do. We continuously gather feedback, improve our services, and adopt modern technologies to enhance the overall experience. Our maintenance and management systems ensure that the resort remains in top condition at all times. Ultimately, our approach is about creating a perfect balance—between nature and luxury, relaxation and investment, and present comfort and future growth.",
         "image": {
-          "src": "https://indexecoresort.com/public/storage/images/admin/company/7yZWtVxmZWMQNMmCwgl0JOCdl0U2PKhWWF9aZb8Z.png",
+          "src": "/media/public/storage/images/admin/company/7yZWtVxmZWMQNMmCwgl0JOCdl0U2PKhWWF9aZb8Z.png",
           "alt": ""
         }
       },
@@ -124,7 +124,7 @@
         "title": "Building Communities, Inspiring Growth",
         "text": "Our approach is built on a foundation of quality, sustainability, and customer satisfaction. Every decision we make is guided by our commitment to excellence and long-term value creation. We focus on eco-conscious development, ensuring that our infrastructure and operations are designed to minimize environmental impact while maximizing comfort and aesthetic appeal. From architecture to landscaping, every detail reflects our dedication to preserving nature. We believe in delivering premium hospitality services that match international standards. Our team is trained to provide personalized care, ensuring that each guest feels valued and experiences true relaxation. In terms of investment, we follow a transparent and structured model that allows individuals to become part-owners of a luxury resort. This approach not only makes resort ownership more accessible but also creates opportunities for regular income and asset appreciation. Customer satisfaction is at the heart of everything we do. We continuously gather feedback, improve our services, and adopt modern technologies to enhance the overall experience. Our maintenance and management systems ensure that the resort remains in top condition at all times. Ultimately, our approach is about creating a perfect balance—between nature and luxury, relaxation and investment, and present comfort and future growth.",
         "image": {
-          "src": "https://indexecoresort.com/public/storage/images/admin/company/VD1CNcTHpo5HWOt0zW9paGDKKnrVkwF4H7EZ5gkC.png",
+          "src": "/media/public/storage/images/admin/company/VD1CNcTHpo5HWOt0zW9paGDKKnrVkwF4H7EZ5gkC.png",
           "alt": ""
         }
       }
