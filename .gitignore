@@ -1,0 +1,7 @@
+# Ignore all directories except services
+/*/
+!/services/
+
+# System / OS files
+.DS_Store
+Thumbs.db
