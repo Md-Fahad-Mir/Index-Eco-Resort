@@ -286,7 +286,7 @@ function HeroMedia({
         {/* Painted immediately, so the hero is never an empty box and the LCP
             element is cheap. Same treatment as a missing page-hero image. */}
         <div aria-hidden className="bg-canopy-deep absolute inset-0">
-          <div className="text-lichen absolute inset-0 [background-image:url('/patterns/leaf-vein.svg')] [background-size:360px_360px] opacity-[0.07]" />
+          <div className="absolute inset-0 [background-image:url('/patterns/leaf-vein.svg')] [background-size:360px_360px] opacity-[0.13]" />
           <div className="absolute inset-0 bg-[radial-gradient(70%_60%_at_20%_100%,rgb(176_141_87/0.16),transparent_70%)]" />
         </div>
         <video

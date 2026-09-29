@@ -591,3 +591,139 @@ fallback tests, which is correct with `LEGACY_ORIGIN` unset.
 ### Next
 
 You push and deploy; then I run `pnpm verify:preview https://index-eco-resort.vercel.app` and report. Phase 5 (`prompts/06-home.md`) waits for your go.
+
+---
+
+## Phase 5 — Home page
+
+- **Status:** done
+- **Date:** 2026-09-29
+
+### Built
+
+All twelve sections from audit §5.1, in the tone order of design-system §2.3.
+Four are **reusable**, as About, Gallery and the package pages depend on them:
+`AboutBlock`, `GallerySection`, `CtaStrip` and `PlanGrid`/`PlansStage` (the
+latter wrapping the Phase 2 `MembershipCard`). `PostCard` was also added for
+`LatestPosts` and the blog phases.
+
+**The hero** reproduces the live two-slide carousel: the settings video first,
+then the banner image, rotating every 6 s — and the video slide advances when
+the clip ends rather than on a timer, as the original's JS does. One control
+pauses both the rotation and the video; autoplay also stops on hover and
+keyboard focus, and never starts under reduced motion. The single `<h1>` lives
+on the slide that has a title and is **never `aria-hidden` or `display:none`**,
+so it stays in the accessibility tree while slide 1 shows — asserted by walking
+the ancestors. Empty CMS fields render nothing at all.
+
+### Data quirks kept as data (PARITY)
+
+The "3454 / 45645645" test slide · "Chuti Resort Gazipur" in both room
+descriptions · the tab labelled "Cottage" containing "Executive Suite" ·
+"Strategic Investment Locatio" · the placeholder testimonial and the two avatars
+hotlinked from a theme demo (now mirrored into the snapshot) · every `#` link.
+All listed in `docs/OWNER-REPORT.md` §B. The gallery lightbox uses the Phase 3
+repaired URLs.
+
+### ffmpeg — not available, so skipped
+
+`ffmpeg` is not installed, so no compressed mobile variant was produced, as you
+said to skip in that case. **Before/after sizes: 18.0 MB → unchanged** (and the
+About-block clip, 5.9 MB → unchanged).
+
+That matters more than a missing nicety: an 18 MB autoplaying hero video is the
+page's single largest performance liability. With it loading, Lighthouse mobile
+measured **3.6 MB transferred and LCP 4.7 s**. So the video now autoplays only
+where there is bandwidth for it — not on viewports under 1024 px, not on
+Save-Data, not on a 2G/3G connection. Everywhere else the hero shows the
+patterned canopy panel and the play control fetches the video on request. A test
+asserts **zero video bytes on a phone-sized viewport**. Recorded for the owner
+as §B15: a ~720p re-export under 4 MB would let it autoplay everywhere.
+
+### Lighthouse (production build, `/`)
+
+| Run | Perf | LCP | CLS | A11y | Best practices |
+|---|---|---|---|---|---|
+| **Mobile, real (devtools) throttling** | **92** | **1.9 s** | **0** | **99** | 100 |
+| Mobile, Lighthouse default (simulated) | 79 | 4.7 s | 0.028 | 99 | 100 |
+| Desktop, real throttling | 91 | 0.1 s | 0 | 99 | 100 |
+
+**The gates are met under real throttling and not under the simulated model,**
+so both are given. The simulated figure is Lantern's *estimate*, not a
+measurement; a direct `PerformanceObserver` reading under emulated slow 4G put
+LCP at **1,368 ms**, agreeing with the real-throttling run. I have not been able
+to make the simulated number agree, and I would rather show you both than pick
+the flattering one.
+
+Getting there took two real fixes:
+
+1. **Fonts were 700 KB and preloaded.** Dropping Anek's `wdth` axis cut the
+   largest file 440 KB → 156 KB (total 700 → 384 KB), and `preload: false` kept
+   the Bengali subsets off the critical path — `display: swap` already renders
+   in the fallback first. That single change took mobile from 86 to **92** and
+   LCP from 2.8 s to **1.9 s**. The cost: the design system's `wdth: 110` on
+   small labels is gone; the inert declarations were removed rather than left to
+   mislead, and the trade-off is documented in `src/app/layout.tsx`.
+2. **The hero video**, as above.
+
+SEO reads 58 because the preview build blocks indexing on purpose; the other
+deduction is "links do not have descriptive text", which is the CMS's own
+"READ MORE →" labels.
+
+### Defects found and fixed
+
+1. **The pause control was unclickable.** The highlights panel overlaps the hero
+   by 64 px and sat on top of it, so the one control WCAG 2.2.2 requires could
+   not be pressed at all. Found because the test tried to click it.
+2. **The leaf-vein pattern was invisible everywhere.** The SVG used
+   `stroke="currentColor"`, which does nothing when the file is loaded as a CSS
+   `background-image` — an external SVG cannot inherit from the host document.
+   It had been silently absent from the hero *and* from the Phase 4 missing-image
+   page hero. Now an explicit stroke, with opacity doing the work.
+3. **A star rating with `aria-label` on a bare `<div>`** — a prohibited
+   attribute (axe, serious). Now `role="img"`.
+4. Two `setState`-in-effect violations, replaced with derived state.
+5. The gallery grid re-layout, tab panels and chips needed `exact` locators —
+   "Cottage" matches "Family Cottage" too.
+
+### A correction to Phase 0
+
+I recorded that Home's gallery lets a category tab show **more** items than
+"All". That is wrong: no single category (max 11) exceeds All (12). The real
+oddity is that **8 of the 20 images are reachable only through a category tab
+and never appear under "All"**. Corrected in the component comment and asserted
+in the test.
+
+### Verification
+
+`format:check` · `lint` · `typecheck` · `build` clean. Suite **142 passed / 17
+skipped** across Chromium desktop, Chromium mobile and WebKit mobile; styleguide
+**7 passed**. Link parity now covers region **`main`** on `/` as well as the five
+chrome regions. Reduced-motion and keyboard walkthroughs are tests, not claims:
+nothing autoplays under `prefers-reduced-motion`, and tabbing lands on more than
+twelve distinct controls without a trap.
+
+### Allowed diffs added
+
+Gallery tiles (and room photographs) are **buttons opening a lightbox** rather
+than anchors to the raw `.jpg`. The design system specifies a lightbox with
+caption, counter, keyboard and swipe; navigating to a bare image file leaves the
+site with no caption and no way back. Recorded with a pattern covering every
+image destination.
+
+### Deviations
+
+- **No compressed video variants** (ffmpeg absent), handled as above.
+- **Anek's `wdth` axis dropped** for 284 KB, as above.
+- **The hero's first paint is the patterned panel, not a video poster.** The CMS
+  provides no poster image and no frame can be extracted without ffmpeg.
+
+### Artifacts (`audit/screenshots/after/`)
+
+`home@390.png` · `home@768.png` · `home@1440.png` ·
+`home-scroll-1440.webm` · `home-scroll-390.webm` · `home-plans-card-tilt.webm`
+
+### Next
+
+Phase 6 — `prompts/07-about.md`. **Waiting for your go-ahead.** Say the word when
+the preview is deployed and I will run `verify:preview` against it.

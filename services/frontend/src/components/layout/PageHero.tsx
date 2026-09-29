@@ -58,7 +58,7 @@ function PatternBackdrop() {
     <>
       <div
         aria-hidden
-        className="text-lichen absolute inset-0 [background-image:url('/patterns/leaf-vein.svg')] [background-size:360px_360px] opacity-[0.07]"
+        className="absolute inset-0 [background-image:url('/patterns/leaf-vein.svg')] [background-size:360px_360px] opacity-[0.13]"
       />
       {/* A soft brass glow keeps the panel from reading as a flat error state. */}
       <div

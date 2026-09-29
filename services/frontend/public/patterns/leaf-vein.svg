@@ -1,5 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="360" height="360" viewBox="0 0 360 360" fill="none">
-  <g stroke="currentColor" stroke-width="1.1" stroke-linecap="round" opacity="0.9">
+  <!-- Loaded as a CSS background-image, so it cannot inherit currentColor from
+       the page; the stroke is the lichen token written out. Visibility is
+       controlled by the element's opacity. -->
+  <g stroke="#A9BFA8" stroke-width="1.1" stroke-linecap="round">
     <path d="M180 -20V380"/>
     <path d="M180 40 116 4M180 40l64-36M180 100 96 52M180 100l84-48M180 160 76 100M180 160l104-60M180 220 76 160M180 220l104-60M180 280 96 228M180 280l84-52M180 340l-64-36M180 340l64-36"/>
     <path d="M0 180h360" opacity="0.35"/>
