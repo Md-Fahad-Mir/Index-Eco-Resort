@@ -533,3 +533,61 @@ The dock exposes **WhatsApp twice with different numbers** — the button uses `
 ### Next
 
 A Vercel preview deployment, once you have chosen the access protection. Then Phase 5 — `prompts/06-home.md`.
+
+---
+
+## Phase 4 follow-up — preview deployment prepared
+
+- **Date:** 2026-09-29
+
+### `docs/DEPLOY-PREVIEW.md`
+
+The exact Vercel settings for this repo: Root Directory `services/frontend`,
+**Include files outside the Root Directory** on (the lockfile and
+`pnpm-workspace.yaml` are at the repo root), Node **24.x**, Git LFS enabled, and
+`PREVIEW_MODE=true` / `DATA_SOURCE=mock` / `NEXT_PUBLIC_SITE_URL` on **both**
+Production and Preview — with `LARAVEL_ORIGIN` and `LEGACY_ORIGIN` **absent**.
+
+**Verified, not assumed:** `pnpm install --frozen-lockfile` succeeds at the repo
+root, and a clean build with exactly those variables produces all 20 routes.
+Running that build confirmed `X-Robots-Tag: noindex, nofollow`, a disallow-all
+`robots.txt`, `/public/storage/*` → 404, unknown paths → 404, `/styleguide` →
+404, `/media/...` served, and the preview bar present.
+
+### `pnpm verify:preview <url>`
+
+Thirty checks against a deployed URL, printed as a pass/fail table and exiting
+non-zero on failure: indexability (noindex on HTML **and** API, robots.txt),
+isolation (legacy media 404s, unknown paths are ours, **`/about-us` is rendered
+by this app**, styleguide hidden), every route 200 with exactly one non-empty
+`<h1>`, the preview banner, and media returning real `image/*` / `video/*`
+rather than Git LFS pointers.
+
+**Proven in both directions.** Against the build from those settings: **30/30
+passed**. Against the Phase 1 deployment still live at
+`index-eco-resort.vercel.app`: **15 failed** — including `legacy
+/public/storage/* not served → HTTP 200` and `/about-us rendered by this app →
+served the OLD Laravel page`. A verifier that has never failed proves nothing.
+
+### ⚠️ What is live at `index-eco-resort.vercel.app` today
+
+It is the **Phase 1** build, whose `LARAVEL_ORIGIN` defaulted to the live site
+with a fallback rewrite. So that URL is currently a **public, crawlable mirror
+of the client's site**: `/about-us` serves the real Laravel page (61 KB, old
+markup), `/public/storage/*` serves the real CMS media, there is no
+`X-Robots-Tag` and `/robots.txt` 404s. Deploying this phase replaces all of
+that — `LEGACY_ORIGIN` is unset by default and preview mode locks crawlers out.
+
+### Also
+
+`tests/parity/packages.spec.ts` was still skipping itself behind a
+`ROUTE_EXISTS = false` flag from Phase 3. The `[ownershipSlug]` route exists as
+of Phase 4, so the guard is now active: 15 tests across the three projects,
+checking each package slug renders and an unknown slug 404s.
+
+**Suite: 106 passed / 14 skipped** — the only skips left are the opt-in legacy
+fallback tests, which is correct with `LEGACY_ORIGIN` unset.
+
+### Next
+
+You push and deploy; then I run `pnpm verify:preview https://index-eco-resort.vercel.app` and report. Phase 5 (`prompts/06-home.md`) waits for your go.

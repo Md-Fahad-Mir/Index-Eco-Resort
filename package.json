@@ -13,7 +13,8 @@
     "audit:crawl": "pnpm --filter index-eco-resort-audit crawl",
     "audit:extract": "pnpm --filter index-eco-resort-audit extract",
     "audit:fixtures": "pnpm --filter index-eco-resort-audit fixtures",
-    "audit:shots": "pnpm --filter index-eco-resort-audit shots"
+    "audit:shots": "pnpm --filter index-eco-resort-audit shots",
+    "verify:preview": "pnpm --filter frontend verify:preview"
   },
   "engines": {
     "node": "24.x",
