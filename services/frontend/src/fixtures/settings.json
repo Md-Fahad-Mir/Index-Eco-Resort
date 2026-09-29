@@ -1,0 +1,310 @@
+{
+  "siteName": "indexecoresort.com",
+  "logo": {
+    "src": "https://indexecoresort.com/public/storage/images/general-settings/logo/zr9Bx3ILzkGWw1KDwhlCkUNz3sk3GfxQozHRYjqJ.png",
+    "alt": "Logo"
+  },
+  "favicon": "https://indexecoresort.com/public/storage/images/general-settings/fav_icon/HSBQrgk1PzynpNN2f8h8WNQnq9WGNskR1XqTP459.png",
+  "topBar": {
+    "phone": {
+      "label": "01700000000",
+      "href": null
+    },
+    "email": {
+      "label": "info@veotech.com",
+      "href": null
+    },
+    "socials": [
+      {
+        "network": "facebook",
+        "href": "https://www.facebook.com/bdresellhub"
+      },
+      {
+        "network": "brand-x",
+        "href": "https://www.instagram.com/bdresellhub"
+      },
+      {
+        "network": "youtube",
+        "href": "https://www.youtube.com/@BDResellHub"
+      }
+    ]
+  },
+  "nav": [
+    {
+      "label": "Home",
+      "href": "https://indexecoresort.com",
+      "active": true
+    },
+    {
+      "label": "About",
+      "href": "https://indexecoresort.com/about-us",
+      "active": false
+    },
+    {
+      "label": "Ownership Packages",
+      "href": null,
+      "active": false,
+      "children": [
+        {
+          "label": "Gold Ownership",
+          "href": "https://indexecoresort.com/gold-ownership-2"
+        },
+        {
+          "label": "Platinum Ownership",
+          "href": "https://indexecoresort.com/platinum-ownership-3"
+        },
+        {
+          "label": "Signature Ownership",
+          "href": "https://indexecoresort.com/signature-ownership-4"
+        },
+        {
+          "label": "Silver Ownership",
+          "href": "https://indexecoresort.com/silver-ownership-5"
+        }
+      ]
+    },
+    {
+      "label": "Offer",
+      "href": "https://indexecoresort.com/offer",
+      "active": false
+    },
+    {
+      "label": "Events",
+      "href": "https://indexecoresort.com/event",
+      "active": false
+    },
+    {
+      "label": "Blog",
+      "href": "https://indexecoresort.com/blogs",
+      "active": false
+    },
+    {
+      "label": "Contact Us",
+      "href": "https://indexecoresort.com/contact",
+      "active": false
+    }
+  ],
+  "mobileNav": [
+    {
+      "label": "Home",
+      "href": "https://indexecoresort.com"
+    },
+    {
+      "label": "About Us",
+      "href": "https://indexecoresort.com/about_us"
+    },
+    {
+      "label": "Ownership Packages",
+      "href": "#",
+      "children": [
+        {
+          "label": "Gold Ownership",
+          "href": "https://indexecoresort.com/gold-ownership-2"
+        },
+        {
+          "label": "Platinum Ownership",
+          "href": "https://indexecoresort.com/platinum-ownership-3"
+        },
+        {
+          "label": "Signature Ownership",
+          "href": "https://indexecoresort.com/signature-ownership-4"
+        },
+        {
+          "label": "Silver Ownership",
+          "href": "https://indexecoresort.com/silver-ownership-5"
+        }
+      ]
+    },
+    {
+      "label": "Offers",
+      "href": "https://indexecoresort.com/offer"
+    },
+    {
+      "label": "Events",
+      "href": "https://indexecoresort.com/event"
+    },
+    {
+      "label": "Blog",
+      "href": "https://indexecoresort.com/blogs"
+    },
+    {
+      "label": "Contact Us",
+      "href": "https://indexecoresort.com/contact"
+    }
+  ],
+  "mobileCallNow": {
+    "label": "Call Now",
+    "href": "tel:09638657301"
+  },
+  "bookNow": {
+    "label": "Book Now",
+    "href": "https://indexecoresort.com/book-now"
+  },
+  "floatingDock": {
+    "whatsappButton": {
+      "label": "WhatsApp",
+      "href": "https://web.whatsapp.com/send?phone=+8801700729312"
+    },
+    "phoneButton": {
+      "label": "Phone",
+      "href": "tel:+8801700729312"
+    },
+    "panelPhone": {
+      "label": "01711307580",
+      "href": "tel:+8801700729312"
+    },
+    "panelWhatsapp": {
+      "label": "WhatsApp",
+      "href": "https://wa.me/+8801711307580"
+    },
+    "hiddenWhatsapp": {
+      "href": "https://wa.me/+8801711307580"
+    }
+  },
+  "contactModal": {
+    "title": "Contact Form ✕",
+    "successMessage": "✓ Message sent successfully!",
+    "submitLabel": "Submit",
+    "submittingLabel": "Sending...",
+    "endpoint": "https://indexecoresort.com/contact-form/submit",
+    "method": "POST",
+    "fields": [
+      {
+        "name": "_token",
+        "type": "hidden",
+        "required": false,
+        "placeholder": null
+      },
+      {
+        "name": "name",
+        "type": "text",
+        "required": true,
+        "placeholder": "Name*"
+      },
+      {
+        "name": "phone",
+        "type": "tel",
+        "required": true,
+        "placeholder": "Phone*"
+      },
+      {
+        "name": "email",
+        "type": "email",
+        "required": true,
+        "placeholder": "Email*"
+      },
+      {
+        "name": "address",
+        "type": "hidden",
+        "required": false,
+        "placeholder": null
+      },
+      {
+        "name": "message",
+        "type": "textarea",
+        "required": false,
+        "placeholder": "Message"
+      }
+    ]
+  },
+  "announcement": null,
+  "footer": {
+    "logo": {
+      "src": "https://indexecoresort.com/public/storage/images/general-settings/logo/zr9Bx3ILzkGWw1KDwhlCkUNz3sk3GfxQozHRYjqJ.png",
+      "alt": "Company Logo"
+    },
+    "about": "We are a customer-focused company dedicated to providing high-quality products and dependable services. Our goal is to make everyday solutions simple, affordable, and accessible. With a strong focus on trust, transparency, and innovation, we continuously strive to exceed customer expectations and build lasting relationships.",
+    "socials": [
+      {
+        "network": "facebook",
+        "href": "www.facebook.com/indexecoresort",
+        "target": "_blank"
+      },
+      {
+        "network": "twitter",
+        "href": "https://x.com",
+        "target": "_blank"
+      },
+      {
+        "network": "linkedin",
+        "href": "https://bd.linkedin.com",
+        "target": "_blank"
+      },
+      {
+        "network": "instagram",
+        "href": "https://www.instagram.com",
+        "target": "_blank"
+      },
+      {
+        "network": "tiktok",
+        "href": "#",
+        "target": "_blank"
+      }
+    ],
+    "columns": [
+      {
+        "title": "Quick Links",
+        "links": [
+          {
+            "label": "Offer",
+            "href": "https://indexecoresort.com/offer"
+          },
+          {
+            "label": "Events",
+            "href": "https://indexecoresort.com/event"
+          },
+          {
+            "label": "Gallery",
+            "href": "https://indexecoresort.com/gallery"
+          },
+          {
+            "label": "Blog",
+            "href": "https://indexecoresort.com/blogs"
+          }
+        ]
+      },
+      {
+        "title": "Ownership Packages",
+        "links": [
+          {
+            "label": "Gold Ownership",
+            "href": "https://indexecoresort.com/gold-ownership-2"
+          },
+          {
+            "label": "Platinum Ownership",
+            "href": "https://indexecoresort.com/platinum-ownership-3"
+          },
+          {
+            "label": "Signature Ownership",
+            "href": "https://indexecoresort.com/signature-ownership-4"
+          },
+          {
+            "label": "Silver Ownership",
+            "href": "https://indexecoresort.com/silver-ownership-5"
+          }
+        ]
+      }
+    ],
+    "contact": [
+      {
+        "text": "Phone: 01711307580",
+        "href": "tel:01711307580"
+      },
+      {
+        "text": "Email: info@indexecoresort.com",
+        "href": "mailto:info@indexecoresort.com"
+      },
+      {
+        "text": "Working Hours: 10:00AM To 06:00PM",
+        "href": null
+      }
+    ],
+    "bottom": {
+      "companyName": "indexecoresort.com",
+      "copyright": "© 2026 All Rights Reserved.",
+      "creditLabel": "Designed & Developed by",
+      "creditSite": "indexecoresort.com",
+      "creditHref": null
+    }
+  }
+}

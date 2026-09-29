@@ -1,0 +1,9 @@
+packages:
+  - services/frontend
+  - audit/scripts
+
+# pnpm 12 blocks dependency install scripts unless listed. Both are Next.js
+# dependencies that only verify/fetch prebuilt native binaries.
+allowBuilds:
+  sharp: true
+  unrs-resolver: true

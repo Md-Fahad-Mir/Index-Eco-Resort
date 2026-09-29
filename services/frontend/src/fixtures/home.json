@@ -1,0 +1,831 @@
+{
+  "hero": {
+    "autoplayMs": 6000,
+    "slides": [
+      {
+        "kind": "video",
+        "videoUrl": "https://indexecoresort.com/public/storage/images/general-settings/background_video/6bRNJdyXHXxSzhwQwiHGrmpX9RyMcvBUkMXnLflZ.mp4",
+        "image": {
+          "src": "",
+          "alt": ""
+        },
+        "subline": "",
+        "title": "",
+        "cta": {
+          "label": "READ MORE →",
+          "href": "#"
+        }
+      },
+      {
+        "kind": "image",
+        "videoUrl": null,
+        "image": {
+          "src": "https://indexecoresort.com/public/storage/images/admin/banner/ZrjEpUhDyiNrggICfxlt9y7rauH4HGcdtUDtV43x.png",
+          "alt": ""
+        },
+        "subline": "IndexVilla – Smart Property Buying, Selling & Rental Platform",
+        "title": "Index Eco Resort",
+        "cta": {
+          "label": "READ MORE →",
+          "href": "#"
+        }
+      }
+    ]
+  },
+  "highlights": [
+    {
+      "icon": {
+        "src": "https://indexecoresort.com/public/storage/images/icon/cG5dBqEpZtxO1DtSNGjav8vvsENoi2fYgipT6cMg.png",
+        "alt": ""
+      },
+      "title": "Located in a Prime Location in Gazipur",
+      "subtitle": "INDEX Eco Resort",
+      "cta": {
+        "label": "Read More",
+        "href": "#"
+      }
+    },
+    {
+      "icon": {
+        "src": "https://indexecoresort.com/public/storage/images/icon/mSD29ldkkT1IPD1lpdh1ah4QoyH1hpP7yzBXjDxC.png",
+        "alt": ""
+      },
+      "title": "All Facilities in One Place",
+      "subtitle": "Cottage, BBQ Zone, Lake View, Mosjid, Spa, Gym, Swimming pool, shops and for your convenience.",
+      "cta": {
+        "label": "Read More",
+        "href": "#"
+      }
+    },
+    {
+      "icon": {
+        "src": "https://indexecoresort.com/public/storage/images/icon/RIRXAgFLZuOZyBNSTs6LlvANYzfvNykQoCje7e0M.png",
+        "alt": ""
+      },
+      "title": "Index Eco Resort",
+      "subtitle": "Eco Friendly Resort",
+      "cta": {
+        "label": "Read More",
+        "href": "#"
+      }
+    }
+  ],
+  "about": {
+    "images": [
+      {
+        "src": "https://indexecoresort.com/public/storage/images/admin/about/7eTBdVkWKbTvGePSOjffqZ6lgwDHL1xLfA1QlXTV.webp",
+        "alt": "Modern house exterior"
+      },
+      {
+        "src": "https://indexecoresort.com/public/storage/images/admin/about/HwGcZQZtSDNjqYLphxwamIZpdVBERMhXpkaVXAqJ.jpg",
+        "alt": "Modern apartment building"
+      },
+      {
+        "src": "https://indexecoresort.com/public/storage/images/admin/about/njXC84Ip38zFrtaVdK0h8R393f5C6dsihtLNptTf.png",
+        "alt": "Contemporary architecture"
+      }
+    ],
+    "videoUrl": "https://indexecoresort.com/public/storage/images/admin/about/videos/4TWwAMvTgJ39D96pHV4qtLLLKckaFVlBmtN60rWX.mp4",
+    "eyebrow": "About Us",
+    "title": "Bringing Innovation and Heart to Every Detail",
+    "text": "We believe that true luxury lies in the details, which is why every aspect of our designs reflects a thoughtful balance of innovation and personal touch. From the grand design down to the smallest finishes.",
+    "features": [
+      {
+        "title": "Customized Solutions",
+        "text": "Customized SolutionsWe create tailored solutions that reflect your unique style, needs, and vision, ensuring every element aligns."
+      },
+      {
+        "title": "Quality Meets Commitment",
+        "text": "We create tailored solutions that reflect your unique style, needs, and vision, ensuring every element aligns."
+      }
+    ],
+    "cta": {
+      "label": "Learn More",
+      "href": "#"
+    },
+    "phone": {
+      "label": "Call Us 24/7",
+      "value": "01711307580",
+      "href": "#"
+    }
+  },
+  "glance": {
+    "eyebrow": "Project At a Glance",
+    "title": "We Offer Best Features",
+    "facts": [
+      {
+        "label": "Project Name",
+        "value": "Indexvilla.veotech"
+      },
+      {
+        "label": "Project Location",
+        "value": "Gazipur, Dhaka-Bangladesh"
+      },
+      {
+        "label": "Built Over",
+        "value": "88.94 Katha"
+      },
+      {
+        "label": "Tower Type",
+        "value": "11 Storied (B1+B2+G+10)"
+      },
+      {
+        "label": "Room Type",
+        "value": "Executive Suite, Deluxe Suite, Luxury Suite, Premium Suite, Presidential Suite"
+      },
+      {
+        "label": "Dining",
+        "value": "Multiple fine dining restaurants"
+      },
+      {
+        "label": "Recreation",
+        "value": "Swimming pool, Gym, Spa, Kids zone and many more recreational facilities"
+      },
+      {
+        "label": "Event Spaces",
+        "value": "Conference rooms and banquet halls"
+      },
+      {
+        "label": "Sustainability",
+        "value": "Eco-friendly construction and operations"
+      }
+    ],
+    "slides": [
+      {
+        "image": {
+          "src": "https://indexecoresort.com/public/storage/images/admin/project_facilities/TGAvGJh55bfXu3R7RhHdYlrPbiuTWBPRlf03DqDe.webp",
+          "alt": "সিলভার গ্রাহক"
+        },
+        "label": "সিলভার গ্রাহক",
+        "caption": "ক্যাশ ৩ টি (তিন) শেয়ার ক্রয়ের বিপরীতে ৭% ছাড়"
+      },
+      {
+        "image": {
+          "src": "https://indexecoresort.com/public/storage/images/admin/project_facilities/4mevV2XANpbfQ0kUeclDZruxT7waWwvpnA06Pv9t.jpg",
+          "alt": "3454"
+        },
+        "label": "3454",
+        "caption": "45645645"
+      },
+      {
+        "image": {
+          "src": "https://indexecoresort.com/public/storage/images/admin/project_facilities/VVDLb6IRHGW8pGCH3JfmjuxjEnsmedTUM8Q4L9Ip.jpg",
+          "alt": "গোল্ড গ্রাহক"
+        },
+        "label": "গোল্ড গ্রাহক",
+        "caption": "ক্যাশ ৫ টি (পাঁচ) শেয়ার ক্রয়ের বিপরীতে ১০% ছাড়"
+      },
+      {
+        "image": {
+          "src": "https://indexecoresort.com/public/storage/images/admin/project_facilities/4UabuNHSHdZPWLBmVcbHX7KTW7GUnsGDbou7AW3E.png",
+          "alt": "প্লাটিনাম গ্রাহক"
+        },
+        "label": "প্লাটিনাম গ্রাহক",
+        "caption": "ক্যাশ ১০ টি (দশ) শেয়ার ক্রয়ের বিপরীতে ১২% ছাড়"
+      },
+      {
+        "image": {
+          "src": "https://indexecoresort.com/public/storage/images/admin/project_facilities/BQHAXgLrSACxkNIhUIU1z1PoyuNdbbdDNrdIvAqZ.jpg",
+          "alt": "ডায়মন্ড গ্রাহক"
+        },
+        "label": "ডায়মন্ড গ্রাহক",
+        "caption": "ক্যাশ ২০ টি (বিশ) শেয়ার ক্রয়ের বিপরীতে ১৫% ছাড়"
+      }
+    ]
+  },
+  "gallery": {
+    "eyebrow": "Our Gallery",
+    "title": "Explore the Gallery",
+    "categories": [
+      {
+        "id": "all",
+        "name": "All"
+      },
+      {
+        "id": "9",
+        "name": "Business Conference 2026 (COX'S BAZAR)"
+      },
+      {
+        "id": "8",
+        "name": "Community Hall"
+      },
+      {
+        "id": "6",
+        "name": "Room"
+      },
+      {
+        "id": "5",
+        "name": "Cottage"
+      },
+      {
+        "id": "4",
+        "name": "Indoor"
+      },
+      {
+        "id": "3",
+        "name": "Outdoor"
+      },
+      {
+        "id": "2",
+        "name": "Swimming pool"
+      }
+    ],
+    "items": [
+      {
+        "pane": "all",
+        "categoryName": "Business Conference 2026 (COX'S BAZAR)",
+        "title": "INDEX Honorable Directors & Leaders",
+        "image": {
+          "src": "https://indexecoresort.com/public/storage/images/admin/gallery/1gk0XLFyHQ9Vvd3mJnQB.webp",
+          "alt": "INDEX Honorable Directors & Leaders"
+        },
+        "fullSrc": "https://indexecoresort.com/public/storage/images/admin/gallery/1gk0XLFyHQ9Vvd3mJnQB.webp"
+      },
+      {
+        "pane": "all",
+        "categoryName": "Business Conference 2026 (COX'S BAZAR)",
+        "title": "INDEX Honorable Leaders",
+        "image": {
+          "src": "https://indexecoresort.com/public/storage/images/admin/gallery/h8slLPqdP1FfvD6MO9rI.webp",
+          "alt": "INDEX Honorable Leaders"
+        },
+        "fullSrc": "https://indexecoresort.com/public/storage/images/admin/gallery/h8slLPqdP1FfvD6MO9rI.webp"
+      },
+      {
+        "pane": "all",
+        "categoryName": "Business Conference 2026 (COX'S BAZAR)",
+        "title": "INDEX Honorable Leaders",
+        "image": {
+          "src": "https://indexecoresort.com/public/storage/images/admin/gallery/V5NHDu8nDj1keC16DPKs.webp",
+          "alt": "INDEX Honorable Leaders"
+        },
+        "fullSrc": "https://indexecoresort.com/public/storage/images/admin/gallery/V5NHDu8nDj1keC16DPKs.webp"
+      },
+      {
+        "pane": "all",
+        "categoryName": "Business Conference 2026 (COX'S BAZAR)",
+        "title": "INDEX Honorable Leaders",
+        "image": {
+          "src": "https://indexecoresort.com/public/storage/images/admin/gallery/PTwmBufNKJfUx3ird2Tz.webp",
+          "alt": "INDEX Honorable Leaders"
+        },
+        "fullSrc": "https://indexecoresort.com/public/storage/images/admin/gallery/PTwmBufNKJfUx3ird2Tz.webp"
+      },
+      {
+        "pane": "all",
+        "categoryName": "Business Conference 2026 (COX'S BAZAR)",
+        "title": "Directors",
+        "image": {
+          "src": "https://indexecoresort.com/public/storage/images/admin/gallery/IBtlbCA7SDxJdEYXepxr.webp",
+          "alt": "Directors"
+        },
+        "fullSrc": "https://indexecoresort.com/public/storage/images/admin/gallery/IBtlbCA7SDxJdEYXepxr.webp"
+      },
+      {
+        "pane": "all",
+        "categoryName": "Business Conference 2026 (COX'S BAZAR)",
+        "title": "Directors",
+        "image": {
+          "src": "https://indexecoresort.com/public/storage/images/admin/gallery/VqzJ1hGcvy9Z1wHXGPGV.webp",
+          "alt": "Directors"
+        },
+        "fullSrc": "https://indexecoresort.com/public/storage/images/admin/gallery/VqzJ1hGcvy9Z1wHXGPGV.webp"
+      },
+      {
+        "pane": "all",
+        "categoryName": "Business Conference 2026 (COX'S BAZAR)",
+        "title": "Directors",
+        "image": {
+          "src": "https://indexecoresort.com/public/storage/images/admin/gallery/eYpLISzdKwbWwTPWrNFi.webp",
+          "alt": "Directors"
+        },
+        "fullSrc": "https://indexecoresort.com/public/storage/images/admin/gallery/eYpLISzdKwbWwTPWrNFi.webp"
+      },
+      {
+        "pane": "all",
+        "categoryName": "Business Conference 2026 (COX'S BAZAR)",
+        "title": "Directors",
+        "image": {
+          "src": "https://indexecoresort.com/public/storage/images/admin/gallery/WEH9ziANttkxU4M9CeeN.webp",
+          "alt": "Directors"
+        },
+        "fullSrc": "https://indexecoresort.com/public/storage/images/admin/gallery/WEH9ziANttkxU4M9CeeN.webp"
+      },
+      {
+        "pane": "all",
+        "categoryName": "Business Conference 2026 (COX'S BAZAR)",
+        "title": "Directors",
+        "image": {
+          "src": "https://indexecoresort.com/public/storage/images/admin/gallery/8SnYwW5HOO6VftwqeaM2.webp",
+          "alt": "Directors"
+        },
+        "fullSrc": "https://indexecoresort.com/public/storage/images/admin/gallery/8SnYwW5HOO6VftwqeaM2.webp"
+      },
+      {
+        "pane": "all",
+        "categoryName": "Business Conference 2026 (COX'S BAZAR)",
+        "title": "Directors",
+        "image": {
+          "src": "https://indexecoresort.com/public/storage/images/admin/gallery/OK20Y8frYTUmiX9t9Twt.webp",
+          "alt": "Directors"
+        },
+        "fullSrc": "https://indexecoresort.com/public/storage/images/admin/gallery/OK20Y8frYTUmiX9t9Twt.webp"
+      },
+      {
+        "pane": "all",
+        "categoryName": "Business Conference 2026 (COX'S BAZAR)",
+        "title": "Directors",
+        "image": {
+          "src": "https://indexecoresort.com/public/storage/images/admin/gallery/iYqx1gQ9ayEvsz5YI6ngH4wR0tWh6Xs2jBbGGAvS.jpg",
+          "alt": "Directors"
+        },
+        "fullSrc": "https://indexecoresort.com/public/storage/images/admin/gallery/iYqx1gQ9ayEvsz5YI6ngH4wR0tWh6Xs2jBbGGAvS.jpg"
+      },
+      {
+        "pane": "all",
+        "categoryName": "Room",
+        "title": "Private Villa Room",
+        "image": {
+          "src": "https://indexecoresort.com/public/storage/images/admin/gallery/Q3GK7whgkOkjO7BgQu2kXevpN9zC3mezmVT66U7E.avif",
+          "alt": "Private Villa Room"
+        },
+        "fullSrc": "https://indexecoresort.com/public/storage/images/admin/gallery/Q3GK7whgkOkjO7BgQu2kXevpN9zC3mezmVT66U7E.avif"
+      }
+    ],
+    "itemsByCategory": {
+      "2": [
+        {
+          "pane": "2",
+          "categoryName": "Swimming pool",
+          "title": "swimming pool",
+          "image": {
+            "src": "https://indexecoresort.com/public/storage/images/admin/gallery/RDvE9Va8cZByyqd9tWfmIMHymFf13rYNgTupZdx5.png",
+            "alt": "swimming pool"
+          },
+          "fullSrc": "https://indexecoresort.com/public/storage/images/admin/gallery/RDvE9Va8cZByyqd9tWfmIMHymFf13rYNgTupZdx5.png"
+        },
+        {
+          "pane": "2",
+          "categoryName": "Swimming pool",
+          "title": "Round Swimming pool",
+          "image": {
+            "src": "https://indexecoresort.com/public/storage/images/admin/gallery/awrRTMhJzcdtWEbqUR3QnwkMWUwO5WSW2rFZeHpe.png",
+            "alt": "Round Swimming pool"
+          },
+          "fullSrc": "https://indexecoresort.com/public/storage/images/admin/gallery/awrRTMhJzcdtWEbqUR3QnwkMWUwO5WSW2rFZeHpe.png"
+        }
+      ],
+      "3": [
+        {
+          "pane": "3",
+          "categoryName": "Outdoor",
+          "title": "Lake view",
+          "image": {
+            "src": "https://indexecoresort.com/public/storage/images/admin/gallery/q8p34CHR1qFXapE4WFaqyh5EAYw9tqN7tpGsXTSy.png",
+            "alt": "Lake view"
+          },
+          "fullSrc": "https://indexecoresort.com/public/storage/images/admin/gallery/q8p34CHR1qFXapE4WFaqyh5EAYw9tqN7tpGsXTSy.png"
+        },
+        {
+          "pane": "3",
+          "categoryName": "Outdoor",
+          "title": "Reception",
+          "image": {
+            "src": "https://indexecoresort.com/public/storage/images/admin/gallery/y6yFZ66X1vhsQBT4GxEV6bxBNKqEyfUWshhLzXs0.png",
+            "alt": "Reception"
+          },
+          "fullSrc": "https://indexecoresort.com/public/storage/images/admin/gallery/y6yFZ66X1vhsQBT4GxEV6bxBNKqEyfUWshhLzXs0.png"
+        },
+        {
+          "pane": "3",
+          "categoryName": "Outdoor",
+          "title": "Gate",
+          "image": {
+            "src": "https://indexecoresort.com/public/storage/images/admin/gallery/n8KtRLCELyV0MRwt4CMZXNy4ZE0PORfNoVjlnwFZ.png",
+            "alt": "Gate"
+          },
+          "fullSrc": "https://indexecoresort.com/public/storage/images/admin/gallery/n8KtRLCELyV0MRwt4CMZXNy4ZE0PORfNoVjlnwFZ.png"
+        }
+      ],
+      "4": [],
+      "5": [
+        {
+          "pane": "5",
+          "categoryName": "Cottage",
+          "title": "Cottage",
+          "image": {
+            "src": "https://indexecoresort.com/public/storage/images/admin/gallery/NT2iL1o8PM72omenm3LuOKSPC6t91hl7SUhX0Mdo.png",
+            "alt": "Cottage"
+          },
+          "fullSrc": "https://indexecoresort.com/public/storage/images/admin/gallery/NT2iL1o8PM72omenm3LuOKSPC6t91hl7SUhX0Mdo.png"
+        }
+      ],
+      "6": [
+        {
+          "pane": "6",
+          "categoryName": "Room",
+          "title": "Private Villa Room",
+          "image": {
+            "src": "https://indexecoresort.com/public/storage/images/admin/gallery/Q3GK7whgkOkjO7BgQu2kXevpN9zC3mezmVT66U7E.avif",
+            "alt": "Private Villa Room"
+          },
+          "fullSrc": "https://indexecoresort.com/public/storage/images/admin/gallery/Q3GK7whgkOkjO7BgQu2kXevpN9zC3mezmVT66U7E.avif"
+        },
+        {
+          "pane": "6",
+          "categoryName": "Room",
+          "title": "Pool View Room",
+          "image": {
+            "src": "https://indexecoresort.com/public/storage/images/admin/gallery/c3n8cqOL1qyHMWJHhvpxLSEzTjT1CiyHfnACPuuC.jpg",
+            "alt": "Pool View Room"
+          },
+          "fullSrc": "https://indexecoresort.com/public/storage/images/admin/gallery/c3n8cqOL1qyHMWJHhvpxLSEzTjT1CiyHfnACPuuC.jpg"
+        }
+      ],
+      "8": [
+        {
+          "pane": "8",
+          "categoryName": "Community Hall",
+          "title": "Big Community hall.",
+          "image": {
+            "src": "https://indexecoresort.com/public/storage/images/admin/gallery/Lpv53X3uluGDdX2TjubTQvvhPlTLMbUZSfYXjwoC.png",
+            "alt": "Big Community hall."
+          },
+          "fullSrc": "https://indexecoresort.com/public/storage/images/admin/gallery/Lpv53X3uluGDdX2TjubTQvvhPlTLMbUZSfYXjwoC.png"
+        }
+      ],
+      "9": [
+        {
+          "pane": "9",
+          "categoryName": "Business Conference 2026 (COX'S BAZAR)",
+          "title": "INDEX Honorable Directors & Leaders",
+          "image": {
+            "src": "https://indexecoresort.com/public/storage/images/admin/gallery/1gk0XLFyHQ9Vvd3mJnQB.webp",
+            "alt": "INDEX Honorable Directors & Leaders"
+          },
+          "fullSrc": "https://indexecoresort.com/public/storage/images/admin/gallery/1gk0XLFyHQ9Vvd3mJnQB.webp"
+        },
+        {
+          "pane": "9",
+          "categoryName": "Business Conference 2026 (COX'S BAZAR)",
+          "title": "INDEX Honorable Leaders",
+          "image": {
+            "src": "https://indexecoresort.com/public/storage/images/admin/gallery/h8slLPqdP1FfvD6MO9rI.webp",
+            "alt": "INDEX Honorable Leaders"
+          },
+          "fullSrc": "https://indexecoresort.com/public/storage/images/admin/gallery/h8slLPqdP1FfvD6MO9rI.webp"
+        },
+        {
+          "pane": "9",
+          "categoryName": "Business Conference 2026 (COX'S BAZAR)",
+          "title": "INDEX Honorable Leaders",
+          "image": {
+            "src": "https://indexecoresort.com/public/storage/images/admin/gallery/V5NHDu8nDj1keC16DPKs.webp",
+            "alt": "INDEX Honorable Leaders"
+          },
+          "fullSrc": "https://indexecoresort.com/public/storage/images/admin/gallery/V5NHDu8nDj1keC16DPKs.webp"
+        },
+        {
+          "pane": "9",
+          "categoryName": "Business Conference 2026 (COX'S BAZAR)",
+          "title": "INDEX Honorable Leaders",
+          "image": {
+            "src": "https://indexecoresort.com/public/storage/images/admin/gallery/PTwmBufNKJfUx3ird2Tz.webp",
+            "alt": "INDEX Honorable Leaders"
+          },
+          "fullSrc": "https://indexecoresort.com/public/storage/images/admin/gallery/PTwmBufNKJfUx3ird2Tz.webp"
+        },
+        {
+          "pane": "9",
+          "categoryName": "Business Conference 2026 (COX'S BAZAR)",
+          "title": "Directors",
+          "image": {
+            "src": "https://indexecoresort.com/public/storage/images/admin/gallery/IBtlbCA7SDxJdEYXepxr.webp",
+            "alt": "Directors"
+          },
+          "fullSrc": "https://indexecoresort.com/public/storage/images/admin/gallery/IBtlbCA7SDxJdEYXepxr.webp"
+        },
+        {
+          "pane": "9",
+          "categoryName": "Business Conference 2026 (COX'S BAZAR)",
+          "title": "Directors",
+          "image": {
+            "src": "https://indexecoresort.com/public/storage/images/admin/gallery/VqzJ1hGcvy9Z1wHXGPGV.webp",
+            "alt": "Directors"
+          },
+          "fullSrc": "https://indexecoresort.com/public/storage/images/admin/gallery/VqzJ1hGcvy9Z1wHXGPGV.webp"
+        },
+        {
+          "pane": "9",
+          "categoryName": "Business Conference 2026 (COX'S BAZAR)",
+          "title": "Directors",
+          "image": {
+            "src": "https://indexecoresort.com/public/storage/images/admin/gallery/eYpLISzdKwbWwTPWrNFi.webp",
+            "alt": "Directors"
+          },
+          "fullSrc": "https://indexecoresort.com/public/storage/images/admin/gallery/eYpLISzdKwbWwTPWrNFi.webp"
+        },
+        {
+          "pane": "9",
+          "categoryName": "Business Conference 2026 (COX'S BAZAR)",
+          "title": "Directors",
+          "image": {
+            "src": "https://indexecoresort.com/public/storage/images/admin/gallery/WEH9ziANttkxU4M9CeeN.webp",
+            "alt": "Directors"
+          },
+          "fullSrc": "https://indexecoresort.com/public/storage/images/admin/gallery/WEH9ziANttkxU4M9CeeN.webp"
+        },
+        {
+          "pane": "9",
+          "categoryName": "Business Conference 2026 (COX'S BAZAR)",
+          "title": "Directors",
+          "image": {
+            "src": "https://indexecoresort.com/public/storage/images/admin/gallery/8SnYwW5HOO6VftwqeaM2.webp",
+            "alt": "Directors"
+          },
+          "fullSrc": "https://indexecoresort.com/public/storage/images/admin/gallery/8SnYwW5HOO6VftwqeaM2.webp"
+        },
+        {
+          "pane": "9",
+          "categoryName": "Business Conference 2026 (COX'S BAZAR)",
+          "title": "Directors",
+          "image": {
+            "src": "https://indexecoresort.com/public/storage/images/admin/gallery/OK20Y8frYTUmiX9t9Twt.webp",
+            "alt": "Directors"
+          },
+          "fullSrc": "https://indexecoresort.com/public/storage/images/admin/gallery/OK20Y8frYTUmiX9t9Twt.webp"
+        },
+        {
+          "pane": "9",
+          "categoryName": "Business Conference 2026 (COX'S BAZAR)",
+          "title": "Directors",
+          "image": {
+            "src": "https://indexecoresort.com/public/storage/images/admin/gallery/iYqx1gQ9ayEvsz5YI6ngH4wR0tWh6Xs2jBbGGAvS.jpg",
+            "alt": "Directors"
+          },
+          "fullSrc": "https://indexecoresort.com/public/storage/images/admin/gallery/iYqx1gQ9ayEvsz5YI6ngH4wR0tWh6Xs2jBbGGAvS.jpg"
+        }
+      ]
+    }
+  },
+  "ctaStrip": {
+    "avatar": {
+      "src": "https://demo.awaikenthemes.com/antila/wp-content/uploads/2026/01/author-1.jpg",
+      "alt": "Avatar"
+    },
+    "text": "Don't miss this opportunity. One time Investment lifetime halal income.",
+    "cta": {
+      "label": "Buy Share",
+      "href": "#"
+    }
+  },
+  "plans": {
+    "eyebrow": "Ownership Packages",
+    "title": "Choose Your Plan",
+    "packages": [
+      {
+        "name": "Gold Ownership",
+        "href": "https://indexecoresort.com/gold-ownership-2",
+        "slug": "gold-ownership-2",
+        "card": {
+          "src": "https://indexecoresort.com/public/storage/images/admin/ownership/M7PT7o7U1pZ5zoj8HTmLOVBm2qSR1YEKJwXq4R30.jpg",
+          "alt": "Royalty Ownership Card"
+        }
+      },
+      {
+        "name": "Platinum Ownership",
+        "href": "https://indexecoresort.com/platinum-ownership-3",
+        "slug": "platinum-ownership-3",
+        "card": {
+          "src": "https://indexecoresort.com/public/storage/images/admin/ownership/RYz9DmgQsZyQ0yEYFvkShtsddBkg8UPUk8Cg34AP.jpg",
+          "alt": "Royalty Ownership Card"
+        }
+      },
+      {
+        "name": "Signature Ownership",
+        "href": "https://indexecoresort.com/signature-ownership-4",
+        "slug": "signature-ownership-4",
+        "card": {
+          "src": "https://indexecoresort.com/public/storage/images/admin/ownership/SWhyRod6BC1gK8NW385qLcuk70iiDFVXS1e9rx3n.jpg",
+          "alt": "Royalty Ownership Card"
+        }
+      },
+      {
+        "name": "Silver Ownership",
+        "href": "https://indexecoresort.com/silver-ownership-5",
+        "slug": "silver-ownership-5",
+        "card": {
+          "src": "https://indexecoresort.com/public/storage/images/admin/ownership/wnYWaDS70Mshli7g6GPTxYHttxa5kEUqbMSP7rnd.jpg",
+          "alt": "Royalty Ownership Card"
+        }
+      }
+    ]
+  },
+  "whyBuy": {
+    "eyebrow": "Why Buy Our Share",
+    "title": "Why investing in our shares ensures value and growth",
+    "features": [
+      {
+        "icon": null,
+        "title": "Modern Investment Benefits",
+        "text": "Enjoy long-term value with modern facilities and high-demand properties."
+      },
+      {
+        "icon": null,
+        "title": "Smart Investment Planning",
+        "text": "Our projects are carefully planned to deliver consistent returns."
+      },
+      {
+        "icon": null,
+        "title": "Trusted Development Quality",
+        "text": "We ensure quality construction that protects and grows your investment."
+      },
+      {
+        "icon": null,
+        "title": "Strategic Investment Locatio",
+        "text": "Our shares are backed by high-potential properties in prime locations."
+      }
+    ],
+    "image": {
+      "src": "https://indexecoresort.com/public/storage/video/admin/whoWeAre/tVfK8IgBbzs2RfXNK1tfvO2qhNH4SPlOm2gHsmj9.png",
+      "alt": "Luxury apartment building"
+    }
+  },
+  "villa": {
+    "eyebrow": "Villa",
+    "title": "All you need to know about this",
+    "rooms": [
+      {
+        "tabLabel": "Family Cottage",
+        "tabTitle": "Villa",
+        "tabDescription": "All you need to know about this",
+        "name": "Family Cottage",
+        "description": "Experience the pinnacle of comfort at Chuti Resort Gazipur, offering 50 beautifully appointed rooms. Each room is thoughtfully designed with modern amenities, ensuring a luxurious stay. Whether you're seeking a cozy retreat or a spacious suite, our accommodation options cater to every need. Enjoy scenic views, impeccable hospitality, and a range of convenient facilities during your stay at Chuti Resort Gazipur.",
+        "images": [
+          {
+            "src": "https://indexecoresort.com/public/storage/images/rooms/hrLrchTr2s7EdNoOaUh9qlCZseGywWtBb4ueLI70.jpg",
+            "alt": ""
+          },
+          {
+            "src": "https://indexecoresort.com/public/storage/images/rooms/AjwXKgSYQ8lDFm2e6V2TddoStKOzp2MSz155cPFC.jpg",
+            "alt": ""
+          },
+          {
+            "src": "https://indexecoresort.com/public/storage/images/rooms/tqPe3W91FTdejzOQ5ZN90V7HJmeMcQ3hnEbKzDjW.jpg",
+            "alt": ""
+          }
+        ],
+        "floorBadges": [
+          "",
+          "",
+          ""
+        ],
+        "amenities": [
+          {
+            "label": "Amenities",
+            "value": "Mini Bar"
+          },
+          {
+            "label": "Amenities",
+            "value": "King size bed"
+          },
+          {
+            "label": "Complementary",
+            "value": "Tea & Coffee"
+          },
+          {
+            "label": "Complementary",
+            "value": "Swimming Pool"
+          }
+        ],
+        "cta": {
+          "label": "Book Now",
+          "href": "#"
+        }
+      },
+      {
+        "tabLabel": "Cottage",
+        "tabTitle": "Plans",
+        "tabDescription": "All you need to know about this",
+        "name": "Executive Suite",
+        "description": "Experience the pinnacle of comfort at Chuti Resort Gazipur, offering 50 beautifully appointed rooms. Each room is thoughtfully designed with modern amenities, ensuring a luxurious stay. Whether you're seeking a cozy retreat or a spacious suite, our accommodation options cater to every need. Enjoy scenic views, impeccable hospitality, and a range of convenient facilities during your stay at Chuti Resort Gazipur.",
+        "images": [
+          {
+            "src": "https://indexecoresort.com/public/storage/images/rooms/GVhNmRTcX8Z8dH1k4tLwnqnKJNVFPM3yGOOCskzd.jpg",
+            "alt": ""
+          },
+          {
+            "src": "https://indexecoresort.com/public/storage/images/rooms/CfhXKONQcAKoqxwpBHOVWEKSDsofLqZAPoECHKni.jpg",
+            "alt": ""
+          },
+          {
+            "src": "https://indexecoresort.com/public/storage/images/rooms/m6dl3uiTHupMrlP1C2p3vfMgyC9YyFbB5H7ifAF2.jpg",
+            "alt": ""
+          }
+        ],
+        "floorBadges": [
+          "",
+          "",
+          ""
+        ],
+        "amenities": [
+          {
+            "label": "Amenities",
+            "value": "32″ LED TV"
+          },
+          {
+            "label": "Amenities",
+            "value": "24 hours room service"
+          },
+          {
+            "label": "Amenities",
+            "value": "24 hours room service"
+          },
+          {
+            "label": "Amenities",
+            "value": "Air Conditioner"
+          },
+          {
+            "label": "Amenities",
+            "value": "King size bed"
+          },
+          {
+            "label": "Complementary",
+            "value": "Breakfast"
+          },
+          {
+            "label": "Complementary",
+            "value": "Tea & Coffee"
+          }
+        ],
+        "cta": {
+          "label": "Book Now",
+          "href": "#"
+        }
+      }
+    ]
+  },
+  "restaurant": {
+    "eyebrow": "Dine With Us",
+    "title": "Restaurant",
+    "text": "In our restaurant buffet breakfast, lunch and dinner are served. From exclusive breakfast to dinner, we have a superb range of relaxed and exciting dining option. We have also BBQ options for our guests.",
+    "cta": {
+      "label": "Book Now",
+      "href": "#"
+    },
+    "image": {
+      "src": "https://indexecoresort.com/public/storage/images/general-settings/benefits_image/VZ7K1tGf0AGW26KxMf4bQmplFQI2HOI1SvUgSerG.jpg",
+      "alt": "Krishibid Sea Palace aerial pool view"
+    }
+  },
+  "testimonials": {
+    "eyebrow": "Our Testimonial",
+    "title": "What Our Clients Say",
+    "items": [
+      {
+        "rating": 5,
+        "quote": "\"From the first site visit to final possession, the entire experience was smooth and transparent. The apartment layout is spacious & the quality construction exceeded.\"",
+        "avatar": {
+          "src": "https://indexecoresort.com/public/storage/images/admin/review/NH0t33K4XESXyPwEfqKGLdqvJgA6xddI7PqXQt9z.png",
+          "alt": "Vikram Patel"
+        },
+        "name": "jack sparrow",
+        "role": "Actor"
+      }
+    ]
+  },
+  "latestPosts": {
+    "eyebrow": "Latest Posts",
+    "title": "Stay Informed With Our Latest Posts",
+    "posts": [
+      {
+        "title": "Sustainable living: eco-friendly home features",
+        "excerpt": "Choosing the right builder is crucial for the success of your construction project. Make sure to evaluate all your options",
+        "image": {
+          "src": "https://indexecoresort.com/public/storage/images/admin/blogs/qim2StWfOBSK6dgkDpBqoA5rI0dKotS4A35Ypeg4.jpg",
+          "alt": "Sustainable Living"
+        },
+        "href": "https://indexecoresort.com/blog-details/sustainable-living-eco-friendly-home-features-1",
+        "slug": "sustainable-living-eco-friendly-home-features-1",
+        "cta": {
+          "label": "Read More",
+          "href": "https://indexecoresort.com/blog-details/sustainable-living-eco-friendly-home-features-1"
+        }
+      },
+      {
+        "title": "কুয়াকাটায় আধুনিক রিসোর্ট বিনিয়োগের নতুন সম্ভাবনা",
+        "excerpt": "কুয়াকাটার প্রাকৃতিক সৌন্দর্যের মাঝে গড়ে উঠছে আধুনিক ও পরিবেশবান্ধব Index Eco Resort। আন্তর্জাতিক মানের সুবিধা, সমুদ্র সৈকতের নিকটবর্তী অবস্থান এবং সহজ কিস্তি সুবিধার কারণে এটি হতে পারে ভবিষ্যতের লাভজনক বিনিয়োগের একটি আকর্ষণীয় সুযোগ।",
+        "image": {
+          "src": "https://indexecoresort.com/public/storage/images/admin/blogs/hxS9CUwju7mp0IZ2gFEMR801hZYrVvQbfAqN2TGI.jpg",
+          "alt": "Sustainable Living"
+        },
+        "href": "https://indexecoresort.com/blog-details/kuzakataz-adhunik-risort-binizoger-ntun-smvabna-2",
+        "slug": "kuzakataz-adhunik-risort-binizoger-ntun-smvabna-2",
+        "cta": {
+          "label": "Read More",
+          "href": "https://indexecoresort.com/blog-details/kuzakataz-adhunik-risort-binizoger-ntun-smvabna-2"
+        }
+      }
+    ]
+  }
+}

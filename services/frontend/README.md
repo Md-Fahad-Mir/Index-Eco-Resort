@@ -1,0 +1,14 @@
+# services/frontend — INDEX Eco Resort (Next.js)
+
+The premium frontend for https://indexecoresort.com. Rules, layout and workflow live at the repo root: `../../CLAUDE.md`, `../../docs/`, `../../prompts/`. Phase 0 baselines (crawl, links, forms, screenshots) are in `../../audit/`; the tests here read them from there.
+
+```bash
+pnpm install        # at the repo root (pnpm workspace)
+pnpm dev            # in this folder — or `pnpm --filter frontend dev` from the root
+pnpm build && pnpm start
+pnpm lint && pnpm typecheck
+pnpm test:e2e       # parity + a11y (Playwright)
+pnpm test:visual    # screenshots → ../../audit/screenshots/after/
+```
+
+`DATA_SOURCE=mock` (default, `.env.example`) serves the Phase 0 fixtures in `src/fixtures/`.

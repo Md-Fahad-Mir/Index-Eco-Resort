@@ -1,0 +1,160 @@
+{
+  "hero": {
+    "title": "Events",
+    "image": {
+      "src": "https://indexecoresort.com/public/storage/images/general-settings/advertisement_image/hEYLc1SXO3V3uNI5dUzK3GUeJPlDXgiqrRqIOmR7.png",
+      "alt": ""
+    },
+    "breadcrumb": {
+      "home": {
+        "label": "Home",
+        "href": "https://indexecoresort.com/people-leading"
+      },
+      "current": "Events"
+    }
+  },
+  "filters": {
+    "mechanism": "ajax",
+    "endpoint": "/events/filter",
+    "params": [
+      "start_date",
+      "end_date",
+      "category_id"
+    ],
+    "dateFormat": "d-m-Y",
+    "emptyState": "No Events Found!",
+    "ajaxDetailHrefPattern": "/event-details/{id}",
+    "controls": [
+      {
+        "id": "start-date",
+        "placeholder": "Choose Date",
+        "ariaLabel": "Start Date"
+      },
+      {
+        "id": "end-date",
+        "placeholder": "Choose Date",
+        "ariaLabel": "End Date"
+      }
+    ],
+    "categories": [
+      {
+        "value": "",
+        "label": "All Categories"
+      },
+      {
+        "value": "4",
+        "label": "2026 BUSINESS CONFERENCE"
+      },
+      {
+        "value": "3",
+        "label": "Wedding & Reception"
+      },
+      {
+        "value": "2",
+        "label": "Corporate Events & Conferences"
+      },
+      {
+        "value": "1",
+        "label": "Birthday Parties & Family Celebrations"
+      }
+    ]
+  },
+  "events": [
+    {
+      "title": "INDEX Eco Resort, Cox's Bazar - 2026 Business Conference",
+      "excerpt": "Cox's Bazar - 2026 Business Conference.",
+      "image": {
+        "src": "https://indexecoresort.com/public/storage/images/admin/events/IQ8rZseI6eX59EW3ZBo5diSMueDeaj2vf6sCHTCO.jpg",
+        "alt": "Sustainable Living"
+      },
+      "day": "29",
+      "monthYear": "Sep 2026",
+      "category": {
+        "name": "2026 BUSINESS CONFERENCE",
+        "href": "https://indexecoresort.com/events/index-eco-resort-coxs-bazar-2026-business-conference-4"
+      },
+      "meta": [
+        "-",
+        "cox's Bazar."
+      ],
+      "href": "https://indexecoresort.com/events/index-eco-resort-coxs-bazar-2026-business-conference-4",
+      "slug": "index-eco-resort-coxs-bazar-2026-business-conference-4",
+      "cta": {
+        "label": "Event details",
+        "href": "https://indexecoresort.com/events/index-eco-resort-coxs-bazar-2026-business-conference-4"
+      }
+    },
+    {
+      "title": "Joyful Birthday & Family Gathering Celebration",
+      "excerpt": "A fun-filled birthday party and family celebration with food, music, decoration, and entertainment.",
+      "image": {
+        "src": "https://indexecoresort.com/public/storage/images/admin/events/HqHpHVbGtMmm1GQbsmA3KjBkNIQGrndrEp6vFWMQ.webp",
+        "alt": "Sustainable Living"
+      },
+      "day": "07",
+      "monthYear": "May 2026",
+      "category": {
+        "name": "Birthday Parties & Family Celebrations",
+        "href": "https://indexecoresort.com/events/joyful-birthday-family-gathering-celebration-3"
+      },
+      "meta": [
+        "20:51:00 - 17:54:00",
+        "Resort & Garden Area, Dhaka, Bangladesh"
+      ],
+      "href": "https://indexecoresort.com/events/joyful-birthday-family-gathering-celebration-3",
+      "slug": "joyful-birthday-family-gathering-celebration-3",
+      "cta": {
+        "label": "Event details",
+        "href": "https://indexecoresort.com/events/joyful-birthday-family-gathering-celebration-3"
+      }
+    },
+    {
+      "title": "Annual Corporate Summit 2026",
+      "excerpt": "A professional corporate gathering for meetings, presentations, networking, and business discussions.",
+      "image": {
+        "src": "https://indexecoresort.com/public/storage/images/admin/events/Wd1lP34BfDAVB5ozb3NyaE2gkccIbuAtjTKxrmgz.jpg",
+        "alt": "Sustainable Living"
+      },
+      "day": "06",
+      "monthYear": "May 2026",
+      "category": {
+        "name": "Corporate Events & Conferences",
+        "href": "https://indexecoresort.com/events/annual-corporate-summit-2026-2"
+      },
+      "meta": [
+        "17:49:00 - 05:49:00",
+        "Index Eco Resort & Convention Center, Conference Hall, Dhaka, Banglade"
+      ],
+      "href": "https://indexecoresort.com/events/annual-corporate-summit-2026-2",
+      "slug": "annual-corporate-summit-2026-2",
+      "cta": {
+        "label": "Event details",
+        "href": "https://indexecoresort.com/events/annual-corporate-summit-2026-2"
+      }
+    },
+    {
+      "title": "Royal Wedding Celebration 2026",
+      "excerpt": "A luxurious wedding and reception ceremony with family gathering, dinner, music, and photography at the resort.",
+      "image": {
+        "src": "https://indexecoresort.com/public/storage/images/admin/events/QMZDrhVkPHjMfcxijvfmGGM8TPcL0DhR01YU2LvY.jpg",
+        "alt": "Sustainable Living"
+      },
+      "day": "08",
+      "monthYear": "May 2026",
+      "category": {
+        "name": "Wedding & Reception",
+        "href": "https://indexecoresort.com/events/royal-wedding-celebration-2026-1"
+      },
+      "meta": [
+        "17:43:00 - 05:43:00",
+        "Index Eco Resort & Convention Center, Dhaka, Bangladesh"
+      ],
+      "href": "https://indexecoresort.com/events/royal-wedding-celebration-2026-1",
+      "slug": "royal-wedding-celebration-2026-1",
+      "cta": {
+        "label": "Event details",
+        "href": "https://indexecoresort.com/events/royal-wedding-celebration-2026-1"
+      }
+    }
+  ]
+}

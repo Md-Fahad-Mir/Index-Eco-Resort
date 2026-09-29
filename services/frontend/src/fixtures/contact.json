@@ -1,0 +1,73 @@
+{
+  "hero": {
+    "title": "Contact Us",
+    "image": {
+      "src": "https://demo.awaikenthemes.com/inclub/wp-content/uploads/2024/12/page-header-bg-1.jpg",
+      "alt": ""
+    },
+    "breadcrumb": {
+      "home": {
+        "label": "Home",
+        "href": "#"
+      },
+      "current": "Contact"
+    }
+  },
+  "form": {
+    "endpoint": "https://indexecoresort.com/contact-form/submit",
+    "method": "POST",
+    "submitLabel": "Submit",
+    "fields": [
+      {
+        "name": "_token",
+        "type": "hidden",
+        "required": false,
+        "placeholder": null
+      },
+      {
+        "name": "name",
+        "type": "text",
+        "required": false,
+        "placeholder": "Enter Your Full Name"
+      },
+      {
+        "name": "phone",
+        "type": "number",
+        "required": false,
+        "placeholder": "Enter Your Mobile Number"
+      },
+      {
+        "name": "email",
+        "type": "email",
+        "required": false,
+        "placeholder": "Enter Your Email"
+      },
+      {
+        "name": "address",
+        "type": "text",
+        "required": false,
+        "placeholder": "Enter Your Address"
+      },
+      {
+        "name": "message",
+        "type": "textarea",
+        "required": false,
+        "placeholder": "Enter Your Message"
+      }
+    ]
+  },
+  "mapEmbedUrl": "https://www.google.com/maps?q=Colombia+Super+market+%285th+floor%29%2C+31-+Mohakhali+C%2FA%2C+Dhaka-1213%2C+Bangladesh.&output=embed",
+  "hotline": {
+    "label": "Hotline",
+    "value": "01711307580",
+    "href": "#"
+  },
+  "infoCards": [
+    {
+      "text": "indexecoresort.com believes in building lifelong partnerships.Let indexecoresort.com help you build your dream home"
+    },
+    {
+      "text": "Choose your dream apartment from our widearray of ongoing and upcoming projects."
+    }
+  ]
+}

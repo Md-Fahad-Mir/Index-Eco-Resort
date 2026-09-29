@@ -1,0 +1,46 @@
+{
+  "hero": {
+    "title": "Blogs",
+    "image": {
+      "src": "https://indexecoresort.com/public/storage/images/general-settings/partner_logo/i91uRiZnapNB3Exd0CjN6FGqkDor7F8KylW1obWB.jpg",
+      "alt": ""
+    },
+    "breadcrumb": {
+      "home": {
+        "label": "Home",
+        "href": "#"
+      },
+      "current": "Blog"
+    }
+  },
+  "posts": [
+    {
+      "title": "Sustainable living: eco-friendly home features",
+      "excerpt": "Choosing the right builder is crucial for the success of your construction project. Make sure to evaluate all your options",
+      "image": {
+        "src": "https://indexecoresort.com/public/storage/images/admin/blogs/qim2StWfOBSK6dgkDpBqoA5rI0dKotS4A35Ypeg4.jpg",
+        "alt": ""
+      },
+      "href": "https://indexecoresort.com/blog-details/sustainable-living-eco-friendly-home-features-1",
+      "slug": "sustainable-living-eco-friendly-home-features-1",
+      "cta": {
+        "label": "Read More",
+        "href": "https://indexecoresort.com/blog-details/sustainable-living-eco-friendly-home-features-1"
+      }
+    },
+    {
+      "title": "কুয়াকাটায় আধুনিক রিসোর্ট বিনিয়োগের নতুন সম্ভাবনা",
+      "excerpt": "কুয়াকাটার প্রাকৃতিক সৌন্দর্যের মাঝে গড়ে উঠছে আধুনিক ও পরিবেশবান্ধব Index Eco Resort। আন্তর্জাতিক মানের সুবিধা, সমুদ্র সৈকতের নিকটবর্তী অবস্থান এবং সহজ কিস্তি সুবিধার কারণে এটি হতে পারে ভবিষ্যতের লাভজনক বিনিয়োগের একটি আকর্ষণীয় সুযোগ।",
+      "image": {
+        "src": "https://indexecoresort.com/public/storage/images/admin/blogs/hxS9CUwju7mp0IZ2gFEMR801hZYrVvQbfAqN2TGI.jpg",
+        "alt": ""
+      },
+      "href": "https://indexecoresort.com/blog-details/kuzakataz-adhunik-risort-binizoger-ntun-smvabna-2",
+      "slug": "kuzakataz-adhunik-risort-binizoger-ntun-smvabna-2",
+      "cta": {
+        "label": "Read More",
+        "href": "https://indexecoresort.com/blog-details/kuzakataz-adhunik-risort-binizoger-ntun-smvabna-2"
+      }
+    }
+  ]
+}

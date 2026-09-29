@@ -1,0 +1,22 @@
+{
+  "hero": {
+    "title": "Running Offer",
+    "image": {
+      "src": "https://indexecoresort.com/public/storage/book_pages/esnl4vnCPMI1S04IyZSouHsLU8uUwcc8YNSVr8zQ.webp",
+      "alt": ""
+    },
+    "breadcrumb": {
+      "home": {
+        "label": "Home",
+        "href": "#"
+      },
+      "current": "Book Now"
+    }
+  },
+  "text": "Index Eco Resort কুয়াকাটার প্রাকৃতিক সৌন্দর্যের মাঝে গড়ে ওঠা একটি আধুনিক ও পরিবেশবান্ধব রিসোর্ট, যেখানে বিলাসবহুল থাকার ব্যবস্থা ও আধুনিক লাইফস্টাইল সুবিধার সমন্বয় রয়েছে। সমুদ্র সৈকতের নিকটবর্তী এই রিসোর্টে থাকছে আরামদায়ক রুম, সুইমিং পুল, রেস্টুরেন্ট, রুফটপ সুবিধা, কনফারেন্স স্পেস, স্পা ও ফ্যামিলি রিক্রিয়েশন সুবিধা",
+  "download": {
+    "label": "Download Booking Form",
+    "href": "https://indexecoresort.com/public/storage",
+    "download": true
+  }
+}
