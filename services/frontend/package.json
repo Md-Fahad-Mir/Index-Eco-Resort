@@ -16,7 +16,8 @@
     "fixtures:media": "node scripts/fixtures-media.mjs",
     "contract:export": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/export-contract.mts",
     "test:data": "playwright test --project=data",
-    "verify:preview": "node scripts/verify-preview.mjs"
+    "verify:preview": "node scripts/verify-preview.mjs",
+    "media:variants": "node scripts/media-variants.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.9.1",

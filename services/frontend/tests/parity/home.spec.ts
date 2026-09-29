@@ -89,19 +89,81 @@ test.describe("hero", () => {
 });
 
 test.describe("media budget", () => {
-  test("a narrow viewport downloads no video at all", async ({ page }) => {
-    if (!(await mobile(page))) test.skip();
+  test("no video is fetched before the largest paint", async ({ page }) => {
+    const videoRequests: { url: string; atMs: number }[] = [];
+    const started = Date.now();
+    page.on("request", (r) => {
+      if (/\.mp4(\?|$)/.test(r.url()))
+        videoRequests.push({ url: r.url(), atMs: Date.now() - started });
+    });
+
+    await page.goto("/");
+    // Read the largest paint the browser actually recorded.
+    const lcpMs = await page.evaluate(
+      () =>
+        new Promise<number>((resolve) => {
+          let last = 0;
+          new PerformanceObserver((list) => {
+            for (const entry of list.getEntries()) last = entry.startTime;
+          }).observe({ type: "largest-contentful-paint", buffered: true });
+          setTimeout(() => resolve(last), 1200);
+        }),
+    );
+    expect(lcpMs, "the page should record a largest paint").toBeGreaterThan(0);
+
+    // The clip must not compete with it: nothing requested before it painted.
+    const early = videoRequests.filter((r) => r.atMs < lcpMs);
+    expect(
+      early.map((r) => r.url),
+      "video requested before LCP",
+    ).toEqual([]);
+  });
+
+  test("Save-Data is honoured: the poster is the whole experience", async ({ browser }) => {
+    const context = await browser.newContext({ extraHTTPHeaders: { "Save-Data": "on" } });
+    const page = await context.newPage();
+    await page.addInitScript(() => {
+      Object.defineProperty(navigator, "connection", {
+        configurable: true,
+        get: () => ({ saveData: true, effectiveType: "4g" }),
+      });
+    });
     let videoBytes = 0;
     page.on("response", (r) => {
-      if (r.url().endsWith(".mp4")) videoBytes += Number(r.headers()["content-length"] ?? 0);
+      if (/\.mp4(\?|$)/.test(r.url())) videoBytes += Number(r.headers()["content-length"] ?? 1);
     });
     await page.goto("/");
-    await page.waitForTimeout(3000);
-    // 18MB of hero video is not something to push to a phone; the patterned
-    // panel stands in and the play control fetches it on request.
-    expect(videoBytes).toBe(0);
-    const src = await page.evaluate(() => document.querySelector("video")?.getAttribute("src"));
-    expect(src).toBeNull();
+    await page.waitForTimeout(4000);
+    expect(videoBytes, "no video on a metered connection").toBe(0);
+
+    // But the poster is there, so the hero is not an empty panel.
+    const posterVisible = await page
+      .locator("section img")
+      .first()
+      .isVisible()
+      .catch(() => false);
+    expect(posterVisible).toBe(true);
+    await context.close();
+  });
+
+  test("the phone encode is offered below 1024px, the original above", async ({ page }) => {
+    await page.goto("/");
+    // Press play so the sources are attached regardless of connection.
+    await page
+      .getByRole("button", { name: /slideshow/i })
+      .first()
+      .click();
+    await page.waitForTimeout(500);
+    const sources = await page.evaluate(() =>
+      [...document.querySelectorAll("video source")].map((s) => ({
+        src: s.getAttribute("src"),
+        media: s.getAttribute("media"),
+      })),
+    );
+    const phone = sources.find((s) => s.media);
+    expect(phone?.media).toBe("(max-width: 1023px)");
+    expect(phone?.src).toMatch(/-720p\.mp4$/);
+    expect(sources.some((s) => !s.media && /\.mp4$/.test(s.src ?? ""))).toBe(true);
   });
 });
 

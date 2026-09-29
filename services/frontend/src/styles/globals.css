@@ -167,6 +167,15 @@
     font-size: 0.94em;
   }
 
+  /*
+   * Small labels used to get Anek's `wdth: 110` for an engraved feel. Carrying
+   * that axis across the Bengali range cost 284KB, so it was dropped; a touch
+   * of tracking stands in — on Latin only, never on Bangla (§4.3).
+   */
+  .label-track:not(:lang(bn)) {
+    letter-spacing: 0.02em;
+  }
+
   /* Numerals in cards and stats align in columns (§3.2) */
   .tabular {
     font-variant-numeric: tabular-nums lining-nums;

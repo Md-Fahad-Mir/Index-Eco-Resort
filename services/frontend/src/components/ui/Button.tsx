@@ -20,7 +20,7 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
  */
 const BASE =
   "relative isolate inline-flex h-[52px] items-center justify-center gap-2 overflow-hidden " +
-  "rounded-btn px-7 font-sans text-label font-semibold " +
+  "rounded-btn px-7 font-sans text-label label-track font-semibold " +
   "transition-[color,border-color] duration-[var(--dur-micro)] " +
   "active:translate-y-px disabled:pointer-events-none disabled:opacity-50 " +
   "before:absolute before:inset-0 before:-z-10 before:origin-bottom before:scale-y-0 " +

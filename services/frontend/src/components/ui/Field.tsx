@@ -37,7 +37,7 @@ export function Field({
       <label
         htmlFor={id}
         className={cn(
-          "text-label font-semibold",
+          "text-label label-track font-semibold",
           tone === "light" ? "text-ink-muted" : "text-lichen",
         )}
       >

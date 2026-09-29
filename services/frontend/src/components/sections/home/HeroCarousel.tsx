@@ -5,12 +5,15 @@ import { Pause, Play } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { MaskedLines } from "@/components/motion/MaskedLines";
 import { useReducedMotionSafe } from "@/components/motion/useReducedMotionSafe";
+import Image from "next/image";
 import { SmartImage } from "@/components/media/SmartImage";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import type { HomeData } from "@/lib/data";
 import { autoLang } from "@/lib/lang";
 import { internalHref, isInternal } from "@/lib/links";
+import { cn } from "@/lib/utils";
+import { MOBILE_VIDEO_QUERY, videoVariants } from "@/lib/media";
 import Link from "next/link";
 
 type Slide = HomeData["hero"]["slides"][number];
@@ -222,7 +225,9 @@ function HeroMedia({
   register: (el: HTMLVideoElement | null) => void;
 }) {
   const [idleReady, setIdleReady] = useState(false);
+  const [videoReady, setVideoReady] = useState(false);
   const localRef = useRef<HTMLVideoElement | null>(null);
+  const variants = videoVariants(slide.videoUrl);
 
   useEffect(() => {
     if (!slide.videoUrl) return;
@@ -230,27 +235,45 @@ function HeroMedia({
       navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }
     ).connection;
 
-    // The CMS clip is 18MB and offers no smaller variant. Pushing that to a
-    // phone costs the visitor real money and saturates the connection —
-    // measured at 3.6MB transferred and LCP 4.7s on throttled mobile. So it
-    // autoplays only where there is room for it; elsewhere the patterned panel
-    // stands in and the play control fetches it on request.
-    const narrow = window.matchMedia("(max-width: 1023px)").matches;
-    const slow = /(^|-)2g|3g/.test(connection?.effectiveType ?? "");
-    if (connection?.saveData || narrow || slow) return;
+    // Save-Data and slow connections never get the video: the poster is the
+    // whole experience, and the play control fetches it on request.
+    if (connection?.saveData) return;
+    if (/(^|-)2g|3g/.test(connection?.effectiveType ?? "")) return;
 
-    const start = () => setIdleReady(true);
-    const idle = window.requestIdleCallback;
-    if (typeof idle === "function") {
-      const id = idle.call(window, start, { timeout: 2500 });
-      return () => window.cancelIdleCallback(id);
+    // Start only once the largest paint has happened, so the video never
+    // competes with it. The idle callback is the fallback for browsers with no
+    // LCP observer, and the timeout is the floor for a page that stays busy.
+    let done = false;
+    const start = () => {
+      if (done) return;
+      done = true;
+      setIdleReady(true);
+    };
+
+    let observer: PerformanceObserver | undefined;
+    if (typeof PerformanceObserver === "function") {
+      try {
+        observer = new PerformanceObserver(() => {
+          // An LCP entry has landed; give the paint a moment to settle.
+          window.setTimeout(start, 200);
+        });
+        observer.observe({ type: "largest-contentful-paint", buffered: true });
+      } catch {
+        /* not supported; the timers below still fire */
+      }
     }
-    const timer = window.setTimeout(start, 1200);
-    return () => window.clearTimeout(timer);
+    const idle = window.requestIdleCallback;
+    const idleId = typeof idle === "function" ? idle.call(window, start, { timeout: 3000 }) : null;
+    const timer = window.setTimeout(start, 3000);
+
+    return () => {
+      observer?.disconnect();
+      if (idleId !== null) window.cancelIdleCallback(idleId);
+      window.clearTimeout(timer);
+    };
   }, [slide.videoUrl]);
 
-  // Load either because the browser went idle with bandwidth to spare, or
-  // because the visitor pressed play. Derived, so no effect writes state.
+  // Load because the page has settled, or because the visitor pressed play.
   const allowed = idleReady || userRequested;
 
   // Off-screen and hidden-tab pausing.
@@ -283,12 +306,24 @@ function HeroMedia({
   if (slide.videoUrl) {
     return (
       <>
-        {/* Painted immediately, so the hero is never an empty box and the LCP
-            element is cheap. Same treatment as a missing page-hero image. */}
-        <div aria-hidden className="bg-canopy-deep absolute inset-0">
-          <div className="absolute inset-0 [background-image:url('/patterns/leaf-vein.svg')] [background-size:360px_360px] opacity-[0.13]" />
-          <div className="absolute inset-0 bg-[radial-gradient(70%_60%_at_20%_100%,rgb(176_141_87/0.16),transparent_70%)]" />
-        </div>
+        {/* The poster is the pre-video state and the LCP element. It is a real
+            frame from the clip, extracted by `pnpm media:variants`, because the
+            CMS supplies none. */}
+        {variants?.poster ? (
+          <Image
+            src={variants.poster}
+            alt=""
+            fill
+            priority={index === 0}
+            sizes="100vw"
+            className="object-cover"
+          />
+        ) : (
+          <div aria-hidden className="bg-canopy-deep absolute inset-0">
+            <div className="absolute inset-0 [background-image:url('/patterns/leaf-vein.svg')] [background-size:360px_360px] opacity-[0.13]" />
+          </div>
+        )}
+
         <video
           ref={(el) => {
             localRef.current = el;
@@ -300,17 +335,21 @@ function HeroMedia({
           onEnded={() => {
             if (active && playing && !reduced) onEnded();
           }}
-          // The CMS provides no poster and the clip is 18MB, so fetching any of
-          // it up front made the video's first frame the LCP element — 7.7s on
-          // throttled mobile. Nothing is fetched until the browser is idle; the
-          // patterned panel behind stands in until then, and the video fades over
-          // it once it can actually play.
+          onCanPlay={() => setVideoReady(true)}
+          // Nothing is fetched until `allowed`; the sources are not rendered
+          // before then, so the element has nothing to load.
           preload="none"
           aria-hidden
-          onCanPlay={(event) => event.currentTarget.classList.remove("opacity-0")}
-          className="absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-[var(--dur-media)]"
-          {...(allowed ? { src: slide.videoUrl } : {})}
-        />
+          className={cn(
+            "absolute inset-0 size-full object-cover transition-opacity duration-[var(--dur-media)]",
+            videoReady ? "opacity-100" : "opacity-0",
+          )}
+        >
+          {allowed && variants?.mobile ? (
+            <source src={variants.mobile} media={MOBILE_VIDEO_QUERY} type="video/mp4" />
+          ) : null}
+          {allowed ? <source src={slide.videoUrl} type="video/mp4" /> : null}
+        </video>
       </>
     );
   }

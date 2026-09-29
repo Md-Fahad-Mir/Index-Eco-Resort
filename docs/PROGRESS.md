@@ -727,3 +727,94 @@ image destination.
 
 Phase 6 — `prompts/07-about.md`. **Waiting for your go-ahead.** Say the word when
 the preview is deployed and I will run `verify:preview` against it.
+
+---
+
+## Phase 5 follow-up — hero video on phones
+
+- **Date:** 2026-09-29
+
+ffmpeg is available, so the variants the CMS never provided are now derived from
+the mirrored media by `pnpm media:variants` (re-runnable, originals untouched).
+
+### Before / after
+
+| File | Original | Phone encode | Poster |
+|---|---|---|---|
+| Hero background | **17.71 MB** (720×960, **with an AAC track it never plays**) | **3.54 MB** (−80%, audio dropped, faststart) | 104 KB |
+| About block clip | **5.93 MB** (960×540, no audio) | **3.61 MB** (−39%, faststart) | 96 KB |
+
+Both encodes are under the 4 MB target, keep their source resolution and
+orientation, and `moov` sits before `mdat` (verified) so playback can start
+before the file is whole.
+
+**The posters are chosen, not guessed.** The script scores candidate frames
+between 12% and 88% of each clip on brightness and saturation, penalises
+blown-out frames, then hands the winner to ffmpeg's `thumbnail` filter to pick
+the most representative frame nearby. The hero's poster came out as the
+resort's own entrance gate at golden hour — much better than the fade-in the
+clip opens on.
+
+### What changed on the page
+
+- The poster is the pre-video state **everywhere** — hero and the About dialog —
+  served through `next/image`, `priority` on the first slide, and it is the LCP
+  element. The patterned panel is now only the fallback for a video with no
+  variants.
+- `<source media="(max-width: 1023px)">` serves the phone encode below 1024px
+  and the original above it; sources are not attached until loading is allowed,
+  so the element has nothing to fetch before then.
+- **Autoplay now waits for the largest paint**, via a `PerformanceObserver` on
+  `largest-contentful-paint` (with an idle callback and a 3s floor as
+  fallbacks) — previously it merely waited for idle.
+- Save-Data and 2G/3G still get the poster only; the play control fetches on
+  request.
+
+### Lighthouse mobile, `/`
+
+| Run | Perf | LCP | CLS | A11y | Video fetched |
+|---|---|---|---|---|---|
+| Real (devtools) throttling | **94** (was 92) | **1.9 s** | **0** | 99 | 0.00 MB |
+| Simulated (Lighthouse default) | **87** (was 79) | 3.9 s (was 4.7 s) | 0.027 | 99 | 3.13 MB |
+
+### The simulated-LCP gap — cause identified, no fix applied
+
+Within the time budget, and the answer is in Lighthouse's own metrics:
+
+```
+observedLargestContentfulPaint:  116 ms      ← what it measured
+largestContentfulPaint:        3,932 ms      ← what Lantern projected
+firstContentfulPaint:          1,671 ms
+```
+
+**Lighthouse measured LCP at 116 ms and then modelled 3.9 s.** The
+`largest-contentful-paint-element` audit is absent from the report entirely, so
+it names no element — which is why I could not report a phase breakdown; there
+is none to report.
+
+The mechanism is visible in the request log: 20+ images are requested within
+~130 ms of each other. That is not eager markup — I checked the rendered DOM and
+**only 3 images are eager** (logo, hero poster, slide-2 banner, all above the
+fold) while **37 below-fold images carry `loading="lazy"`**. Chrome's lazy-load
+distance threshold widens on a fast connection, and Lighthouse's observation
+pass runs *unthrottled*, so the browser pulls in far more than a real phone
+would; Lantern then applies slow-4G timings to all of it. Under real throttling
+the threshold narrows and the score is 94.
+
+So the markup is right and the gap is a modelling artifact. Left alone for you
+to confirm against the deployed URL with PageSpeed Insights, as agreed.
+
+### Labels
+
+`wdth: 110` was replaced by `letter-spacing: 0.02em` via a `.label-track` class
+scoped `:not(:lang(bn))` — Bangla never gets tracking (§4.3). Applied to Button,
+Field, Tag and Tabs.
+
+### Tests
+
+`home.spec.ts` now asserts: **no `.mp4` is requested before the recorded LCP**
+(read from a real `PerformanceObserver`, not a fixed delay); **zero video bytes
+with Save-Data on**, with the poster still visible; and that the phone encode is
+offered at `(max-width: 1023px)` with the original as the fallback source.
+
+Suite **149 passed / 16 skipped**.
