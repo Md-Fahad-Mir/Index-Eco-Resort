@@ -103,7 +103,7 @@ export function TabsTrigger({ value, children }: { value: string; children: stri
         "group relative cursor-pointer whitespace-nowrap transition-colors duration-[var(--dur-micro)]",
         variant === "underline"
           ? "text-h4 font-display text-ink-muted data-[state=active]:text-ink pb-4"
-          : "rounded-pill text-label text-ink-muted data-[state=active]:text-paper px-5 py-2.5 font-semibold [font-variation-settings:'wdth'_110]",
+          : "rounded-pill text-label text-ink-muted data-[state=active]:text-paper px-5 py-2.5 font-semibold",
       )}
     >
       {/* The moving indicator: one element shared across triggers via layoutId. */}

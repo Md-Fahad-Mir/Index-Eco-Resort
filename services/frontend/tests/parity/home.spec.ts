@@ -1,0 +1,210 @@
+import AxeBuilder from "@axe-core/playwright";
+import { expect, test, type Page } from "@playwright/test";
+import { describeViolations } from "../helpers/audit";
+import home from "../../src/fixtures/home.json";
+
+/**
+ * Home: every section from the audit, the hero's carousel behaviour, and the
+ * quirks that are data rather than bugs. Runs in all three parity projects, so
+ * the hero and the tabs are exercised on WebKit as well as Chromium.
+ */
+
+const mobile = async (page: Page) => (page.viewportSize()?.width ?? 1440) < 1024;
+
+test.describe("sections", () => {
+  test("all twelve sections render in order", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.locator("main > *")).toHaveCount(12);
+  });
+
+  test("exactly one non-empty h1, and it survives a slide change", async ({ page }) => {
+    await page.goto("/");
+    const h1 = page.locator("h1");
+    await expect(h1).toHaveCount(1);
+    await expect(h1).toHaveText("Index Eco Resort");
+
+    // The title lives on slide 2. Inactive slides must not be hidden from
+    // assistive tech, or the page would lose its heading while slide 1 shows.
+    const hiddenFromA11y = await h1.evaluate((el) => {
+      let node: Element | null = el;
+      while (node) {
+        if (node.getAttribute("aria-hidden") === "true") return true;
+        const style = getComputedStyle(node);
+        if (style.display === "none" || style.visibility === "hidden") return true;
+        node = node.parentElement;
+      }
+      return false;
+    });
+    expect(hiddenFromA11y, "the h1 must stay in the accessibility tree").toBe(false);
+  });
+
+  test("empty CMS text is not rendered", async ({ page }) => {
+    await page.goto("/");
+    // Slide 1's subline and title are empty in the data; nothing should stand in.
+    const empties = await page.evaluate(
+      () =>
+        [...document.querySelectorAll("section p, section h1, section h2, section h3")].filter(
+          (el) => el.textContent?.trim() === "",
+        ).length,
+    );
+    expect(empties).toBe(0);
+  });
+});
+
+test.describe("hero", () => {
+  test("has one control that pauses both the rotation and the video", async ({ page }) => {
+    await page.goto("/");
+    const pause = page.getByRole("button", { name: "Pause slideshow" });
+    await expect(pause).toBeVisible();
+
+    await pause.click();
+    await expect(page.getByRole("button", { name: "Play slideshow" })).toBeVisible();
+
+    const paused = await page.evaluate(() => {
+      const video = document.querySelector("video");
+      return video ? video.paused : null;
+    });
+    expect(paused, "the video pauses with the slideshow").toBe(true);
+  });
+
+  test("the video is muted, inline and not looping", async ({ page }) => {
+    await page.goto("/");
+    const attrs = await page.evaluate(() => {
+      const v = document.querySelector("video");
+      if (!v) return null;
+      return {
+        muted: v.muted,
+        playsInline: v.playsInline,
+        loop: v.loop,
+        // The attribute is what we ask for; `v.preload` reports what the
+        // browser decided, and mobile browsers force "none" to save data.
+        preloadAttr: v.getAttribute("preload"),
+      };
+    });
+    expect(attrs).toMatchObject({ muted: true, playsInline: true, loop: false });
+    // Nothing is fetched up front: the clip is 18MB with no smaller variant,
+    // and a full-viewport video that paints late becomes the LCP element.
+    expect(attrs?.preloadAttr).toBe("none");
+  });
+});
+
+test.describe("media budget", () => {
+  test("a narrow viewport downloads no video at all", async ({ page }) => {
+    if (!(await mobile(page))) test.skip();
+    let videoBytes = 0;
+    page.on("response", (r) => {
+      if (r.url().endsWith(".mp4")) videoBytes += Number(r.headers()["content-length"] ?? 0);
+    });
+    await page.goto("/");
+    await page.waitForTimeout(3000);
+    // 18MB of hero video is not something to push to a phone; the patterned
+    // panel stands in and the play control fetches it on request.
+    expect(videoBytes).toBe(0);
+    const src = await page.evaluate(() => document.querySelector("video")?.getAttribute("src"));
+    expect(src).toBeNull();
+  });
+});
+
+test.describe("reduced motion", () => {
+  test.use({ reducedMotion: "reduce" });
+
+  test("nothing autoplays and the control is still offered", async ({ page }) => {
+    await page.goto("/");
+    // Starts paused, so the control invites playing rather than pausing.
+    await expect(page.getByRole("button", { name: "Play slideshow" })).toBeVisible();
+    await page.waitForTimeout(1200);
+    const paused = await page.evaluate(() => document.querySelector("video")?.paused ?? null);
+    expect(paused).toBe(true);
+  });
+
+  test("the page still shows all of its sections", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.locator("main > *")).toHaveCount(12);
+  });
+});
+
+test.describe("gallery", () => {
+  test("reproduces the live counts, capped All included", async ({ page }) => {
+    await page.goto("/");
+    const grid = page.locator("section", { has: page.getByRole("button", { name: /^All$/ }) });
+    const tiles = grid.locator("ul li");
+
+    // PARITY: the live Home caps "All" at 12 of 21 while a category shows its
+    // full set, so filtering can show *more* (audit §11.2).
+    await expect(tiles).toHaveCount(home.gallery.items.length);
+
+    const biggest = Object.entries(home.gallery.itemsByCategory).sort(
+      (a, b) => b[1].length - a[1].length,
+    )[0]!;
+    const name = home.gallery.categories.find((c) => c.id === biggest[0])?.name;
+    expect(name).toBeTruthy();
+    const chip = grid.getByRole("button", { name: name!, exact: true });
+    await chip.scrollIntoViewIfNeeded();
+    await chip.click();
+    await expect(tiles).toHaveCount(biggest[1].length);
+
+    // The oddity worth preserving: "All" is capped, so images exist that a
+    // visitor can only ever reach through a category tab.
+    const inAll = new Set(home.gallery.items.map((i) => i.image.src));
+    const onlyInCategories = Object.values(home.gallery.itemsByCategory)
+      .flat()
+      .filter((i) => !inAll.has(i.image.src));
+    expect(onlyInCategories.length).toBeGreaterThan(0);
+  });
+
+  test("a tile opens the lightbox and Escape closes it", async ({ page }) => {
+    await page.goto("/");
+    await page
+      .getByRole("button", { name: /View .* full size/ })
+      .first()
+      .click();
+    const lightbox = page.locator(".yarl__container, [class*='yarl']").first();
+    await expect(lightbox).toBeVisible();
+    await page.keyboard.press("Escape");
+    await expect(lightbox).toBeHidden();
+  });
+});
+
+test.describe("villa", () => {
+  test("both room tabs switch, quirks and all", async ({ page }) => {
+    await page.goto("/");
+    const rooms = home.villa.rooms;
+    const tabs = page.getByRole("tab");
+    await expect(tabs).toHaveCount(rooms.length);
+
+    // PARITY: the tab labelled "Cottage" contains "Executive Suite".
+    await page.getByRole("tab", { name: rooms[1]!.tabLabel, exact: true }).click();
+    await expect(page.getByRole("heading", { name: rooms[1]!.name })).toBeVisible();
+  });
+});
+
+test.describe("accessibility", () => {
+  test("Home has no serious or critical violations", async ({ page }) => {
+    await page.goto("/");
+    const results = await new AxeBuilder({ page })
+      .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
+      .analyze();
+    const blocking = results.violations.filter(
+      (v) => v.impact === "serious" || v.impact === "critical",
+    );
+    expect(describeViolations(blocking)).toEqual([]);
+  });
+
+  test("the whole page is reachable by keyboard", async ({ page }) => {
+    if (await mobile(page)) test.skip();
+    await page.goto("/");
+    // Walk forward and make sure focus keeps landing on real controls rather
+    // than getting stuck or disappearing into a trap.
+    const seen = new Set<string>();
+    for (let i = 0; i < 40; i++) {
+      await page.keyboard.press("Tab");
+      const description = await page.evaluate(() => {
+        const el = document.activeElement as HTMLElement | null;
+        if (!el || el === document.body) return null;
+        return `${el.tagName}:${(el.textContent ?? el.getAttribute("aria-label") ?? "").trim().slice(0, 24)}`;
+      });
+      if (description) seen.add(description);
+    }
+    expect(seen.size, "focus should move through many distinct controls").toBeGreaterThan(12);
+  });
+});

@@ -30,7 +30,10 @@ export default defineConfig({
     // so Playwright's teardown waits until its timeout and the server leaks.
     command: "node node_modules/next/dist/bin/next start",
     url: baseURL,
-    reuseExistingServer: true,
+    // Never reuse: a server left running from before a rebuild serves the old
+    // output, which shows up as a wall of unrelated failures. Failing on a
+    // busy port is the clearer signal.
+    reuseExistingServer: false,
     timeout: 90_000,
   },
   projects: [

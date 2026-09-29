@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { auditLinks } from "../helpers/audit";
-import { allowedHrefs } from "./allowed-diffs";
+import { isAllowedHref } from "./allowed-diffs";
 
 /**
  * Link parity for the global chrome.
@@ -83,7 +83,9 @@ for (const route of ROUTES) {
     });
 
     const width = page.viewportSize()?.width ?? 1440;
-    const regions = width >= 1024 ? DESKTOP_REGIONS : MOBILE_REGIONS;
+    const base = width >= 1024 ? DESKTOP_REGIONS : MOBILE_REGIONS;
+    // `main` is a page's own content; only checked where the real page exists.
+    const regions = route === "/" ? ([...base, "main"] as const) : base;
 
     for (const region of regions) {
       // The captured top bar had only social links; ours renders the same.
@@ -103,7 +105,7 @@ for (const route of ROUTES) {
           .map((link) => normalise(link.href)),
       );
 
-      const missing = [...expected].filter((href) => !got.has(href) && !allowedHrefs.has(href));
+      const missing = [...expected].filter((href) => !got.has(href) && !isAllowedHref(href));
       expect(
         missing,
         `${route} · ${region}: destinations present on the live site but missing here`,

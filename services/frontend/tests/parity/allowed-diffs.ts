@@ -29,6 +29,11 @@ export type AllowedDiff = {
    * of guessing from the prose.
    */
   hrefs?: string[];
+  /**
+   * A pattern for families of destinations too numerous to list — the gallery's
+   * per-image links, for instance. Written as a regex source string.
+   */
+  hrefPattern?: string;
 };
 
 export const ALLOWED_DIFFS: AllowedDiff[] = [
@@ -97,6 +102,18 @@ export const ALLOWED_DIFFS: AllowedDiff[] = [
     hrefs: ["https://wa.me/+8801711307580"],
   },
   {
+    rule: "9e",
+    routes: ["/", "/gallery"],
+    live: "each gallery tile is an <a> pointing straight at the full-size image file",
+    ours: "each tile is a button that opens the image in a lightbox",
+    reason:
+      "the design system specifies a lightbox with caption, counter, keyboard and swipe " +
+      "(§8). Navigating to a bare .jpg leaves the site, has no caption and no way back " +
+      "but the back button. The same images are reachable, in a better viewer. The " +
+      "pattern covers every image destination: gallery tiles and the room photographs.",
+    hrefPattern: "\\.(png|jpe?g|webp|avif|gif)$",
+  },
+  {
     rule: "9d",
     routes: ["/events/*"],
     live: '"Leave a Reply" block with Name/Email/Website/Comment and a Post Comment button',
@@ -125,6 +142,14 @@ export const ALLOWED_DIFFS: AllowedDiff[] = [
 
 /** Every destination the allowed diffs account for. */
 export const allowedHrefs = new Set(ALLOWED_DIFFS.flatMap((diff) => diff.hrefs ?? []));
+
+const allowedPatterns = ALLOWED_DIFFS.filter((d) => d.hrefPattern).map(
+  (d) => new RegExp(d.hrefPattern!),
+);
+
+/** True when an allowed diff accounts for this destination. */
+export const isAllowedHref = (href: string): boolean =>
+  allowedHrefs.has(href) || allowedPatterns.some((pattern) => pattern.test(href));
 
 /** Entries that apply to a route, for assertions and reporting. */
 export const allowedDiffsFor = (route: string): AllowedDiff[] =>

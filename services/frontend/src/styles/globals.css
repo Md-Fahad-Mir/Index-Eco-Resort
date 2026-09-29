@@ -381,3 +381,14 @@
     animation: accordion-up 300ms var(--ease-in-out-soft);
   }
 }
+
+/* The hero's scroll cue: a short brass segment travelling down a hairline. */
+@keyframes scroll-cue {
+  0% {
+    transform: translateY(-100%);
+  }
+  60%,
+  100% {
+    transform: translateY(1000%);
+  }
+}

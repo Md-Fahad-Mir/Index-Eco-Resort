@@ -1,30 +1,50 @@
+import type { Metadata } from "next";
+import { AboutBlock } from "@/components/sections/home/AboutBlock";
+import { CtaStrip } from "@/components/sections/home/CtaStrip";
+import { GallerySection } from "@/components/sections/home/GallerySection";
+import { HeroCarousel } from "@/components/sections/home/HeroCarousel";
+import { Highlights } from "@/components/sections/home/Highlights";
+import { LatestPosts } from "@/components/sections/home/LatestPosts";
+import { PlansStage } from "@/components/sections/home/PlansStage";
+import { ProjectGlance } from "@/components/sections/home/ProjectGlance";
+import { Restaurant } from "@/components/sections/home/Restaurant";
+import { Testimonials } from "@/components/sections/home/Testimonials";
+import { Villa } from "@/components/sections/home/Villa";
+import { WhyBuy } from "@/components/sections/home/WhyBuy";
 import { getHome } from "@/lib/data";
-import { Container } from "@/components/ui/Container";
-import { Heading } from "@/components/typography/Heading";
-import { Section } from "@/components/ui/Section";
 
-/** Phase 4 placeholder for `/`. The Home sections arrive in Phase 5. */
+export const metadata: Metadata = {
+  title: "INDEX Eco Resort",
+  description:
+    "INDEX Eco Resort — ownership shares in an eco resort, with stays, dining and event spaces.",
+};
+
+/**
+ * Home. Section order and background tones follow docs/02-DESIGN-SYSTEM.md
+ * §2.3, which alternates paper, mist and canopy so the page has a rhythm
+ * rather than one long scroll of cards.
+ */
 export default async function HomePage() {
   const home = await getHome();
-  const slide = home.hero.slides.find((s) => s.title) ?? home.hero.slides[0];
 
   return (
     <>
-      <section className="bg-canopy-deep on-dark relative flex min-h-svh items-end overflow-hidden">
-        <Container className="relative z-10 flex flex-col gap-5 pb-24">
-          <p className="text-mist/80 text-small">{slide?.subline}</p>
-          <Heading level={1} size="display" className="text-mist">
-            {slide?.title ?? "Index Eco Resort"}
-          </Heading>
-        </Container>
-      </section>
-      <Section tone="mist">
-        <Container>
-          <p className="text-ink-muted text-body">
-            Phase 4 placeholder — the Home sections are built in Phase 5.
-          </p>
-        </Container>
-      </Section>
+      <HeroCarousel hero={home.hero} />
+      <Highlights highlights={home.highlights} />
+      <AboutBlock about={home.about} />
+      <ProjectGlance glance={home.glance} />
+      <GallerySection gallery={home.gallery} />
+      <CtaStrip cta={home.ctaStrip} />
+      <PlansStage
+        eyebrow={home.plans.eyebrow}
+        title={home.plans.title}
+        packages={home.plans.packages}
+      />
+      <WhyBuy whyBuy={home.whyBuy} />
+      <Villa villa={home.villa} />
+      <Restaurant restaurant={home.restaurant} />
+      <Testimonials testimonials={home.testimonials} />
+      <LatestPosts latestPosts={home.latestPosts} />
     </>
   );
 }

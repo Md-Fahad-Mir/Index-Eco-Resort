@@ -407,6 +407,8 @@ export type Offer = z.infer<typeof offerSchema>;
 export type BookNow = z.infer<typeof bookNowSchema>;
 export type ContactPage = z.infer<typeof contactPageSchema>;
 export type Gallery = z.infer<typeof gallerySchema>;
+/** The gallery without a page hero — what the shared section renders. */
+export type GalleryBlock = z.infer<typeof galleryBlockSchema>;
 export type GalleryItem = z.infer<typeof galleryItemSchema>;
 export type EventsPage = z.infer<typeof eventsPageSchema>;
 export type EventSummary = z.infer<typeof eventSummarySchema>;

@@ -15,14 +15,25 @@ const tiroBangla = Tiro_Bangla({
   weight: "400",
   style: ["normal", "italic"],
   display: "swap",
+  // The Bengali subsets are large (350KB across both faces) and preloading
+  // them competes with first paint. `swap` already renders in the fallback
+  // first, so they are fetched when the CSS asks for them instead.
+  preload: false,
 });
 
-/** UI and body face. Variable, with the width axis used for small labels. */
+/**
+ * UI and body face.
+ *
+ * The design system also calls for the `wdth` axis at 110 on small labels, but
+ * carrying that axis across the Bengali range costs 284KB on its own (440KB vs
+ * 156KB) — a third of the page's transfer for an effect few would name. Dropped
+ * in favour of the mobile performance budget; noted in docs/PROGRESS.md.
+ */
 const anekBangla = Anek_Bangla({
   variable: "--font-anek",
   subsets: ["bengali", "latin"],
-  axes: ["wdth"],
   display: "swap",
+  preload: false,
 });
 
 // Refuses a production build that would serve snapshot content as if it were

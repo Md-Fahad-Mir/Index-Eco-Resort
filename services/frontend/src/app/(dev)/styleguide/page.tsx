@@ -130,9 +130,7 @@ export default function StyleguidePage() {
               <p className="text-lead max-w-[var(--measure)]">{latinPostTitle}</p>
               <Paragraph>{home.about.text}</Paragraph>
               <p className="text-small text-ink-muted">Meta and captions use the small step.</p>
-              <p className="text-label font-semibold [font-variation-settings:'wdth'_110]">
-                Buttons and labels
-              </p>
+              <p className="text-label font-semibold">Buttons and labels</p>
             </div>
           </div>
         </Container>

@@ -15,7 +15,7 @@ export function Tag({
     <span
       lang={autoLang(children)}
       className={cn(
-        "rounded-pill text-label inline-flex items-center px-3 py-1 font-semibold [font-variation-settings:'wdth'_110]",
+        "rounded-pill text-label inline-flex items-center px-3 py-1 font-semibold",
         tone === "light" ? "bg-lichen text-ink" : "border-hairline-dark text-lichen border",
         className,
       )}
