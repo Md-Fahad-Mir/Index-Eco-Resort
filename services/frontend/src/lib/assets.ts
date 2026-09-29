@@ -31,3 +31,21 @@ export function assetImage<T extends { src: string }>(image: T | null | undefine
   if (!image) return null;
   return { ...image, src: assetUrl(image.src) };
 }
+
+/**
+ * False when the snapshot could not mirror this file.
+ *
+ * `pnpm fixtures:media` leaves the original absolute URL on anything it failed
+ * to fetch, so an un-mirrored CMS image is exactly an absolute URL that is not
+ * on MEDIA_BASE_URL. next/image cannot load one either — the old origin is not
+ * in `images.remotePatterns` — so attempting it only produces a failed request
+ * behind whatever fallback is already on screen.
+ *
+ * One image is in this state today: the Silver package hero, which 404s on the
+ * live site (docs/OWNER-REPORT.md §E).
+ */
+export function isMirrored(src: string | null | undefined): boolean {
+  if (!src) return false;
+  if (!isAbsolute(src)) return true;
+  return MEDIA_BASE_URL !== "" && src.startsWith(MEDIA_BASE_URL);
+}

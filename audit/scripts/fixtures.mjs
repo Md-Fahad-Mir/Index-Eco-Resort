@@ -13,7 +13,22 @@ const OUT = fileURLToPath(new URL("../../services/frontend/src/fixtures/", impor
 const ORIGIN = "https://indexecoresort.com";
 
 const $of = async (name) => load(await readFile(new URL(`${name}.html`, HTML), "utf8"));
-const t = ($, el) => ($(el).text() || "").replace(/\s+/g, " ").trim();
+/**
+ * Text of an element, normalised but NOT flattened.
+ *
+ * Blank lines in a CMS textarea are the author's paragraph structure. The old
+ * Blade templates print those fields inside a single <p>, where HTML collapses
+ * them — a template limitation, not an editorial decision — so the snapshot
+ * keeps them and the frontend decides how to render them. Everything else
+ * (indentation, wrapped source lines) still collapses to single spaces.
+ */
+const t = ($, el) =>
+  ($(el).text() || "")
+    .replace(/\r\n?/g, "\n")
+    .split(/\n[ \t]*\n\s*/)
+    .map((para) => para.replace(/\s+/g, " ").trim())
+    .filter(Boolean)
+    .join("\n\n");
 /** Reads a CSS background-image url() off a style attribute. */
 const bg = (style = "") => (style.match(/url\(['"]?(.*?)['"]?\)/) || [])[1] || "";
 const img = ($, el) => (el ? { src: $(el).attr("src") || "", alt: $(el).attr("alt") ?? "" } : null);

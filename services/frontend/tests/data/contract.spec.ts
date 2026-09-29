@@ -3,6 +3,7 @@ import { mockAdapter } from "../../src/lib/data/adapters/mock";
 import { parseDmY, formatDmY } from "../../src/lib/data/filters";
 import { submitForm } from "../../src/lib/forms";
 import { assetUrl } from "../../src/lib/assets";
+import { paragraphs } from "../../src/lib/format";
 
 /**
  * The data layer, checked against the numbers Phase 0 measured on the live site
@@ -125,5 +126,37 @@ test.describe("media and forms", () => {
   test("submitForm succeeds without a network call on snapshot data", async () => {
     const result = await submitForm("contact", { name: "Test", phone: "1", email: "a@b.c" });
     expect(result.ok).toBe(true);
+  });
+});
+
+test.describe("plain-text paragraph breaks", () => {
+  test("splits on blank lines and nothing else", () => {
+    // A blank line is the author's paragraph break.
+    expect(paragraphs("one\n\ntwo")).toEqual(["one", "two"]);
+    expect(paragraphs("one\n\n\n\ntwo")).toEqual(["one", "two"]);
+    expect(paragraphs("one\r\n\r\ntwo".replace(/\r/g, ""))).toEqual(["one", "two"]);
+
+    // A single newline is a wrapped source line, not a break.
+    expect(paragraphs("one\ntwo")).toEqual(["one\ntwo"]);
+    // A sentence boundary is never a break.
+    expect(paragraphs("One. Two. Three.")).toEqual(["One. Two. Three."]);
+    // Nothing is invented out of empty or whitespace-only input.
+    expect(paragraphs("")).toEqual([]);
+    expect(paragraphs("   \n\n   ")).toEqual([]);
+  });
+
+  test("the snapshot still carries the breaks the author typed", async () => {
+    const about = await mockAdapter.getAboutPage();
+    const approach = about.visionMission.tabs.find((tab) => tab.label === "Our Approach");
+    expect(approach, "the Approach tab is missing from the snapshot").toBeTruthy();
+    expect(paragraphs(approach!.text)).toHaveLength(6);
+
+    const home = await mockAdapter.getHome();
+    for (const room of home.villa.rooms) {
+      expect(
+        paragraphs(room.description),
+        `${room.tabLabel} lost its paragraph break`,
+      ).toHaveLength(2);
+    }
   });
 });

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { SocialIcon, socialLabel } from "@/components/brand/SocialIcon";
 import { SmartImage } from "@/components/media/SmartImage";
+import { Paragraph } from "@/components/typography/Text";
 import { Container } from "@/components/ui/Container";
 import type { SiteSettings } from "@/lib/data";
 import { anchorProps, internalHref, isInternal } from "@/lib/links";
@@ -28,7 +29,7 @@ export function Footer({ settings }: { settings: SiteSettings }) {
               className="h-auto w-full object-contain"
             />
           </Link>
-          <p className="text-lichen text-small max-w-[44ch]">{footer.about}</p>
+          <Paragraph className="text-lichen text-small max-w-[44ch]">{footer.about}</Paragraph>
           <ul className="flex flex-wrap items-center gap-1">
             {footer.socials.map((social) => (
               <li key={`${social.network}-${social.href}`}>

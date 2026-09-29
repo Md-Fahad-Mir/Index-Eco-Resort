@@ -29,7 +29,10 @@ export function PlanGrid({
   return (
     <>
       {/* Grid from md up. */}
-      <ul className={cn("hidden gap-6 md:grid md:grid-cols-2 lg:grid-cols-4", className)}>
+      <ul
+        data-testid="plan-grid"
+        className={cn("hidden gap-6 md:grid md:grid-cols-2 lg:grid-cols-4", className)}
+      >
         {packages.map((pkg) => (
           <li key={pkg.slug}>
             <PlanCard pkg={pkg} current={pkg.slug === currentSlug} />
@@ -39,7 +42,7 @@ export function PlanGrid({
 
       {/* Snap carousel below md. */}
       <div ref={emblaRef} className={cn("overflow-hidden md:hidden", className)}>
-        <ul className="flex gap-4">
+        <ul data-testid="plan-carousel" className="flex gap-4">
           {packages.map((pkg) => (
             <li key={pkg.slug} className="min-w-0 shrink-0 grow-0 basis-[80%]">
               <PlanCard pkg={pkg} current={pkg.slug === currentSlug} />

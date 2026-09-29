@@ -1,6 +1,7 @@
 import { Heading } from "@/components/typography/Heading";
 import { HeroImage } from "@/components/media/HeroImage";
 import { Container } from "@/components/ui/Container";
+import { isMirrored } from "@/lib/assets";
 import type { PageHero as PageHeroData } from "@/lib/data";
 import { cn } from "@/lib/utils";
 import { Breadcrumbs } from "./Breadcrumbs";
@@ -25,7 +26,9 @@ export function PageHero({
   homeHref?: string;
   className?: string;
 }) {
-  const hasImage = Boolean(hero.image?.src);
+  // An un-mirrored CMS path cannot be loaded by anything here, so the designed
+  // panel is shown instead of a request that is certain to fail (§E).
+  const hasImage = isMirrored(hero.image?.src);
   const home = homeHref ? { ...hero.breadcrumb.home, href: homeHref } : hero.breadcrumb.home;
 
   return (

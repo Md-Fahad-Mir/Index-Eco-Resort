@@ -1,6 +1,7 @@
 "use client";
 
 import { Play } from "lucide-react";
+import Image from "next/image";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 
@@ -44,13 +45,14 @@ export function LiteYouTube({
           className="group absolute inset-0 size-full cursor-pointer"
           aria-label={`Play video: ${title}`}
         >
-          {/* Not next/image: ytimg serves one fixed size and this is a facade. */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          {/* ytimg serves one fixed size (480x360); next/image still re-encodes
+              it and holds it to the width the layout actually uses. */}
+          <Image
             src={`https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`}
             alt=""
-            loading="lazy"
-            className="size-full object-cover"
+            fill
+            sizes="(min-width: 1024px) 40vw, 92vw"
+            className="object-cover"
           />
           <span className="bg-canopy-deep/25 group-hover:bg-canopy-deep/10 absolute inset-0 transition-colors duration-[var(--dur-micro)]" />
           <span className="rounded-pill border-brass bg-canopy/70 text-mist absolute top-1/2 left-1/2 grid size-20 -translate-x-1/2 -translate-y-1/2 place-items-center border-2 backdrop-blur-sm transition-transform duration-[var(--dur-ui)] ease-[var(--ease-out-soft)] group-hover:scale-105">

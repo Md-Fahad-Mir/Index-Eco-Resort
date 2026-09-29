@@ -27,6 +27,13 @@ export const FROZEN_ROUTES = [
 /** `/about_us` is a broken live route; its treatment is an owner decision (CLAUDE.md rule 9c). */
 export const PENDING_ROUTES = ["/about_us"] as const;
 
-export const OWNED_ROUTES: readonly string[] = ["/", "/about-us"];
+export const OWNED_ROUTES: readonly string[] = [
+  "/",
+  "/about-us",
+  "/gold-ownership-2",
+  "/platinum-ownership-3",
+  "/signature-ownership-4",
+  "/silver-ownership-5",
+];
 
 export const SCREENSHOT_WIDTHS = [390, 768, 1440] as const;

@@ -87,7 +87,9 @@ export function AboutBlock({ about }: { about: HomeData["about"] }) {
                   <Heading level={3} size="h4">
                     {feature.title}
                   </Heading>
-                  <p className="text-ink-muted text-small max-w-[52ch]">{feature.text}</p>
+                  <Paragraph className="text-ink-muted text-small max-w-[52ch]">
+                    {feature.text}
+                  </Paragraph>
                 </div>
               </li>
             ))}

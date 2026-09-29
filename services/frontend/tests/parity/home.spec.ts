@@ -238,7 +238,40 @@ test.describe("villa", () => {
     await page.getByRole("tab", { name: rooms[1]!.tabLabel, exact: true }).click();
     await expect(page.getByRole("heading", { name: rooms[1]!.name })).toBeVisible();
   });
+
+  test("a room description keeps the author's paragraph breaks", async ({ page }) => {
+    const rooms = home.villa.rooms;
+    // The stored value carries the blank line; the live template printed the
+    // field inside one <p>, where HTML collapses it (allowed-diffs, rule 9e).
+    const expected = rooms.map((room) => splitOnBlankLines(room.description));
+    expect(
+      Math.max(...expected.map((parts) => parts.length)),
+      "the room descriptions should still hold two paragraphs",
+    ).toBe(2);
+
+    await page.goto("/");
+    for (const [index, room] of rooms.entries()) {
+      if (index > 0) {
+        await page.getByRole("tab", { name: room.tabLabel, exact: true }).click();
+      }
+      const panel = page.getByRole("tabpanel");
+      await expect(panel.getByRole("heading", { name: room.name })).toBeVisible();
+
+      const parts = expected[index]!;
+      for (const part of parts) {
+        await expect(panel.getByText(part, { exact: true })).toHaveCount(1);
+      }
+    }
+  });
 });
+
+/** The only split the frontend is allowed to make: blank lines, nothing else. */
+function splitOnBlankLines(text: string): string[] {
+  return text
+    .split(/\n{2,}/)
+    .map((part) => part.trim())
+    .filter(Boolean);
+}
 
 test.describe("accessibility", () => {
   test("Home has no serious or critical violations", async ({ page }) => {

@@ -65,7 +65,7 @@ export function CoreValues({ coreValues }: { coreValues: CoreValuesData }) {
                 <Heading level={3} size="h3">
                   {item.title}
                 </Heading>
-                <p className={cn("text-body max-w-[34ch]", tone.body)}>{item.text}</p>
+                <Paragraph className={cn("max-w-[34ch]", tone.body)}>{item.text}</Paragraph>
               </li>
             );
           })}

@@ -10,8 +10,6 @@ import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { Tabs, TabsContent, TabsList, TabsTrigger, useTabsSwitched } from "@/components/ui/Tabs";
 import type { AboutPage } from "@/lib/data";
-import { paragraphs } from "@/lib/format";
-import { cn } from "@/lib/utils";
 
 type VisionMission = AboutPage["visionMission"];
 type VisionTab = VisionMission["tabs"][number];
@@ -67,10 +65,6 @@ function VisionPanel({ tab }: { tab: VisionTab }) {
   // the tab change already provides.
   const switched = useTabsSwitched();
 
-  // The CMS stores this field as plain text. It is split only where the stored
-  // value has a blank line — the frontend never invents paragraph breaks.
-  const body = paragraphs(tab.text);
-
   const image = (
     <SmartImage
       image={tab.image}
@@ -87,20 +81,12 @@ function VisionPanel({ tab }: { tab: VisionTab }) {
       <div className="flex flex-col gap-5 lg:col-span-6">
         <Eyebrow>{tab.kicker}</Eyebrow>
         <Heading level={3}>{tab.title}</Heading>
-        <div data-testid="vm-body" className="flex flex-col gap-5">
-          {body.map((para, index) => (
-            <Paragraph
-              key={para.slice(0, 48)}
-              className={cn(
-                "text-ink-muted",
-                // A lead-sized opener only where the stored text really has
-                // more than one paragraph.
-                body.length > 1 && index === 0 && "text-lead text-ink",
-              )}
-            >
-              {para}
-            </Paragraph>
-          ))}
+        {/* Split on blank lines only; `lead` applies to the opener when the
+            stored text really has more than one paragraph. */}
+        <div data-testid="vm-body">
+          <Paragraph lead className="text-ink-muted">
+            {tab.text}
+          </Paragraph>
         </div>
       </div>
 

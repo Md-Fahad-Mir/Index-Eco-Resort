@@ -133,6 +133,19 @@ export const ALLOWED_DIFFS: AllowedDiff[] = [
   },
   {
     rule: "9e",
+    routes: "*",
+    live: "plain-text CMS fields print inside a single <p>, so the blank lines the author typed collapse into one block",
+    ours: "a blank line is rendered as a paragraph break; the first paragraph may take the lead size",
+    reason:
+      "the collapse is a Blade template limitation, not an editorial decision — the " +
+      "paragraph structure is in the stored value and was simply never shown. Splitting " +
+      "happens on blank lines and nowhere else: never on a single newline, never on a " +
+      "sentence boundary, so no structure is invented. Affects about.visionMission.tabs[2] " +
+      "(six paragraphs) and both home.villa room descriptions (two each); every other " +
+      "field has no blank lines and renders identically.",
+  },
+  {
+    rule: "9e",
     routes: ["/blog-details/*"],
     live: "no title element and no <h1> — the post title appears only on /blogs",
     ours: "the post's own title is rendered as the page <h1>",

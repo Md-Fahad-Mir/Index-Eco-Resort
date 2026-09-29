@@ -103,12 +103,16 @@ test("the kicker is rendered as stored, not rewritten", async ({ page }) => {
 });
 
 test("the panel body is split only where the stored text has breaks", async ({ page }) => {
+  // Guards the fixture as much as the page: if the snapshot ever flattened
+  // these fields again, the per-tab assertions below would pass on 1 === 1.
+  expect(
+    Math.max(...tabs.map((tab) => splitOnBlankLines(tab.text).length)),
+    "the Approach tab should still hold the author's six paragraphs",
+  ).toBe(6);
+
   for (const [index, tab] of tabs.entries()) {
     if (index > 0) await page.getByRole("tab", { name: tab.label }).click();
-    const expected = tab.text
-      .split(/\n{2,}/)
-      .map((p) => p.trim())
-      .filter(Boolean).length;
+    const expected = splitOnBlankLines(tab.text).length;
     const panel = page.getByRole("tabpanel");
     await expect(panel).toContainText(tab.title);
     const count = await panel.getByTestId("vm-body").locator("p").count();
@@ -149,6 +153,17 @@ test("core values keep the stored order and alternate at every width", async ({ 
     ).not.toBe(2);
   }
 });
+
+/**
+ * The only split the frontend is allowed to make. A single newline inside a
+ * sentence, or a sentence boundary, must never start a new paragraph.
+ */
+function splitOnBlankLines(text: string): string[] {
+  return text
+    .split(/\n{2,}/)
+    .map((part) => part.trim())
+    .filter(Boolean);
+}
 
 async function tilesAt(page: Page): Promise<{ title: string; background: string }[]> {
   return page.evaluate(() =>
