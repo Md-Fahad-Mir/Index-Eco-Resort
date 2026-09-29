@@ -26,3 +26,17 @@ export const auditForms = (): Record<string, FormRecord[]> => readJson("forms.js
 /** Same file naming as the Phase 0 screenshots: "/" → "home", "/events/x" → "events__x". */
 export const routeSlug = (route: string) =>
   route === "/" ? "home" : route.replace(/^\/|\/$/g, "").replace(/\//g, "__");
+
+/** A violation summary that names the offending nodes, so a failure is actionable. */
+export function describeViolations(
+  violations: { id: string; help: string; nodes: { target: unknown[]; html: string }[] }[],
+): string[] {
+  return violations.map(
+    (v) =>
+      `${v.id}: ${v.help} → ` +
+      v.nodes
+        .slice(0, 4)
+        .map((n) => `${JSON.stringify(n.target)} ${n.html.slice(0, 90).replace(/\s+/g, " ")}`)
+        .join(" | "),
+  );
+}

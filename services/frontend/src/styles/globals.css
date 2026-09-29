@@ -2,129 +2,354 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
-@custom-variant dark (&:is(.dark *));
+/* ═══════════════════════════════════════════════════════════════════════════
+   Canopy & Brass — docs/02-DESIGN-SYSTEM.md
+   The only place raw values are allowed. Components use tokens exclusively.
+   There is no dark *mode*: the palette has dark *sections* (canopy,
+   canopy-deep) used as tones on a light page.
+   ═══════════════════════════════════════════════════════════════════════════ */
 
+@theme {
+  /* ── Color (§2.1) ──────────────────────────────────────────────────────── */
+  --color-canopy: #13301f;
+  --color-canopy-deep: #0c2116;
+  --color-index: #2e6b40;
+  --color-lichen: #a9bfa8;
+  --color-lichen-soft: #dde6dc;
+  --color-mist: #eef1ec;
+  --color-paper: #ffffff;
+  --color-brass: #b08d57;
+  --color-brass-ink: #7d5f32;
+  --color-ink: #1b2420;
+  --color-ink-muted: #4a5750;
+  --color-danger: #a23b2a;
+  --color-hairline: rgb(27 36 32 / 0.12);
+  --color-hairline-strong: rgb(27 36 32 / 0.24);
+  --color-hairline-dark: rgb(238 241 236 / 0.14);
+
+  /* ── Type (§3.1–3.2) ───────────────────────────────────────────────────── */
+  --font-display: var(--font-tiro), "Noto Serif Bengali", Georgia, serif;
+  --font-sans: var(--font-anek), "Hind Siliguri", system-ui, sans-serif;
+
+  --text-display: clamp(3rem, 2rem + 5vw, 6.75rem);
+  --text-display--line-height: 1;
+  --text-h1: clamp(2.5rem, 1.75rem + 3.2vw, 4.5rem);
+  --text-h1--line-height: 1.05;
+  --text-h2: clamp(2rem, 1.5rem + 2.2vw, 3.5rem);
+  --text-h2--line-height: 1.1;
+  --text-h3: clamp(1.5rem, 1.25rem + 1vw, 2rem);
+  --text-h3--line-height: 1.2;
+  --text-h4: 1.375rem;
+  --text-h4--line-height: 1.3;
+  --text-lead: 1.25rem;
+  --text-lead--line-height: 1.6;
+  --text-body: 1.0625rem;
+  --text-body--line-height: 1.65;
+  --text-small: 0.9375rem;
+  --text-small--line-height: 1.55;
+  --text-label: 0.8125rem;
+  --text-label--line-height: 1.4;
+
+  /* ── Shape (§6) — radius by role, never one radius for everything ─────── */
+  --radius-btn: 2px;
+  --radius-media: 4px;
+  --radius-field: 6px;
+  --radius-panel: 16px;
+  --radius-pill: 999px;
+
+  /* ── Elevation (§6) — green-tinted, only on liftable objects ──────────── */
+  --shadow-lift: 0 1px 2px rgb(19 48 31 / 0.06), 0 8px 24px -8px rgb(19 48 31 / 0.18);
+  --shadow-float: 0 2px 4px rgb(19 48 31 / 0.08), 0 24px 48px -12px rgb(19 48 31 / 0.28);
+  --shadow-card: 0 1px 1px rgb(12 33 22 / 0.2), 0 18px 40px -14px rgb(12 33 22 / 0.55);
+
+  /* ── Motion (§9.1) ─────────────────────────────────────────────────────── */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out-soft: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* shadcn's primitives read these semantic names; point them at our palette so
+   Dialog/Sheet/Select/Popover/Calendar inherit Canopy & Brass automatically. */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-sans);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
-  --color-ring: var(--ring);
-  --color-input: var(--input);
-  --color-border: var(--border);
-  --color-destructive: var(--destructive);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-accent: var(--accent);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-muted: var(--muted);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-secondary: var(--secondary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-primary: var(--primary);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-popover: var(--popover);
-  --color-card-foreground: var(--card-foreground);
-  --color-card: var(--card);
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
+  --color-background: var(--color-mist);
+  --color-foreground: var(--color-ink);
+  --color-card: var(--color-paper);
+  --color-card-foreground: var(--color-ink);
+  --color-popover: var(--color-paper);
+  --color-popover-foreground: var(--color-ink);
+  --color-primary: var(--color-index);
+  --color-primary-foreground: var(--color-paper);
+  --color-secondary: var(--color-lichen-soft);
+  --color-secondary-foreground: var(--color-ink);
+  --color-muted: var(--color-lichen-soft);
+  --color-muted-foreground: var(--color-ink-muted);
+  --color-accent: var(--color-lichen-soft);
+  --color-accent-foreground: var(--color-ink);
+  --color-destructive: var(--color-danger);
+  --color-border: var(--color-hairline);
+  --color-input: var(--color-hairline);
+  --color-ring: var(--color-index);
+  --font-heading: var(--font-display);
+  --radius-sm: var(--radius-btn);
+  --radius-md: var(--radius-media);
+  --radius-lg: var(--radius-field);
+  --radius-xl: var(--radius-panel);
 }
 
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
-}
+  /* Section rhythm and container (§5) */
+  --section-y: clamp(5rem, 3rem + 6vw, 10rem);
+  --container-max: 1320px;
+  --container-pad: clamp(1.25rem, 4vw, 3rem);
 
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  /* Durations (§9.1) */
+  --dur-micro: 150ms;
+  --dur-ui: 250ms;
+  --dur-panel: 450ms;
+  --dur-media: 700ms;
+  --dur-hero: 1200ms;
+
+  /* Measure (§3.2) — Bangla wraps looser, so it gets a shorter line */
+  --measure: 68ch;
+  --measure-bn: 62ch;
+
+  /* shadcn's radius scale anchor */
+  --radius: 4px;
+
+  /* No synthetic bold/italic anywhere — Bangla must never be faux-styled (§4.4) */
+  font-synthesis: none;
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
   html {
-    @apply font-sans;
+    background: var(--color-mist);
+    color: var(--color-ink);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    font-variant-numeric: lining-nums;
+  }
+
+  /* Headings are Tiro; sizes come from the component, never from the element. */
+  :where(h1, h2, h3, h4, h5, h6) {
+    font-family: var(--font-display);
+    font-weight: 400;
+    text-wrap: balance;
+  }
+
+  :where(p) {
+    text-wrap: pretty;
+  }
+
+  /* Latin display text tightens slightly; Bangla never does (§4.3). */
+  :where(h1, h2):not(:lang(bn)) {
+    letter-spacing: -0.01em;
+  }
+
+  /* ── Bangla rules (§4) — mandatory, tested with real strings ──────────── */
+  :lang(bn) {
+    letter-spacing: 0 !important;
+    line-height: 1.85;
+    hyphens: none;
+  }
+
+  :where(h1, h2, h3, h4, h5, h6):lang(bn) {
+    line-height: 1.25;
+  }
+
+  /* Optical size match: Bangla runs large next to Latin at display sizes (§4.5) */
+  .text-display:lang(bn),
+  .text-h1:lang(bn),
+  .text-h2:lang(bn) {
+    font-size: 0.94em;
+  }
+
+  /* Numerals in cards and stats align in columns (§3.2) */
+  .tabular {
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+
+  /* ── Focus (§11) — 2px ring, offset 3px, visible on light and dark ───── */
+  :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+    outline: 2px solid var(--color-index);
+    outline-offset: 3px;
+    border-radius: 1px;
+  }
+
+  .on-dark :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible,
+  :where(a, button, input, select, textarea, summary, [tabindex]).on-dark:focus-visible {
+    outline-color: var(--color-brass);
+  }
+
+  ::selection {
+    background: var(--color-lichen);
+    color: var(--color-ink);
+  }
+}
+
+@layer components {
+  /* Page container (§5). Wide media may bleed past it deliberately. */
+  .container-site {
+    width: 100%;
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding-inline: var(--container-pad);
+  }
+
+  /* Vertical rhythm for a full-width section band (§5). */
+  .section-y {
+    padding-block: var(--section-y);
+  }
+}
+
+/* ── Reduced motion (§9.3) ────────────────────────────────────────────────
+   Components additionally branch on useReducedMotionSafe() to swap transforms
+   for short opacity fades; this is the blanket safety net. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── Prose (§8) — the one place CMS HTML gets styled ──────────────────────── */
+@layer components {
+  .prose-canopy :where(h2) {
+    font-family: var(--font-display);
+    font-size: var(--text-h3);
+    line-height: var(--text-h3--line-height);
+    margin-block: 2.5em 0.6em;
+  }
+
+  .prose-canopy :where(h3, h4) {
+    font-family: var(--font-display);
+    font-size: var(--text-h4);
+    line-height: var(--text-h4--line-height);
+    margin-block: 2em 0.5em;
+  }
+
+  .prose-canopy :where(h2, h3, h4):first-child {
+    margin-block-start: 0;
+  }
+
+  .prose-canopy :where(p) {
+    margin-block: 0 1.25em;
+  }
+
+  .prose-canopy :where(strong, b) {
+    font-weight: 600;
+    color: var(--color-ink);
+  }
+
+  .prose-canopy :where(a) {
+    color: var(--color-index);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .prose-canopy :where(ul, ol) {
+    margin-block: 0 1.25em;
+    padding-inline-start: 1.4em;
+  }
+
+  .prose-canopy :where(li) {
+    margin-block: 0.4em;
+  }
+
+  .prose-canopy :where(ul) {
+    list-style: none;
+    padding-inline-start: 1.2em;
+  }
+
+  .prose-canopy :where(ul > li)::before {
+    content: "";
+    display: inline-block;
+    inline-size: 0.4em;
+    block-size: 0.4em;
+    margin-inline-start: -1.2em;
+    margin-inline-end: 0.8em;
+    vertical-align: 0.15em;
+    background: var(--color-brass-ink);
+    border-radius: var(--radius-pill);
+  }
+
+  .prose-canopy :where(ol) {
+    list-style: decimal;
+  }
+
+  .prose-canopy :where(ol > li)::marker {
+    color: var(--color-brass-ink);
+  }
+
+  .prose-canopy :where(blockquote) {
+    margin-block: 1.5em;
+    padding-inline-start: 1.25em;
+    border-inline-start: 2px solid var(--color-brass);
+    color: var(--color-ink-muted);
+  }
+
+  .prose-canopy :where(img) {
+    border-radius: var(--radius-media);
+    max-inline-size: 100%;
+    block-size: auto;
+  }
+
+  .prose-canopy :where(hr) {
+    margin-block: 2em;
+    border: 0;
+    border-block-start: 1px solid var(--color-hairline);
+  }
+
+  /* Wide CMS tables scroll inside the column instead of breaking the layout. */
+  .prose-canopy :where(table) {
+    display: block;
+    overflow-x: auto;
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--text-small);
+  }
+
+  .prose-canopy :where(th, td) {
+    padding: 0.6em 0.9em;
+    border: 1px solid var(--color-hairline);
+    text-align: start;
+  }
+
+  .prose-canopy :where(th) {
+    font-weight: 600;
+    background: var(--color-lichen-soft);
+  }
+
+  /* On a dark section the same prose inverts. */
+  .prose-canopy.on-dark {
+    color: var(--color-mist);
+  }
+  .prose-canopy.on-dark :where(strong, b) {
+    color: var(--color-paper);
+  }
+  .prose-canopy.on-dark :where(a) {
+    color: var(--color-brass);
+  }
+  .prose-canopy.on-dark :where(ul > li)::before,
+  .prose-canopy.on-dark :where(ol > li)::marker {
+    background: var(--color-brass);
+    color: var(--color-brass);
+  }
+}
+
+/* The touch sweep for MembershipCard (§8.1): one diagonal pass, 600ms. */
+@keyframes card-sweep {
+  from {
+    transform: translateX(-120%);
+  }
+  to {
+    transform: translateX(120%);
   }
 }

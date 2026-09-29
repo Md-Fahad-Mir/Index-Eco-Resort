@@ -1,0 +1,1607 @@
+{
+  "/about-us": [
+    {
+      "id": "stickyContactForm",
+      "class": null,
+      "action": "https://indexecoresort.com/contact-form/submit",
+      "method": "POST",
+      "enctype": null,
+      "fields": [
+        {
+          "name": "_token",
+          "id": null,
+          "type": "hidden",
+          "required": false,
+          "placeholder": null,
+          "maxlength": null,
+          "pattern": null,
+          "value": "<redacted: per-request CSRF token>",
+          "label": null
+        },
+        {
+          "name": "name",
+          "id": null,
+          "type": "text",
+          "required": true,
+          "placeholder": "Name*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "phone",
+          "id": null,
+          "type": "tel",
+          "required": true,
+          "placeholder": "Phone*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "email",
+          "id": null,
+          "type": "email",
+          "required": true,
+          "placeholder": "Email*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "address",
+          "id": null,
+          "type": "hidden",
+          "required": false,
+          "placeholder": null,
+          "maxlength": null,
+          "pattern": null,
+          "value": "N/A",
+          "label": null
+        },
+        {
+          "name": "message",
+          "id": null,
+          "type": "textarea",
+          "required": false,
+          "placeholder": "Message",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        }
+      ],
+      "buttons": [
+        {
+          "type": "submit",
+          "text": "Submit",
+          "id": "stickySubmitBtn"
+        }
+      ]
+    }
+  ],
+  "/blog-details/kuzakataz-adhunik-risort-binizoger-ntun-smvabna-2": [
+    {
+      "id": "stickyContactForm",
+      "class": null,
+      "action": "https://indexecoresort.com/contact-form/submit",
+      "method": "POST",
+      "enctype": null,
+      "fields": [
+        {
+          "name": "_token",
+          "id": null,
+          "type": "hidden",
+          "required": false,
+          "placeholder": null,
+          "maxlength": null,
+          "pattern": null,
+          "value": "<redacted: per-request CSRF token>",
+          "label": null
+        },
+        {
+          "name": "name",
+          "id": null,
+          "type": "text",
+          "required": true,
+          "placeholder": "Name*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "phone",
+          "id": null,
+          "type": "tel",
+          "required": true,
+          "placeholder": "Phone*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "email",
+          "id": null,
+          "type": "email",
+          "required": true,
+          "placeholder": "Email*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "address",
+          "id": null,
+          "type": "hidden",
+          "required": false,
+          "placeholder": null,
+          "maxlength": null,
+          "pattern": null,
+          "value": "N/A",
+          "label": null
+        },
+        {
+          "name": "message",
+          "id": null,
+          "type": "textarea",
+          "required": false,
+          "placeholder": "Message",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        }
+      ],
+      "buttons": [
+        {
+          "type": "submit",
+          "text": "Submit",
+          "id": "stickySubmitBtn"
+        }
+      ]
+    }
+  ],
+  "/blog-details/sustainable-living-eco-friendly-home-features-1": [
+    {
+      "id": "stickyContactForm",
+      "class": null,
+      "action": "https://indexecoresort.com/contact-form/submit",
+      "method": "POST",
+      "enctype": null,
+      "fields": [
+        {
+          "name": "_token",
+          "id": null,
+          "type": "hidden",
+          "required": false,
+          "placeholder": null,
+          "maxlength": null,
+          "pattern": null,
+          "value": "<redacted: per-request CSRF token>",
+          "label": null
+        },
+        {
+          "name": "name",
+          "id": null,
+          "type": "text",
+          "required": true,
+          "placeholder": "Name*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "phone",
+          "id": null,
+          "type": "tel",
+          "required": true,
+          "placeholder": "Phone*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "email",
+          "id": null,
+          "type": "email",
+          "required": true,
+          "placeholder": "Email*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "address",
+          "id": null,
+          "type": "hidden",
+          "required": false,
+          "placeholder": null,
+          "maxlength": null,
+          "pattern": null,
+          "value": "N/A",
+          "label": null
+        },
+        {
+          "name": "message",
+          "id": null,
+          "type": "textarea",
+          "required": false,
+          "placeholder": "Message",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        }
+      ],
+      "buttons": [
+        {
+          "type": "submit",
+          "text": "Submit",
+          "id": "stickySubmitBtn"
+        }
+      ]
+    }
+  ],
+  "/blogs": [
+    {
+      "id": "stickyContactForm",
+      "class": null,
+      "action": "https://indexecoresort.com/contact-form/submit",
+      "method": "POST",
+      "enctype": null,
+      "fields": [
+        {
+          "name": "_token",
+          "id": null,
+          "type": "hidden",
+          "required": false,
+          "placeholder": null,
+          "maxlength": null,
+          "pattern": null,
+          "value": "<redacted: per-request CSRF token>",
+          "label": null
+        },
+        {
+          "name": "name",
+          "id": null,
+          "type": "text",
+          "required": true,
+          "placeholder": "Name*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "phone",
+          "id": null,
+          "type": "tel",
+          "required": true,
+          "placeholder": "Phone*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "email",
+          "id": null,
+          "type": "email",
+          "required": true,
+          "placeholder": "Email*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "address",
+          "id": null,
+          "type": "hidden",
+          "required": false,
+          "placeholder": null,
+          "maxlength": null,
+          "pattern": null,
+          "value": "N/A",
+          "label": null
+        },
+        {
+          "name": "message",
+          "id": null,
+          "type": "textarea",
+          "required": false,
+          "placeholder": "Message",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        }
+      ],
+      "buttons": [
+        {
+          "type": "submit",
+          "text": "Submit",
+          "id": "stickySubmitBtn"
+        }
+      ]
+    }
+  ],
+  "/book-now": [
+    {
+      "id": "stickyContactForm",
+      "class": null,
+      "action": "https://indexecoresort.com/contact-form/submit",
+      "method": "POST",
+      "enctype": null,
+      "fields": [
+        {
+          "name": "_token",
+          "id": null,
+          "type": "hidden",
+          "required": false,
+          "placeholder": null,
+          "maxlength": null,
+          "pattern": null,
+          "value": "<redacted: per-request CSRF token>",
+          "label": null
+        },
+        {
+          "name": "name",
+          "id": null,
+          "type": "text",
+          "required": true,
+          "placeholder": "Name*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "phone",
+          "id": null,
+          "type": "tel",
+          "required": true,
+          "placeholder": "Phone*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "email",
+          "id": null,
+          "type": "email",
+          "required": true,
+          "placeholder": "Email*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "address",
+          "id": null,
+          "type": "hidden",
+          "required": false,
+          "placeholder": null,
+          "maxlength": null,
+          "pattern": null,
+          "value": "N/A",
+          "label": null
+        },
+        {
+          "name": "message",
+          "id": null,
+          "type": "textarea",
+          "required": false,
+          "placeholder": "Message",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        }
+      ],
+      "buttons": [
+        {
+          "type": "submit",
+          "text": "Submit",
+          "id": "stickySubmitBtn"
+        }
+      ]
+    }
+  ],
+  "/contact": [
+    {
+      "id": null,
+      "class": null,
+      "action": "https://indexecoresort.com/contact-form/submit",
+      "method": "POST",
+      "enctype": null,
+      "fields": [
+        {
+          "name": "_token",
+          "id": null,
+          "type": "hidden",
+          "required": false,
+          "placeholder": null,
+          "maxlength": null,
+          "pattern": null,
+          "value": "<redacted: per-request CSRF token>",
+          "label": null
+        },
+        {
+          "name": "name",
+          "id": null,
+          "type": "text",
+          "required": false,
+          "placeholder": "Enter Your Full Name",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "phone",
+          "id": null,
+          "type": "number",
+          "required": false,
+          "placeholder": "Enter Your Mobile Number",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "email",
+          "id": null,
+          "type": "email",
+          "required": false,
+          "placeholder": "Enter Your Email",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "address",
+          "id": null,
+          "type": "text",
+          "required": false,
+          "placeholder": "Enter Your Address",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "message",
+          "id": null,
+          "type": "textarea",
+          "required": false,
+          "placeholder": "Enter Your Message",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": null,
+          "id": null,
+          "type": "submit",
+          "required": false,
+          "placeholder": null,
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        }
+      ],
+      "buttons": [
+        {
+          "type": "submit",
+          "text": "Submit",
+          "id": null
+        }
+      ]
+    },
+    {
+      "id": "stickyContactForm",
+      "class": null,
+      "action": "https://indexecoresort.com/contact-form/submit",
+      "method": "POST",
+      "enctype": null,
+      "fields": [
+        {
+          "name": "_token",
+          "id": null,
+          "type": "hidden",
+          "required": false,
+          "placeholder": null,
+          "maxlength": null,
+          "pattern": null,
+          "value": "<redacted: per-request CSRF token>",
+          "label": null
+        },
+        {
+          "name": "name",
+          "id": null,
+          "type": "text",
+          "required": true,
+          "placeholder": "Name*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "phone",
+          "id": null,
+          "type": "tel",
+          "required": true,
+          "placeholder": "Phone*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "email",
+          "id": null,
+          "type": "email",
+          "required": true,
+          "placeholder": "Email*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "address",
+          "id": null,
+          "type": "hidden",
+          "required": false,
+          "placeholder": null,
+          "maxlength": null,
+          "pattern": null,
+          "value": "N/A",
+          "label": null
+        },
+        {
+          "name": "message",
+          "id": null,
+          "type": "textarea",
+          "required": false,
+          "placeholder": "Message",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        }
+      ],
+      "buttons": [
+        {
+          "type": "submit",
+          "text": "Submit",
+          "id": "stickySubmitBtn"
+        }
+      ]
+    }
+  ],
+  "/event": [
+    {
+      "id": "stickyContactForm",
+      "class": null,
+      "action": "https://indexecoresort.com/contact-form/submit",
+      "method": "POST",
+      "enctype": null,
+      "fields": [
+        {
+          "name": "_token",
+          "id": null,
+          "type": "hidden",
+          "required": false,
+          "placeholder": null,
+          "maxlength": null,
+          "pattern": null,
+          "value": "<redacted: per-request CSRF token>",
+          "label": null
+        },
+        {
+          "name": "name",
+          "id": null,
+          "type": "text",
+          "required": true,
+          "placeholder": "Name*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "phone",
+          "id": null,
+          "type": "tel",
+          "required": true,
+          "placeholder": "Phone*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "email",
+          "id": null,
+          "type": "email",
+          "required": true,
+          "placeholder": "Email*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "address",
+          "id": null,
+          "type": "hidden",
+          "required": false,
+          "placeholder": null,
+          "maxlength": null,
+          "pattern": null,
+          "value": "N/A",
+          "label": null
+        },
+        {
+          "name": "message",
+          "id": null,
+          "type": "textarea",
+          "required": false,
+          "placeholder": "Message",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        }
+      ],
+      "buttons": [
+        {
+          "type": "submit",
+          "text": "Submit",
+          "id": "stickySubmitBtn"
+        }
+      ]
+    }
+  ],
+  "/events/annual-corporate-summit-2026-2": [
+    {
+      "id": "stickyContactForm",
+      "class": null,
+      "action": "https://indexecoresort.com/contact-form/submit",
+      "method": "POST",
+      "enctype": null,
+      "fields": [
+        {
+          "name": "_token",
+          "id": null,
+          "type": "hidden",
+          "required": false,
+          "placeholder": null,
+          "maxlength": null,
+          "pattern": null,
+          "value": "<redacted: per-request CSRF token>",
+          "label": null
+        },
+        {
+          "name": "name",
+          "id": null,
+          "type": "text",
+          "required": true,
+          "placeholder": "Name*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "phone",
+          "id": null,
+          "type": "tel",
+          "required": true,
+          "placeholder": "Phone*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "email",
+          "id": null,
+          "type": "email",
+          "required": true,
+          "placeholder": "Email*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "address",
+          "id": null,
+          "type": "hidden",
+          "required": false,
+          "placeholder": null,
+          "maxlength": null,
+          "pattern": null,
+          "value": "N/A",
+          "label": null
+        },
+        {
+          "name": "message",
+          "id": null,
+          "type": "textarea",
+          "required": false,
+          "placeholder": "Message",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        }
+      ],
+      "buttons": [
+        {
+          "type": "submit",
+          "text": "Submit",
+          "id": "stickySubmitBtn"
+        }
+      ]
+    }
+  ],
+  "/events/index-eco-resort-coxs-bazar-2026-business-conference-4": [
+    {
+      "id": "stickyContactForm",
+      "class": null,
+      "action": "https://indexecoresort.com/contact-form/submit",
+      "method": "POST",
+      "enctype": null,
+      "fields": [
+        {
+          "name": "_token",
+          "id": null,
+          "type": "hidden",
+          "required": false,
+          "placeholder": null,
+          "maxlength": null,
+          "pattern": null,
+          "value": "<redacted: per-request CSRF token>",
+          "label": null
+        },
+        {
+          "name": "name",
+          "id": null,
+          "type": "text",
+          "required": true,
+          "placeholder": "Name*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "phone",
+          "id": null,
+          "type": "tel",
+          "required": true,
+          "placeholder": "Phone*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "email",
+          "id": null,
+          "type": "email",
+          "required": true,
+          "placeholder": "Email*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "address",
+          "id": null,
+          "type": "hidden",
+          "required": false,
+          "placeholder": null,
+          "maxlength": null,
+          "pattern": null,
+          "value": "N/A",
+          "label": null
+        },
+        {
+          "name": "message",
+          "id": null,
+          "type": "textarea",
+          "required": false,
+          "placeholder": "Message",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        }
+      ],
+      "buttons": [
+        {
+          "type": "submit",
+          "text": "Submit",
+          "id": "stickySubmitBtn"
+        }
+      ]
+    }
+  ],
+  "/events/joyful-birthday-family-gathering-celebration-3": [
+    {
+      "id": "stickyContactForm",
+      "class": null,
+      "action": "https://indexecoresort.com/contact-form/submit",
+      "method": "POST",
+      "enctype": null,
+      "fields": [
+        {
+          "name": "_token",
+          "id": null,
+          "type": "hidden",
+          "required": false,
+          "placeholder": null,
+          "maxlength": null,
+          "pattern": null,
+          "value": "<redacted: per-request CSRF token>",
+          "label": null
+        },
+        {
+          "name": "name",
+          "id": null,
+          "type": "text",
+          "required": true,
+          "placeholder": "Name*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "phone",
+          "id": null,
+          "type": "tel",
+          "required": true,
+          "placeholder": "Phone*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "email",
+          "id": null,
+          "type": "email",
+          "required": true,
+          "placeholder": "Email*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "address",
+          "id": null,
+          "type": "hidden",
+          "required": false,
+          "placeholder": null,
+          "maxlength": null,
+          "pattern": null,
+          "value": "N/A",
+          "label": null
+        },
+        {
+          "name": "message",
+          "id": null,
+          "type": "textarea",
+          "required": false,
+          "placeholder": "Message",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        }
+      ],
+      "buttons": [
+        {
+          "type": "submit",
+          "text": "Submit",
+          "id": "stickySubmitBtn"
+        }
+      ]
+    }
+  ],
+  "/events/royal-wedding-celebration-2026-1": [
+    {
+      "id": "stickyContactForm",
+      "class": null,
+      "action": "https://indexecoresort.com/contact-form/submit",
+      "method": "POST",
+      "enctype": null,
+      "fields": [
+        {
+          "name": "_token",
+          "id": null,
+          "type": "hidden",
+          "required": false,
+          "placeholder": null,
+          "maxlength": null,
+          "pattern": null,
+          "value": "<redacted: per-request CSRF token>",
+          "label": null
+        },
+        {
+          "name": "name",
+          "id": null,
+          "type": "text",
+          "required": true,
+          "placeholder": "Name*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "phone",
+          "id": null,
+          "type": "tel",
+          "required": true,
+          "placeholder": "Phone*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "email",
+          "id": null,
+          "type": "email",
+          "required": true,
+          "placeholder": "Email*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "address",
+          "id": null,
+          "type": "hidden",
+          "required": false,
+          "placeholder": null,
+          "maxlength": null,
+          "pattern": null,
+          "value": "N/A",
+          "label": null
+        },
+        {
+          "name": "message",
+          "id": null,
+          "type": "textarea",
+          "required": false,
+          "placeholder": "Message",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        }
+      ],
+      "buttons": [
+        {
+          "type": "submit",
+          "text": "Submit",
+          "id": "stickySubmitBtn"
+        }
+      ]
+    }
+  ],
+  "/gallery": [
+    {
+      "id": "stickyContactForm",
+      "class": null,
+      "action": "https://indexecoresort.com/contact-form/submit",
+      "method": "POST",
+      "enctype": null,
+      "fields": [
+        {
+          "name": "_token",
+          "id": null,
+          "type": "hidden",
+          "required": false,
+          "placeholder": null,
+          "maxlength": null,
+          "pattern": null,
+          "value": "<redacted: per-request CSRF token>",
+          "label": null
+        },
+        {
+          "name": "name",
+          "id": null,
+          "type": "text",
+          "required": true,
+          "placeholder": "Name*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "phone",
+          "id": null,
+          "type": "tel",
+          "required": true,
+          "placeholder": "Phone*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "email",
+          "id": null,
+          "type": "email",
+          "required": true,
+          "placeholder": "Email*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "address",
+          "id": null,
+          "type": "hidden",
+          "required": false,
+          "placeholder": null,
+          "maxlength": null,
+          "pattern": null,
+          "value": "N/A",
+          "label": null
+        },
+        {
+          "name": "message",
+          "id": null,
+          "type": "textarea",
+          "required": false,
+          "placeholder": "Message",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        }
+      ],
+      "buttons": [
+        {
+          "type": "submit",
+          "text": "Submit",
+          "id": "stickySubmitBtn"
+        }
+      ]
+    }
+  ],
+  "/gold-ownership-2": [
+    {
+      "id": "stickyContactForm",
+      "class": null,
+      "action": "https://indexecoresort.com/contact-form/submit",
+      "method": "POST",
+      "enctype": null,
+      "fields": [
+        {
+          "name": "_token",
+          "id": null,
+          "type": "hidden",
+          "required": false,
+          "placeholder": null,
+          "maxlength": null,
+          "pattern": null,
+          "value": "<redacted: per-request CSRF token>",
+          "label": null
+        },
+        {
+          "name": "name",
+          "id": null,
+          "type": "text",
+          "required": true,
+          "placeholder": "Name*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "phone",
+          "id": null,
+          "type": "tel",
+          "required": true,
+          "placeholder": "Phone*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "email",
+          "id": null,
+          "type": "email",
+          "required": true,
+          "placeholder": "Email*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "address",
+          "id": null,
+          "type": "hidden",
+          "required": false,
+          "placeholder": null,
+          "maxlength": null,
+          "pattern": null,
+          "value": "N/A",
+          "label": null
+        },
+        {
+          "name": "message",
+          "id": null,
+          "type": "textarea",
+          "required": false,
+          "placeholder": "Message",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        }
+      ],
+      "buttons": [
+        {
+          "type": "submit",
+          "text": "Submit",
+          "id": "stickySubmitBtn"
+        }
+      ]
+    }
+  ],
+  "/": [
+    {
+      "id": "stickyContactForm",
+      "class": null,
+      "action": "https://indexecoresort.com/contact-form/submit",
+      "method": "POST",
+      "enctype": null,
+      "fields": [
+        {
+          "name": "_token",
+          "id": null,
+          "type": "hidden",
+          "required": false,
+          "placeholder": null,
+          "maxlength": null,
+          "pattern": null,
+          "value": "<redacted: per-request CSRF token>",
+          "label": null
+        },
+        {
+          "name": "name",
+          "id": null,
+          "type": "text",
+          "required": true,
+          "placeholder": "Name*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "phone",
+          "id": null,
+          "type": "tel",
+          "required": true,
+          "placeholder": "Phone*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "email",
+          "id": null,
+          "type": "email",
+          "required": true,
+          "placeholder": "Email*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "address",
+          "id": null,
+          "type": "hidden",
+          "required": false,
+          "placeholder": null,
+          "maxlength": null,
+          "pattern": null,
+          "value": "N/A",
+          "label": null
+        },
+        {
+          "name": "message",
+          "id": null,
+          "type": "textarea",
+          "required": false,
+          "placeholder": "Message",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        }
+      ],
+      "buttons": [
+        {
+          "type": "submit",
+          "text": "Submit",
+          "id": "stickySubmitBtn"
+        }
+      ]
+    }
+  ],
+  "/offer": [
+    {
+      "id": "stickyContactForm",
+      "class": null,
+      "action": "https://indexecoresort.com/contact-form/submit",
+      "method": "POST",
+      "enctype": null,
+      "fields": [
+        {
+          "name": "_token",
+          "id": null,
+          "type": "hidden",
+          "required": false,
+          "placeholder": null,
+          "maxlength": null,
+          "pattern": null,
+          "value": "<redacted: per-request CSRF token>",
+          "label": null
+        },
+        {
+          "name": "name",
+          "id": null,
+          "type": "text",
+          "required": true,
+          "placeholder": "Name*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "phone",
+          "id": null,
+          "type": "tel",
+          "required": true,
+          "placeholder": "Phone*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "email",
+          "id": null,
+          "type": "email",
+          "required": true,
+          "placeholder": "Email*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "address",
+          "id": null,
+          "type": "hidden",
+          "required": false,
+          "placeholder": null,
+          "maxlength": null,
+          "pattern": null,
+          "value": "N/A",
+          "label": null
+        },
+        {
+          "name": "message",
+          "id": null,
+          "type": "textarea",
+          "required": false,
+          "placeholder": "Message",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        }
+      ],
+      "buttons": [
+        {
+          "type": "submit",
+          "text": "Submit",
+          "id": "stickySubmitBtn"
+        }
+      ]
+    }
+  ],
+  "/platinum-ownership-3": [
+    {
+      "id": "stickyContactForm",
+      "class": null,
+      "action": "https://indexecoresort.com/contact-form/submit",
+      "method": "POST",
+      "enctype": null,
+      "fields": [
+        {
+          "name": "_token",
+          "id": null,
+          "type": "hidden",
+          "required": false,
+          "placeholder": null,
+          "maxlength": null,
+          "pattern": null,
+          "value": "<redacted: per-request CSRF token>",
+          "label": null
+        },
+        {
+          "name": "name",
+          "id": null,
+          "type": "text",
+          "required": true,
+          "placeholder": "Name*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "phone",
+          "id": null,
+          "type": "tel",
+          "required": true,
+          "placeholder": "Phone*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "email",
+          "id": null,
+          "type": "email",
+          "required": true,
+          "placeholder": "Email*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "address",
+          "id": null,
+          "type": "hidden",
+          "required": false,
+          "placeholder": null,
+          "maxlength": null,
+          "pattern": null,
+          "value": "N/A",
+          "label": null
+        },
+        {
+          "name": "message",
+          "id": null,
+          "type": "textarea",
+          "required": false,
+          "placeholder": "Message",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        }
+      ],
+      "buttons": [
+        {
+          "type": "submit",
+          "text": "Submit",
+          "id": "stickySubmitBtn"
+        }
+      ]
+    }
+  ],
+  "/signature-ownership-4": [
+    {
+      "id": "stickyContactForm",
+      "class": null,
+      "action": "https://indexecoresort.com/contact-form/submit",
+      "method": "POST",
+      "enctype": null,
+      "fields": [
+        {
+          "name": "_token",
+          "id": null,
+          "type": "hidden",
+          "required": false,
+          "placeholder": null,
+          "maxlength": null,
+          "pattern": null,
+          "value": "<redacted: per-request CSRF token>",
+          "label": null
+        },
+        {
+          "name": "name",
+          "id": null,
+          "type": "text",
+          "required": true,
+          "placeholder": "Name*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "phone",
+          "id": null,
+          "type": "tel",
+          "required": true,
+          "placeholder": "Phone*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "email",
+          "id": null,
+          "type": "email",
+          "required": true,
+          "placeholder": "Email*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "address",
+          "id": null,
+          "type": "hidden",
+          "required": false,
+          "placeholder": null,
+          "maxlength": null,
+          "pattern": null,
+          "value": "N/A",
+          "label": null
+        },
+        {
+          "name": "message",
+          "id": null,
+          "type": "textarea",
+          "required": false,
+          "placeholder": "Message",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        }
+      ],
+      "buttons": [
+        {
+          "type": "submit",
+          "text": "Submit",
+          "id": "stickySubmitBtn"
+        }
+      ]
+    }
+  ],
+  "/silver-ownership-5": [
+    {
+      "id": "stickyContactForm",
+      "class": null,
+      "action": "https://indexecoresort.com/contact-form/submit",
+      "method": "POST",
+      "enctype": null,
+      "fields": [
+        {
+          "name": "_token",
+          "id": null,
+          "type": "hidden",
+          "required": false,
+          "placeholder": null,
+          "maxlength": null,
+          "pattern": null,
+          "value": "<redacted: per-request CSRF token>",
+          "label": null
+        },
+        {
+          "name": "name",
+          "id": null,
+          "type": "text",
+          "required": true,
+          "placeholder": "Name*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "phone",
+          "id": null,
+          "type": "tel",
+          "required": true,
+          "placeholder": "Phone*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "email",
+          "id": null,
+          "type": "email",
+          "required": true,
+          "placeholder": "Email*",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        },
+        {
+          "name": "address",
+          "id": null,
+          "type": "hidden",
+          "required": false,
+          "placeholder": null,
+          "maxlength": null,
+          "pattern": null,
+          "value": "N/A",
+          "label": null
+        },
+        {
+          "name": "message",
+          "id": null,
+          "type": "textarea",
+          "required": false,
+          "placeholder": "Message",
+          "maxlength": null,
+          "pattern": null,
+          "value": null,
+          "label": null
+        }
+      ],
+      "buttons": [
+        {
+          "type": "submit",
+          "text": "Submit",
+          "id": "stickySubmitBtn"
+        }
+      ]
+    }
+  ]
+}

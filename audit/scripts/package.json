@@ -1,0 +1,18 @@
+{
+  "name": "index-eco-resort-audit",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Phase 0 discovery scripts: crawl the live indexecoresort.com, extract links/forms/meta, capture before screenshots.",
+  "scripts": {
+    "crawl": "node crawl.mjs",
+    "extract": "node extract.mjs",
+    "shots": "node screenshots.mjs",
+    "probe": "node probe-api.mjs",
+    "fixtures": "node fixtures.mjs"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0",
+    "playwright": "^1.49.0"
+  }
+}

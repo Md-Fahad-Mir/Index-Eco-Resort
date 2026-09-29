@@ -30,3 +30,16 @@ test.describe("Laravel fallback", () => {
     expect(res.headers()["content-type"]).toContain("application/json");
   });
 });
+
+/**
+ * Rule 9c redirects. `/about_us` is the mobile menu's About target and returns
+ * 500 on the live site, so it points at the working page instead
+ * (tests/parity/allowed-diffs.ts).
+ */
+test.describe("rule 9c redirects", () => {
+  test("/about_us permanently redirects to /about-us", async ({ request }) => {
+    const res = await request.get("/about_us", { maxRedirects: 0 });
+    expect([301, 308]).toContain(res.status());
+    expect(res.headers()["location"]).toBe("/about-us");
+  });
+});

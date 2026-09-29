@@ -1,0 +1,194 @@
+[
+  {
+    "path": "/api",
+    "status": 404,
+    "location": null,
+    "contentType": "application/json",
+    "bytes": 13050,
+    "note": "json keys: message,exception,file,line,trace"
+  },
+  {
+    "path": "/api/v1",
+    "status": 404,
+    "location": null,
+    "contentType": "application/json",
+    "bytes": 7527,
+    "note": "json keys: message,exception,file,line,trace"
+  },
+  {
+    "path": "/api/settings",
+    "status": 404,
+    "location": null,
+    "contentType": "application/json",
+    "bytes": 7527,
+    "note": "json keys: message,exception,file,line,trace"
+  },
+  {
+    "path": "/api/events",
+    "status": 404,
+    "location": null,
+    "contentType": "application/json",
+    "bytes": 7527,
+    "note": "json keys: message,exception,file,line,trace"
+  },
+  {
+    "path": "/api/posts",
+    "status": 404,
+    "location": null,
+    "contentType": "application/json",
+    "bytes": 7527,
+    "note": "json keys: message,exception,file,line,trace"
+  },
+  {
+    "path": "/api/packages",
+    "status": 404,
+    "location": null,
+    "contentType": "application/json",
+    "bytes": 7527,
+    "note": "json keys: message,exception,file,line,trace"
+  },
+  {
+    "path": "/api/gallery",
+    "status": 404,
+    "location": null,
+    "contentType": "application/json",
+    "bytes": 7527,
+    "note": "json keys: message,exception,file,line,trace"
+  },
+  {
+    "path": "/events/filter",
+    "status": 200,
+    "location": null,
+    "contentType": "application/json",
+    "bytes": 4803,
+    "note": "json keys: status,data"
+  },
+  {
+    "path": "/events/filter?category_id=1",
+    "status": 200,
+    "location": null,
+    "contentType": "application/json",
+    "bytes": 1357,
+    "note": "json keys: status,data"
+  },
+  {
+    "path": "/event-details/2",
+    "status": 404,
+    "location": null,
+    "contentType": "application/json",
+    "bytes": 7527,
+    "note": "json keys: message,exception,file,line,trace"
+  },
+  {
+    "path": "/blog-details/2",
+    "status": 404,
+    "location": null,
+    "contentType": "application/json",
+    "bytes": 13038,
+    "note": "json keys: message,exception,file,line,trace"
+  },
+  {
+    "path": "/contact-form/submit",
+    "status": 405,
+    "location": null,
+    "contentType": "application/json",
+    "bytes": 8243,
+    "note": "json keys: message,exception,file,line,trace"
+  },
+  {
+    "path": "/people-leading",
+    "status": 500,
+    "location": null,
+    "contentType": "application/json",
+    "bytes": 16137,
+    "note": "json keys: message,exception,file,line,trace"
+  },
+  {
+    "path": "/who-we-are",
+    "status": 404,
+    "location": null,
+    "contentType": "application/json",
+    "bytes": 13050,
+    "note": "json keys: message,exception,file,line,trace"
+  },
+  {
+    "path": "/who_we_are",
+    "status": 404,
+    "location": null,
+    "contentType": "application/json",
+    "bytes": 13050,
+    "note": "json keys: message,exception,file,line,trace"
+  },
+  {
+    "path": "/blogs?page=2",
+    "status": 200,
+    "location": null,
+    "contentType": "text/html",
+    "bytes": 39945,
+    "note": "title: indexecoresort.com"
+  },
+  {
+    "path": "/event?page=2",
+    "status": 200,
+    "location": null,
+    "contentType": "text/html",
+    "bytes": 54316,
+    "note": "title: indexecoresort.com"
+  },
+  {
+    "path": "/sitemap.xml",
+    "status": 404,
+    "location": null,
+    "contentType": "application/json",
+    "bytes": 13050,
+    "note": "json keys: message,exception,file,line,trace"
+  },
+  {
+    "path": "/robots.txt",
+    "status": 404,
+    "location": null,
+    "contentType": "application/json",
+    "bytes": 13050,
+    "note": "json keys: message,exception,file,line,trace"
+  },
+  {
+    "path": "/storage/images",
+    "status": 404,
+    "location": null,
+    "contentType": "application/json",
+    "bytes": 7527,
+    "note": "json keys: message,exception,file,line,trace"
+  },
+  {
+    "path": "/public/storage",
+    "status": 301,
+    "location": "https://indexecoresort.com/public/storage/",
+    "contentType": "text/html",
+    "bytes": 795,
+    "note": "title:  301 Moved Permanently\r\n"
+  },
+  {
+    "path": "/admin",
+    "status": 404,
+    "location": null,
+    "contentType": "application/json",
+    "bytes": 13050,
+    "note": "json keys: message,exception,file,line,trace"
+  },
+  {
+    "path": "/login",
+    "status": 404,
+    "location": null,
+    "contentType": "application/json",
+    "bytes": 13050,
+    "note": "json keys: message,exception,file,line,trace"
+  },
+  {
+    "path": "/this-path-should-not-exist-404check",
+    "status": 404,
+    "location": null,
+    "contentType": "application/json",
+    "bytes": 13050,
+    "note": "json keys: message,exception,file,line,trace"
+  }
+]

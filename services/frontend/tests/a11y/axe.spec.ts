@@ -1,5 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
+import { describeViolations } from "../helpers/audit";
 import { OWNED_ROUTES } from "../helpers/routes";
 
 /** WCAG 2.2 AA gate: no serious or critical axe violations on any owned route. */
@@ -12,9 +13,6 @@ for (const route of OWNED_ROUTES) {
     const blocking = results.violations.filter(
       (v) => v.impact === "serious" || v.impact === "critical",
     );
-    expect(
-      blocking.map((v) => `${v.id}: ${v.help} (${v.nodes.length} nodes)`),
-      `axe violations on ${route}`,
-    ).toEqual([]);
+    expect(describeViolations(blocking), `axe violations on ${route}`).toEqual([]);
   });
 }

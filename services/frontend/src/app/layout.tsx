@@ -1,15 +1,26 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Anek_Bangla, Tiro_Bangla } from "next/font/google";
+import { MotionProvider } from "@/components/motion/MotionProvider";
 import "@/styles/globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+/**
+ * Display face. A true bilingual serif — Bangla and Latin were designed
+ * together, so a mixed heading keeps one voice. One weight, by design.
+ */
+const tiroBangla = Tiro_Bangla({
+  variable: "--font-tiro",
+  subsets: ["bengali", "latin"],
+  weight: "400",
+  style: ["normal", "italic"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+/** UI and body face. Variable, with the width axis used for small labels. */
+const anekBangla = Anek_Bangla({
+  variable: "--font-anek",
+  subsets: ["bengali", "latin"],
+  axes: ["wdth"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -19,8 +30,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
-      <body className="flex min-h-full flex-col">{children}</body>
+    <html lang="en" className={`${tiroBangla.variable} ${anekBangla.variable} h-full antialiased`}>
+      <body className="flex min-h-full flex-col">
+        <MotionProvider>{children}</MotionProvider>
+      </body>
     </html>
   );
 }

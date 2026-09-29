@@ -10,8 +10,9 @@
     "typecheck": "tsc --noEmit",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "test:e2e": "playwright test --project=parity-desktop --project=parity-mobile",
-    "test:visual": "playwright test --project=visual"
+    "test:e2e": "playwright test --project=parity-desktop --project=parity-mobile --project=parity-mobile-webkit",
+    "test:visual": "playwright test --project=visual",
+    "test:styleguide": "playwright test --config=playwright.styleguide.config.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.9.1",

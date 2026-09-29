@@ -1,0 +1,96 @@
+/**
+ * Every intentional difference from the live site, with its reason.
+ *
+ * CLAUDE.md rule 9: parity means keeping what works — errors are not features.
+ * `href="#"` placeholders stay verbatim (rule 9b) and never appear here; only
+ * targets that 404/500 on the live site (rule 9c), decorative UI with no backend
+ * (rule 9d) and markup-level semantic fixes (rule 9e) do.
+ *
+ * The link-parity suite treats a difference as a failure unless it matches an
+ * entry below, so adding one is a deliberate, reviewable act.
+ */
+
+export type AllowedDiff = {
+  /** Which rule 9 clause justifies it. */
+  rule: "9c" | "9d" | "9e" | "9f";
+  /** Routes it applies to; "*" for every route. */
+  routes: string[] | "*";
+  /** What the live site does. */
+  live: string;
+  /** What this site does instead. */
+  ours: string;
+  /** Why the live behavior cannot simply be copied. */
+  reason: string;
+  /** Set when the owner must act for the live behavior to become correct. */
+  ownerAction?: string;
+};
+
+export const ALLOWED_DIFFS: AllowedDiff[] = [
+  {
+    rule: "9c",
+    routes: ["/about_us"],
+    live: "/about_us renders Laravel route `who.we.are` and returns HTTP 500",
+    ours: "/about_us permanently redirects (308) to /about-us",
+    reason:
+      "live /about_us returns 500 — its Blade view reads $data->photo_one/two/three off " +
+      "App\\Models\\WhoWeAre, whose columns are id, video, description, core_purpose, " +
+      "core_purpose_bg_video. The page has never rendered. Its data is Home's " +
+      '"Why Buy Our Share" block, not About content, so no separate page is built.',
+  },
+  {
+    rule: "9c",
+    routes: "*",
+    live: 'mobile menu "About Us" links to /about_us (a 500)',
+    ours: 'mobile menu "About Us" links to /about-us',
+    reason: "live /about_us returns 500; /about-us is the evident working target",
+  },
+  {
+    rule: "9c",
+    routes: ["/event"],
+    live: 'Events page-hero breadcrumb "Home" links to /people-leading',
+    ours: 'Events page-hero breadcrumb "Home" links to /',
+    reason: "/people-leading returns HTTP 500 on the live site",
+  },
+  {
+    rule: "9c",
+    routes: ["/event"],
+    live: "cards rendered by the AJAX filter link to /event-details/{id}",
+    ours: "every event card links to /events/{slug}, filtered or not",
+    reason:
+      "/event-details/{id} returns 404 on the live site; /events/{slug} is the " +
+      "working detail route the server-rendered cards already use",
+  },
+  {
+    rule: "9d",
+    routes: ["/events/*"],
+    live: '"Leave a Reply" block with Name/Email/Website/Comment and a Post Comment button',
+    ours: "not rendered (features.eventCommentForm = false)",
+    reason:
+      "decorative on the live site: no <form>, no name attributes, no action and no " +
+      "script bound to .btn-post-comment, so nothing was ever submitted or stored",
+    ownerAction: "Decide whether comments should exist; a real backend would be new scope.",
+  },
+  {
+    rule: "9e",
+    routes: ["/"],
+    live: "two <h1>: hero slide 1's is empty in the CMS, slide 2's holds the title",
+    ours: "one <h1> — slide 1's empty CMS title and subline are not rendered",
+    reason: "an empty <h1> is a markup defect; rule 9e requires exactly one non-empty <h1>",
+    ownerAction: "Fill or clear hero slide 1's title/subline fields in the admin panel.",
+  },
+  {
+    rule: "9e",
+    routes: ["/blog-details/*"],
+    live: "no title element and no <h1> — the post title appears only on /blogs",
+    ours: "the post's own title is rendered as the page <h1>",
+    reason: "every page needs exactly one non-empty <h1> (rule 9e); the data already has the title",
+  },
+];
+
+/** Entries that apply to a route, for assertions and reporting. */
+export const allowedDiffsFor = (route: string): AllowedDiff[] =>
+  ALLOWED_DIFFS.filter(
+    (d) =>
+      d.routes === "*" ||
+      d.routes.some((r) => (r.endsWith("/*") ? route.startsWith(r.slice(0, -1)) : r === route)),
+  );

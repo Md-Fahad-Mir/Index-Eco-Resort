@@ -1,10 +1,32 @@
-# Ignore all directories except services
-/*/
-!/services/
+# ── Dependencies ──────────────────────────────────────────────────────────
+node_modules/
 
-# System / OS files
+# ── Build & tooling output ────────────────────────────────────────────────
+.next/
+out/
+build/
+*.tsbuildinfo
+next-env.d.ts
+tests/.report/
+tests/.results/
+
+# ── Environment ───────────────────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+
+# ── OS / editor cruft ─────────────────────────────────────────────────────
 .DS_Store
 Thumbs.db
 
+# ── Phase 0 audit ─────────────────────────────────────────────────────────
+# Tracked: the findings (audit/*.json, audit/*.md) and audit/scripts/.
+# Ignored: the bulky raw captures below (~66 MB). Regenerate them with
+#   pnpm audit:crawl && pnpm audit:extract && pnpm audit:shots
+# Note: tests/visual writes into audit/screenshots/after/, so that stays local too.
+audit/html/
+audit/assets/
+audit/screenshots/
 
-CLAUDE.md
+# ── Owner-supplied reference material (not part of the build) ─────────────
+/Website Screenshort/
