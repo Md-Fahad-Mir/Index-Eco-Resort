@@ -34,11 +34,11 @@ Tick an item only after testing it on the new site at 390px and 1440px. "Same" =
 - [ ] Latest posts: same posts, links to `/blog-details/{slug}`
 
 ## About `/about-us` and `/about_us`
-- [ ] `/about-us` renders; `/about_us` returns a permanent redirect (308) to `/about-us` *(allowed diff: live `/about_us` returns 500)*
-- [ ] About block incl. video modal
-- [ ] Choose Your Plan
-- [ ] Vision / Mission / Approach tabs with full texts and images
-- [ ] 6 core values with texts
+- [x] `/about-us` renders; `/about_us` returns a permanent redirect (308) to `/about-us` *(allowed diff: live `/about_us` returns 500)*
+- [x] About block incl. video modal — the same component Home uses, with the derived poster
+- [x] Choose Your Plan — the same `PlansStage`, 4 packages in data order
+- [x] Vision / Mission / Approach tabs with full texts and images; kickers rendered as stored, labels with spaces produce valid `aria-controls` ids, arrow keys move between tabs
+- [x] 6 core values with texts, in the CMS's order, tones alternating at every width
 
 ## Package pages (Gold, Platinum, Signature, Silver)
 - [ ] Hero image + title + breadcrumb per package

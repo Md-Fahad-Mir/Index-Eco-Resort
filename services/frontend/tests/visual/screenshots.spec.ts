@@ -28,6 +28,20 @@ for (const route of FROZEN_ROUTES) {
         window.scrollTo(0, 0);
         await new Promise((r) => setTimeout(r, 300));
       });
+      // Scrolling only starts the lazy images. Without waiting for them the
+      // large CMS photographs are captured as empty placeholder boxes.
+      // `naturalWidth`, not `complete`: the membership cards keep a request in
+      // flight for a larger srcset candidate long after they have something to
+      // draw, and waiting on `complete` would only ever time out.
+      await page
+        .waitForFunction(
+          () => [...document.images].every((img) => img.naturalWidth > 0),
+          undefined,
+          {
+            timeout: 15_000,
+          },
+        )
+        .catch(() => {});
       await page.screenshot({
         path: path.join(AFTER_SCREENSHOTS_DIR, `${routeSlug(route)}@${width}.png`),
         fullPage: true,

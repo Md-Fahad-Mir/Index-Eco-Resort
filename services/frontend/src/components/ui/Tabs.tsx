@@ -60,6 +60,15 @@ export function Tabs({
   );
 }
 
+/**
+ * True once the visitor has switched tabs. Panels use it to run a one-time
+ * entrance (the vision/mission image unveil) on first view only: Radix unmounts
+ * inactive panels, so without this the reveal would replay on every switch.
+ */
+export function useTabsSwitched(): boolean {
+  return useContext(VariantContext).switched;
+}
+
 export function TabsList({
   children,
   className,

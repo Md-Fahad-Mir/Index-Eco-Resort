@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { auditLinks } from "../helpers/audit";
+import { OWNED_ROUTES } from "../helpers/routes";
 import { isAllowedHref } from "./allowed-diffs";
 
 /**
@@ -85,7 +86,7 @@ for (const route of ROUTES) {
     const width = page.viewportSize()?.width ?? 1440;
     const base = width >= 1024 ? DESKTOP_REGIONS : MOBILE_REGIONS;
     // `main` is a page's own content; only checked where the real page exists.
-    const regions = route === "/" ? ([...base, "main"] as const) : base;
+    const regions = OWNED_ROUTES.includes(route) ? ([...base, "main"] as const) : base;
 
     for (const region of regions) {
       // The captured top bar had only social links; ours renders the same.

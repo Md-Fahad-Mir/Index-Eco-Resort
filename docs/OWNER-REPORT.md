@@ -22,7 +22,7 @@ Living document: every phase adds to it; the final phase (prompts/15) turns it i
 | 3 | Top bar | Placeholder phone `01700000000` and email `info@veotech.com` | Enter the real values in General Settings |
 | 4 | Project slider | Test slide "3454 / 45645645" | Delete the slide |
 | 5 | Project slider | 20-share tier is labelled "ডায়মন্ড গ্রাহক" but sold as "Signature" | Rename or confirm |
-| 6 | About page | Vision / Mission / Approach tabs share one identical body text; "Our Approach" repeats "Our Vision"'s heading | Enter the three distinct texts |
+| 6 | About page | Vision / Mission / Approach tabs share one identical body text; "Our Approach" repeats "Our Vision"'s heading. The "Our Approach" field also holds **six paragraphs** the current site cannot show — it prints the field inside a single `<p>`, so the blank lines you typed collapse into one block of text. The new site matches that, rather than silently reformatting your copy. Separately, the photograph beside "Our Approach" is the **car park**. | Enter the three distinct texts. Once Django serves this field, the paragraph breaks can be honoured — say the word and it will render as you wrote it. Pick a better photograph for Approach. |
 | 7 | Home testimonials | The only review is placeholder data ("jack sparrow / Actor", avatar hotlinked from a theme demo) | Replace with a real review and a local photo |
 | 8 | Home CTA strip | Avatar hotlinked from `demo.awaikenthemes.com` | Upload a local image |
 | 9 | Villa | Tab "Cottage" shows room "Executive Suite"; copy mentions "Chuti Resort Gazipur" | Correct room data |

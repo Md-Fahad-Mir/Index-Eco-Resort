@@ -818,3 +818,128 @@ with Save-Data on**, with the poster still visible; and that the phone encode is
 offered at `(max-width: 1023px)` with the original as the fallback source.
 
 Suite **149 passed / 16 skipped**.
+
+---
+
+## Phase 6 — About `/about-us`
+
+- **Date:** 2026-09-30
+- **Prompt:** `prompts/07-about.md`
+
+Five sections, two of them components Home already owns:
+
+```
+PageHero  →  AboutBlock  →  PlansStage  →  VisionMissionTabs  →  CoreValues
+(canopy-deep)   (mist)     (canopy-deep)       (mist)              (paper)
+```
+
+`AboutBlock` and `PlansStage` are imported unchanged from
+`components/sections/home/` — no fork, no props bent to fit. The About block
+picks up the derived poster from the phone-video work automatically, because
+the poster is resolved from the video URL rather than passed in.
+
+### Vision / Mission / Approach
+
+A **split header**: eyebrow and H2 on the left, the segmented pill strip
+opposite them, then the panel underneath. The strip lives inside
+`SectionHeader`'s `aside`, so the section opens as one composed row instead of
+three stacked bands.
+
+- **Labels with spaces produce valid ids.** The Phase 2 fix in `Tabs` holds:
+  `toValue()` turns "Our Vision" into `our-vision` for the `aria-controls`
+  IDREF while the visible label stays as the CMS wrote it. A test now asserts
+  the invariant directly — every `aria-controls` is whitespace-free and
+  resolves to exactly one element.
+- **Kickers render as stored.** "Our Vision", not "// OUR VISION": the live
+  site's `//` is two skewed `<span>`s drawn by CSS, and the caps come from
+  `text-transform`. Our eyebrow treatment (§3.3) is a brass hairline with no
+  caps and no tracking, and the stored string passes through untouched. A test
+  asserts the exact text.
+- **Paragraphs are split only where the data has breaks.** `paragraphs()`
+  splits on blank lines and nothing else; the lead-sized opener appears only
+  when that yields more than one. Today every tab yields exactly one, and the
+  test derives its expected count from the fixture, so the assertion follows
+  the content instead of freezing today's answer.
+- **`Reveal` runs on first view only.** Radix unmounts inactive panels, so
+  without care the unveil replayed on every tab switch. `Tabs` now exports
+  `useTabsSwitched()`; after the first switch the panel relies on the
+  cross-fade the tab change already provides.
+
+**A CMS finding worth its own line.** The "Our Approach" field holds *six*
+paragraphs — the author's blank lines are in the stored value. The Laravel
+template prints the field inside a single `<p>`, where HTML collapses them, so
+the live page has always shown one block of text. Rendering six here would have
+been the frontend inventing structure, which is exactly what rule 9a forbids, so
+it stays one paragraph and the discovery is now OWNER-REPORT §B6 for the owner
+to decide once Django serves the field.
+
+### Core values
+
+Six tiles, the CMS's order, `gold` → lichen and `dark` → canopy. Contrast comes
+from §2.2: ink on lichen is 8.1:1 and lichen on canopy 7.3:1, so the body copy
+passes AA on both. Hover draws a 1px brass rule across the top in 300ms — the
+tile's only movement.
+
+**One deliberate deviation.** The live site goes to **two columns** between
+481px and 768px, which turns the checkerboard into two solid stripes: one
+all-lichen column beside one all-canopy column. The alternation is the point of
+the block, so the layout goes straight from one column to three. A test proves
+it at 390, 768 and 1440: the order matches the fixture, no two neighbours share
+a background, and the grid is never two columns.
+
+### The h1 regression guard
+
+Phase 4's tailwind-merge fault rendered this page's `<h1>` at 17px instead of
+72px. The test now injects a probe element with `font-size: var(--text-h1)` and
+compares computed sizes, so it holds at every viewport without hard-coding a
+clamp result.
+
+### Lighthouse mobile, `/about-us` (production build)
+
+| Run | Perf | LCP | CLS | A11y | Best practices |
+|---|---|---|---|---|---|
+| Real (devtools) throttling | **96** | **1.6 s** | **0** | **100** | **100** |
+| Simulated (Lighthouse default) | 78 | 5.6 s | 0.001 | 100 | 100 |
+
+**This time the LCP element is identified.** Under 1.6 Mbps + 4× CPU
+throttling, a buffered `PerformanceObserver` names it: the hero photograph,
+painting at **880 ms**.
+
+```
+observedLargestContentfulPaint:  1,278 ms    ← what Lighthouse measured
+largestContentfulPaint:          5,580 ms    ← what Lantern projected
+```
+
+The waterfall is already right: the image is requested **20 ms** after the
+document at High priority (`priority` → `fetchpriority=high`), transfers
+**27 KB** as AVIF, and finishes at 525 ms. Total page weight 0.70 MB, server
+response 10 ms, nothing render-blocking. The gap is Lantern re-timing that
+waterfall against a modelled slow-4G connection — and it is larger here than on
+Home (5.6 s vs 3.9 s) for a structural reason: Home's LCP element is a text
+node, About's is an image, so Lantern puts a download on the critical path.
+
+Nothing to fix in the markup. Worth confirming against the deployed URL with
+PageSpeed Insights, which measures rather than models.
+
+### Also in this phase
+
+- `OWNED_ROUTES` now holds `/about-us`, which brings it into the axe gate, the
+  one-h1/no-console-errors gate, and **`main`-region link parity** — all seven
+  captured content links reproduce, `href="#"` placeholders included (rule 9b).
+- The visual screenshot helper waits for images to have a `naturalWidth` before
+  shooting. It was capturing the large CMS photographs as empty placeholder
+  boxes. (`complete` is the wrong predicate: the membership cards keep a
+  request in flight for a larger srcset candidate long after they can draw.)
+- The vision/mission tab strip sets its own top margin below `lg`, where
+  `SectionHeader`'s row gap does not apply because the header is not a grid
+  there.
+
+### Gates
+
+`format:check` · `lint` · `typecheck` · `build` — all pass.
+Suite **234 passed / 18 skipped**, across Chromium desktop, Chromium mobile and
+WebKit mobile. Includes `/about_us` → 308 → `/about-us`, axe with no serious or
+critical violations, reduced-motion and keyboard walkthroughs.
+
+**Artifacts:** `audit/screenshots/after/about-us@{390,768,1440}.png` ·
+`about-scroll-390.webm`
