@@ -15,6 +15,9 @@ export default defineConfig({
   // testIgnore replaces this one, so each project below restates it.
   testIgnore: /styleguide/,
   fullyParallel: true,
+  // Three browser projects against one server saturated the machine and made
+  // navigations time out; capping workers keeps the suite a reliable gate.
+  workers: process.env.CI ? 2 : 4,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
   reporter: [["list"], ["html", { open: "never", outputFolder: "tests/.report" }]],

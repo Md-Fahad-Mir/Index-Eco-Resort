@@ -450,3 +450,86 @@ I left `public/media` unstaged for that reason.
 ### Next
 
 Phase 4 — `prompts/05-global-layout.md`. **Waiting for your go-ahead.**
+
+---
+
+## Phase 3 follow-up — housekeeping
+
+- **Date:** 2026-09-29
+
+### Git LFS and the first phase commit
+
+`git-lfs` 3.8.0 is installed. `.gitattributes` now routes **the whole media tree** through LFS (`services/frontend/public/media/**`), images included, so the snapshot can be dropped once Django serves media without rewriting history. `MANIFEST.json` is excluded — it is small text and useful in diffs.
+
+Verified before committing: **75 of 75** media files are LFS pointers (`git lfs ls-files`), a staged blob reads as a `version https://git-lfs.github.com/spec/v1` pointer rather than image bytes, and the non-LFS staged content is **0.6 MB**. Committed as `e45073e Phase 3: data layer, API contract, media snapshot`. From here each phase ends with a `Phase N: <summary>` commit once the gates pass. Nothing is ever pushed.
+
+### Node pinned to the LTS line
+
+The official schedule shows **Node 24 is the current Active LTS**; Node 26 (this machine's version) does not become LTS until 2026-10-28. So `.nvmrc` is `24` and `engines.node` is `24.x` in all three workspace packages.
+
+To verify rather than assume, Node **v24.21.0 "Krypton"** was downloaded into the scratchpad and everything run against it: `lint`, `typecheck`, `build`, `contract:export`, `fixtures:media` and `test:data` — all pass. **Native TypeScript execution is not a Node 26 feature**: type stripping has been unflagged since 22.18/23.6, so `scripts/export-contract.mts` runs on the pinned LTS without `tsx`. No runner dependency was added.
+
+`fixtures:media` now says plainly when there is nothing left to mirror, and explains how to refresh the snapshot (re-run the Phase 0 pipeline first, which restores the absolute URLs).
+
+### Preview deployments are not indexable
+
+`PREVIEW_MODE=true` now adds `X-Robots-Tag: noindex, nofollow` to **every** response and serves a disallow-all `robots.txt`; a production build allows crawling and points at the sitemap. `tests/parity/preview-mode.spec.ts` reads the mode **from the running server** rather than the test runner's environment (they are configured separately) and asserts the whole invariant: preview ⇒ noindex header + disallow-all + visible banner; production ⇒ allow.
+
+---
+
+## Phase 4 — Global layout
+
+- **Status:** done
+- **Date:** 2026-09-29
+
+### Built
+
+- **`(site)/layout.tsx`** — `SkipLink` → `SiteHeader` → `main#main` → `Footer`, plus one `FloatingDock` and one `ContactModal` shared through `ContactModalProvider`.
+- **`TopBar`** — phone and email as **plain text, not links** (PARITY), social icon buttons; collapses when the header turns solid.
+- **`SiteHeader`** — transparent over every hero with a gradient scrim for legibility over bright photographs, solid `canopy` at 92% with blur past 24px, 88→72px. Fixed, so the state change moves nothing (asserted).
+- **`PackagesMenu`** — Radix NavigationMenu with each package's real card thumbnail, 150ms hover intent, full keyboard support. The trigger is a **button, not a link**, because the live item has no `href` at all.
+- **`MobileNav`** — Radix Dialog sheet: focus trap, Escape, focus return, accordion for packages, Call Now + Book Now, socials, safe-area padding. Closes on navigation via click rather than an effect.
+- **`FloatingDock`** — desktop vertical pill with sliding labels, mobile stacked buttons at `max(1rem, env(safe-area-inset-bottom))`, all three hrefs verbatim, steps aside while the contact form is in view.
+- **`ContactModal` + `ContactForm`** — fields from the captured list, rules mirroring the live markup exactly (name/phone/email required; nothing else), posts to `/api/forms/contact`, success cross-fades to an SVG-drawn check with the site's own "✓ Message sent successfully!".
+- **`PageHero` + `Breadcrumbs`** — photo with overlays, breadcrumb above a bottom-left title, slanted-rule separator. Events breadcrumb → `/` (allowed diff).
+- **`Footer`** — all links from data including the relative/broken Facebook href, the `#` TikTok and the href-less credit line.
+- **Placeholder pages for all 12 route patterns**, including `[ownershipSlug]` with `generateStaticParams` + `dynamicParams = false`. 20 routes prerender.
+- **Local brand SVGs** for the seven networks — no icon font, no third-party request.
+
+### The missing-image hero
+
+The Silver package's hero 404s on the owner's server. Rather than a broken photo, the hero's **backdrop is always** a `canopy-deep` panel with a faint leaf-vein pattern and a soft brass glow; the photograph simply layers over it. If the file is missing — or any future URL breaks — the panel is what remains, with the same breadcrumb and title layout, so the page reads as designed. Implemented as an `onError` fallback rather than a data flag, so it also covers a URL that breaks later. Added to the styleguide.
+
+### Defects found and fixed
+
+1. **`tailwind-merge` silently dropped every custom font size.** `cn("text-h1", "text-mist")` kept only `text-mist` — it cannot tell a custom size from a custom colour, so the About hero's `<h1>` rendered at **17px instead of 72px**. `src/lib/utils.ts` now builds `cn` from `cn/config` with our font sizes, colours, radii and shadows registered. This was silently affecting every component that combined a size with a colour.
+2. **Contact form submitted `address=""` instead of `"N/A"`.** The settings extractor never captured hidden-field *values* (only `forms.json` did). Fixed at capture time — and the CSRF token is still excluded.
+3. **Focus was not returned** after closing the contact modal. It is opened programmatically, so Radix had no trigger to restore to. Now the opener is remembered and restored from `onCloseAutoFocus`. **WebKit needed more**: it does not focus a button on tap, so `document.activeElement` was `<body>` — the dock now passes its own element. Caught only because the tests run on WebKit.
+4. **The packages dropdown announced "Membership Card Gold Ownership"** — the thumbnail's alt duplicated the label. Marked decorative.
+5. **Two `setState`-in-effect violations** (mobile nav, dock) replaced with event handlers and derived state.
+6. Mobile menu's last item sat flush against the sticky footer block; scroll padding added.
+7. **Playwright worker contention** made `/offer` time out in the full run while passing in isolation — three browser projects against one server. Workers capped at 4 (2 in CI).
+
+### Verification
+
+`format:check` · `lint` · `typecheck` · `build` clean. Main suite **91 passed / 29 skipped**; styleguide **7 passed**.
+
+- **Link parity** (`tests/parity/links.spec.ts`) passes on desktop and mobile for all five chrome regions across 8 routes. Both sides are normalised (`https://indexecoresort.com/offer` ≡ `/offer`), each component tags its own `data-region`, and both menus are opened before collecting. Allowed diffs now carry **explicit `hrefs`** so the test is exact rather than scraping prose.
+- **`tests/parity/chrome.spec.ts`** — 34 tests across Chromium desktop, Chromium mobile and **WebKit mobile**: header scroll state with no layout shift, active-page marking, keyboard dropdown, mobile menu focus trap/Escape/focus return, About → `/about-us`, Call Now's third number, dock hrefs verbatim, safe-area inset ≥16px, 44px touch targets, modal validation → submit → success → focus return, the exact payload keys with `address="N/A"`, and axe on three routes.
+
+### Allowed diffs added
+
+The dock exposes **WhatsApp twice with different numbers** — the button uses `+8801700729312` while a hover panel and a `display:none` widget use `+8801711307580`. Shipping two WhatsApp buttons with contradicting numbers would pass the contradiction to visitors, so there is one action using the button's own destination. Recorded with the owner action, and added to OWNER-REPORT §B as item 15.
+
+### Screenshots (`audit/screenshots/after/`)
+
+`chrome-home@{390,768,1440}` · `chrome-about@{390,768,1440}` · `chrome-hero-missing-image` · `chrome-packages-menu@1440` · `chrome-mobile-nav@390` · `chrome-mobile-nav-webkit@390` · `chrome-contact-modal@390`
+
+### Notes
+
+- The styleguide suite needs a dev server; when one is already running for this directory Next refuses a second, so it was run with `STYLEGUIDE_BASE_URL` against the one on :3001.
+- The contact form's placeholders repeated their labels word for word. The label is the accessibility requirement and stays; the duplicate placeholder is dropped when it only repeats it.
+
+### Next
+
+A Vercel preview deployment, once you have chosen the access protection. Then Phase 5 — `prompts/06-home.md`.

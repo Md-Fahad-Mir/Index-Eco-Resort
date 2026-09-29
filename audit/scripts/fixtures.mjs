@@ -176,19 +176,30 @@ console.log("fixtures:");
       hiddenWhatsapp: { href: $(".fixed_footer_whatsapp_icon a").first().attr("href") || "" },
     },
     contactModal: {
-      title: t($, $(".mysticky-form-head").first()),
+      // The live heading element also contains the close control's "✕" glyph;
+      // that is a button, not part of the title.
+      title: t($, $(".mysticky-form-head").first().clone().children("span,button,a,i").remove().end()),
       successMessage: t($, $("#mystickySuccessMsg").first()),
       submitLabel: t($, $("#stickySubmitBtn").first()),
       submittingLabel: "Sending...",
       endpoint: $("#stickyContactForm").attr("action") || "",
       method: ($("#stickyContactForm").attr("method") || "POST").toUpperCase(),
       // PARITY: submitted as urlencoded via jQuery .serialize(); success is any 2xx.
-      fields: $("#stickyContactForm").find("input, textarea").map((_, f) => ({
-        name: $(f).attr("name") ?? null,
-        type: f.tagName.toLowerCase() === "textarea" ? "textarea" : ($(f).attr("type") || "text"),
-        required: $(f).attr("required") !== undefined,
-        placeholder: $(f).attr("placeholder") ?? null,
-      })).get(),
+      fields: $("#stickyContactForm").find("input, textarea").map((_, f) => {
+        const type = f.tagName.toLowerCase() === "textarea" ? "textarea" : ($(f).attr("type") || "text");
+        return {
+          name: $(f).attr("name") ?? null,
+          type,
+          required: $(f).attr("required") !== undefined,
+          placeholder: $(f).attr("placeholder") ?? null,
+          // Hidden fields are submitted with their literal value — address is
+          // always "N/A" — except the CSRF token, which is a per-request secret.
+          value:
+            type === "hidden" && $(f).attr("name") !== "_token"
+              ? ($(f).attr("value") ?? null)
+              : null,
+        };
+      }).get(),
     },
     announcement: null, // PARITY: no marquee on the live site (audit §4.6 not reproducible).
     footer: {
@@ -428,12 +439,19 @@ console.log("fixtures:");
       method: (form.attr("method") || "POST").toUpperCase(),
       submitLabel: t($, form.find("button, input[type=submit]").first()) || "Submit",
       // PARITY: no `required` attributes on this form, unlike the modal.
-      fields: form.find("input, textarea").map((_, f) => ({
-        name: $(f).attr("name") ?? null,
-        type: f.tagName.toLowerCase() === "textarea" ? "textarea" : ($(f).attr("type") || "text"),
-        required: $(f).attr("required") !== undefined,
-        placeholder: $(f).attr("placeholder") ?? null,
-      })).get().filter((f) => f.name),
+      fields: form.find("input, textarea").map((_, f) => {
+        const type = f.tagName.toLowerCase() === "textarea" ? "textarea" : ($(f).attr("type") || "text");
+        return {
+          name: $(f).attr("name") ?? null,
+          type,
+          required: $(f).attr("required") !== undefined,
+          placeholder: $(f).attr("placeholder") ?? null,
+          value:
+            type === "hidden" && $(f).attr("name") !== "_token"
+              ? ($(f).attr("value") ?? null)
+              : null,
+        };
+      }).get().filter((f) => f.name),
     },
     mapEmbedUrl: $('iframe[src*="google.com/maps"], .contact_map iframe').attr("src") || null,
     // PARITY: the hotline anchor is href="#", not a tel: link.

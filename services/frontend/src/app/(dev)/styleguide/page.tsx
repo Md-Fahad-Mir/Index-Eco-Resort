@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { Heading } from "@/components/typography/Heading";
 import { Paragraph } from "@/components/typography/Text";
 import { Prose } from "@/components/typography/Prose";
+import { PageHero } from "@/components/layout/PageHero";
 import { LiteYouTube } from "@/components/media/LiteYouTube";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
@@ -254,6 +255,32 @@ export default function StyleguidePage() {
             roomTabs={roomTabs}
           />
         </Container>
+      </Section>
+
+      {/* ── Page hero, including the missing-image state ───────────────── */}
+      <Section tone="mist" id="hero" spacing={false} className="section-y">
+        <Container className="mb-10 flex flex-col gap-10">
+          <SectionHeader
+            eyebrow="Components"
+            title="Page hero"
+            aside={
+              <Paragraph>
+                A CMS image can be missing from storage — one package hero is today. Rather than a
+                broken photo, the hero falls back to a canopy panel with a faint leaf-vein pattern,
+                keeping the same layout so the page still reads as designed.
+              </Paragraph>
+            }
+          />
+        </Container>
+        <div data-testid="sg-hero-missing" className="border-hairline border-y">
+          <PageHero
+            hero={{
+              title: "Silver Ownership",
+              image: { src: "", alt: "" },
+              breadcrumb: { home: { label: "Home", href: "/" }, current: "Silver Ownership" },
+            }}
+          />
+        </div>
       </Section>
 
       {/* ── Prose and media ────────────────────────────────────────────── */}

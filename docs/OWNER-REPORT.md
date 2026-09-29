@@ -31,6 +31,7 @@ Living document: every phase adds to it; the final phase (prompts/15) turns it i
 | 12 | Events | Event #4 has no dates/times (shows "-"); breadcrumb "Home" targets `/people-leading` (a 500) | Fill the dates; the new site sends that breadcrumb to `/` |
 | 13 | Footer / socials | Facebook link is the relative `www.facebook.com/indexecoresort` (broken); TikTok is `#`; top-bar socials point to `bdresellhub` accounts | Enter full URLs |
 | 14 | Many CTAs | Read More, Learn More, Buy Share, Book Your Share, room/restaurant Book Now, event Booking Now, blog share links, contact hotline all go to `#` | Set real targets when ready — kept verbatim until then |
+| 15 | Floating contact dock | The WhatsApp button and the phone button both use **+8801700729312**, while the panel beside them *displays* 01711307580 and its own WhatsApp link uses **+8801711307580**. Three numbers, two of them contradicting the footer. | Decide the one correct WhatsApp number and the one correct phone number. The new site shows a single WhatsApp action using the button's own destination. |
 
 ## C. Adding a new ownership package
 

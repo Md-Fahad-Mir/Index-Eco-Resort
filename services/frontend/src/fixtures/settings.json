@@ -162,7 +162,7 @@
     }
   },
   "contactModal": {
-    "title": "Contact Form ✕",
+    "title": "Contact Form",
     "successMessage": "✓ Message sent successfully!",
     "submitLabel": "Submit",
     "submittingLabel": "Sending...",
@@ -173,37 +173,43 @@
         "name": "_token",
         "type": "hidden",
         "required": false,
-        "placeholder": null
+        "placeholder": null,
+        "value": null
       },
       {
         "name": "name",
         "type": "text",
         "required": true,
-        "placeholder": "Name*"
+        "placeholder": "Name*",
+        "value": null
       },
       {
         "name": "phone",
         "type": "tel",
         "required": true,
-        "placeholder": "Phone*"
+        "placeholder": "Phone*",
+        "value": null
       },
       {
         "name": "email",
         "type": "email",
         "required": true,
-        "placeholder": "Email*"
+        "placeholder": "Email*",
+        "value": null
       },
       {
         "name": "address",
         "type": "hidden",
         "required": false,
-        "placeholder": null
+        "placeholder": null,
+        "value": "N/A"
       },
       {
         "name": "message",
         "type": "textarea",
         "required": false,
-        "placeholder": "Message"
+        "placeholder": "Message",
+        "value": null
       }
     ]
   },

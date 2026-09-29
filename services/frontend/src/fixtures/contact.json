@@ -22,37 +22,43 @@
         "name": "_token",
         "type": "hidden",
         "required": false,
-        "placeholder": null
+        "placeholder": null,
+        "value": null
       },
       {
         "name": "name",
         "type": "text",
         "required": false,
-        "placeholder": "Enter Your Full Name"
+        "placeholder": "Enter Your Full Name",
+        "value": null
       },
       {
         "name": "phone",
         "type": "number",
         "required": false,
-        "placeholder": "Enter Your Mobile Number"
+        "placeholder": "Enter Your Mobile Number",
+        "value": null
       },
       {
         "name": "email",
         "type": "email",
         "required": false,
-        "placeholder": "Enter Your Email"
+        "placeholder": "Enter Your Email",
+        "value": null
       },
       {
         "name": "address",
         "type": "text",
         "required": false,
-        "placeholder": "Enter Your Address"
+        "placeholder": "Enter Your Address",
+        "value": null
       },
       {
         "name": "message",
         "type": "textarea",
         "required": false,
-        "placeholder": "Enter Your Message"
+        "placeholder": "Enter Your Message",
+        "value": null
       }
     ]
   },

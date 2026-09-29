@@ -23,6 +23,12 @@ export type AllowedDiff = {
   reason: string;
   /** Set when the owner must act for the live behavior to become correct. */
   ownerAction?: string;
+  /**
+   * Destinations this entry accounts for, normalised the way the link-parity
+   * test normalises them. Listing them explicitly keeps the test exact instead
+   * of guessing from the prose.
+   */
+  hrefs?: string[];
 };
 
 export const ALLOWED_DIFFS: AllowedDiff[] = [
@@ -43,6 +49,7 @@ export const ALLOWED_DIFFS: AllowedDiff[] = [
     live: 'mobile menu "About Us" links to /about_us (a 500)',
     ours: 'mobile menu "About Us" links to /about-us',
     reason: "live /about_us returns 500; /about-us is the evident working target",
+    hrefs: ["/about_us"],
   },
   {
     rule: "9c",
@@ -50,6 +57,7 @@ export const ALLOWED_DIFFS: AllowedDiff[] = [
     live: 'Events page-hero breadcrumb "Home" links to /people-leading',
     ours: 'Events page-hero breadcrumb "Home" links to /',
     reason: "/people-leading returns HTTP 500 on the live site",
+    hrefs: ["/people-leading"],
   },
   {
     rule: "9c",
@@ -59,6 +67,7 @@ export const ALLOWED_DIFFS: AllowedDiff[] = [
     reason:
       "/event-details/{id} returns 404 on the live site; /events/{slug} is the " +
       "working detail route the server-rendered cards already use",
+    hrefs: ["/event-details/{id}"],
   },
   {
     rule: "9c",
@@ -70,6 +79,22 @@ export const ALLOWED_DIFFS: AllowedDiff[] = [
       "category opens nothing. The <img> beside each one already uses the working path " +
       "with the same filename, which is the evident working target.",
     ownerAction: "No action needed; the underlying image files are fine.",
+  },
+  {
+    rule: "9c",
+    routes: "*",
+    live:
+      "the floating dock exposes WhatsApp twice with different numbers: the button uses " +
+      "web.whatsapp.com/send?phone=+8801700729312, while a slide-out panel and a " +
+      "display:none widget link to wa.me/+8801711307580",
+    ours: "one WhatsApp action, using the button's own destination",
+    reason:
+      "the two numbers contradict each other, and the second is reachable only through " +
+      "a hover panel that the design replaces with a label. Shipping two WhatsApp " +
+      "buttons with different numbers would pass the contradiction on to visitors.",
+    ownerAction:
+      "Decide which WhatsApp number is correct; it is one of the mismatches listed in §B.",
+    hrefs: ["https://wa.me/+8801711307580"],
   },
   {
     rule: "9d",
@@ -97,6 +122,9 @@ export const ALLOWED_DIFFS: AllowedDiff[] = [
     reason: "every page needs exactly one non-empty <h1> (rule 9e); the data already has the title",
   },
 ];
+
+/** Every destination the allowed diffs account for. */
+export const allowedHrefs = new Set(ALLOWED_DIFFS.flatMap((diff) => diff.hrefs ?? []));
 
 /** Entries that apply to a route, for assertions and reporting. */
 export const allowedDiffsFor = (route: string): AllowedDiff[] =>
