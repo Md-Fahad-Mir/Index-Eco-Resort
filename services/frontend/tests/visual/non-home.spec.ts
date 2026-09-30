@@ -110,10 +110,9 @@ test.describe("chrome states on /about-us are unchanged", () => {
 
     test(`contact modal @ ${width}px`, async ({ page }) => {
       await open(page, width);
-      await page
-        .getByTestId("floating-dock")
-        .getByRole("button", { name: /Contact Form/i })
-        .click();
+      const dock = page.getByTestId("floating-dock");
+      await dock.getByRole("button", { name: "Contact us" }).click();
+      await dock.getByRole("button", { name: /Contact Form/i }).click();
       const dialog = page.getByRole("dialog");
       await expect(dialog).toBeVisible();
       // With the validation messages showing, so the error styling is pinned too.
@@ -144,10 +143,9 @@ test.describe("chrome states on /about-us are unchanged", () => {
 
   test("hover states: dock label, Book Now, social icon @ 1440px", async ({ page }) => {
     await open(page, 1440);
-    await page
-      .getByTestId("floating-dock")
-      .getByRole("link", { name: /WhatsApp/ })
-      .hover();
+    const dock = page.getByTestId("floating-dock");
+    await dock.getByRole("button", { name: "Contact us" }).click();
+    await dock.getByRole("link", { name: /WhatsApp/ }).hover();
     await expect(page).toHaveScreenshot("chrome-dock-hover@1440.png", shot);
 
     await page.locator('[data-region="topbar"] a').first().hover();

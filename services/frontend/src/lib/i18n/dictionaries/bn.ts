@@ -25,6 +25,8 @@ export const bn: Dictionary = {
     openMenu: "মেনু খুলুন",
     closeMenu: "মেনু বন্ধ করুন",
     closeContactForm: "যোগাযোগ ফর্ম বন্ধ করুন",
+    openContactOptions: "যোগাযোগ করুন",
+    closeContactOptions: "যোগাযোগের অপশন বন্ধ করুন",
     footerContact: "যোগাযোগ করুন",
   },
   carousel: {

@@ -14,6 +14,13 @@ import { en } from "../helpers/routes";
 const isMobileViewport = async (page: import("@playwright/test").Page) =>
   (page.viewportSize()?.width ?? 1440) < 1024;
 
+/** The dock's three actions sit folded behind one message button. */
+const openDock = async (page: import("@playwright/test").Page) => {
+  const dock = page.getByTestId("floating-dock");
+  await dock.getByRole("button", { name: "Contact us" }).click();
+  return dock;
+};
+
 test.describe("header", () => {
   test("becomes solid after scrolling and stays readable", async ({ page }) => {
     await page.goto(en("/about-us"));
@@ -117,8 +124,8 @@ test.describe("mobile menu", () => {
 test.describe("floating dock", () => {
   test("keeps the live hrefs exactly, contradictions included", async ({ page }) => {
     await page.goto(en("/"));
-    const dock = page.getByTestId("floating-dock");
-    await expect(dock).toBeVisible();
+    await expect(page.getByTestId("floating-dock")).toBeVisible();
+    const dock = await openDock(page);
 
     // PARITY: the button dials +8801700729312 while displaying 01711307580.
     await expect(dock.getByRole("link", { name: /WhatsApp/ })).toHaveAttribute(
@@ -140,13 +147,41 @@ test.describe("floating dock", () => {
     expect(parseFloat(bottom)).toBeGreaterThanOrEqual(16);
   });
 
+  test("starts folded and opens from the message button", async ({ page }) => {
+    await page.goto(en("/"));
+    const dock = page.getByTestId("floating-dock");
+    const toggle = dock.getByRole("button", { name: "Contact us" });
+    await expect(toggle).toHaveAttribute("aria-expanded", "false");
+    await expect(dock.getByRole("link", { name: /WhatsApp/ })).toBeHidden();
+
+    await toggle.click();
+    await expect(dock.getByRole("link", { name: /WhatsApp/ })).toBeVisible();
+    const close = dock.getByRole("button", { name: "Close contact options" });
+    await expect(close).toHaveAttribute("aria-expanded", "true");
+
+    // Escape folds it and leaves focus on the toggle.
+    await page.keyboard.press("Escape");
+    await expect(dock.getByRole("link", { name: /WhatsApp/ })).toBeHidden();
+    await expect(toggle).toBeFocused();
+
+    // So does a press anywhere else on the page.
+    await toggle.click();
+    await page.mouse.click(10, 300);
+    await expect(dock.getByRole("link", { name: /WhatsApp/ })).toBeHidden();
+  });
+
   test("its buttons meet the touch-target minimum", async ({ page }) => {
     await page.goto(en("/"));
-    const buttons = page.getByTestId("floating-dock").locator("a, button");
+    const dock = await openDock(page);
+    const buttons = dock.locator("a, button");
     for (const button of await buttons.all()) {
-      const box = await button.boundingBox();
-      expect(box?.width ?? 0).toBeGreaterThanOrEqual(44);
-      expect(box?.height ?? 0).toBeGreaterThanOrEqual(44);
+      // Polled, since the list scales up as it fans out.
+      await expect
+        .poll(async () => (await button.boundingBox())?.width ?? 0)
+        .toBeGreaterThanOrEqual(44);
+      await expect
+        .poll(async () => (await button.boundingBox())?.height ?? 0)
+        .toBeGreaterThanOrEqual(44);
     }
   });
 });
@@ -154,10 +189,8 @@ test.describe("floating dock", () => {
 test.describe("contact modal", () => {
   test("opens from the dock, validates, submits and returns focus", async ({ page }) => {
     await page.goto(en("/"));
-    const trigger = page
-      .getByTestId("floating-dock")
-      .getByRole("button", { name: /Contact Form/i });
-    await trigger.click();
+    const dock = await openDock(page);
+    await dock.getByRole("button", { name: /Contact Form/i }).click();
 
     const dialog = page.getByRole("dialog");
     await expect(dialog).toBeVisible();
@@ -175,9 +208,10 @@ test.describe("contact modal", () => {
     // The live site's own success text.
     await expect(dialog.getByText("✓ Message sent successfully!")).toBeVisible();
 
+    // The dock folds as the dialog opens, so focus returns to its toggle.
     await page.keyboard.press("Escape");
     await expect(dialog).toBeHidden();
-    await expect(trigger).toBeFocused();
+    await expect(dock.getByRole("button", { name: "Contact us" })).toBeFocused();
   });
 
   test("submits the field names the live form used", async ({ page }) => {
@@ -189,10 +223,8 @@ test.describe("contact modal", () => {
       await route.fulfill({ status: 200, body: JSON.stringify({ ok: true }) });
     });
 
-    await page
-      .getByTestId("floating-dock")
-      .getByRole("button", { name: /Contact Form/i })
-      .click();
+    const dock = await openDock(page);
+    await dock.getByRole("button", { name: /Contact Form/i }).click();
     const dialog = page.getByRole("dialog");
     await dialog.getByLabel(/^Name/).fill("Test Person");
     await dialog.getByLabel(/^Phone/).fill("01700000000");

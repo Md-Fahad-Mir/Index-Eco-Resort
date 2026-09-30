@@ -31,6 +31,8 @@ export const en = {
     openMenu: "Open menu",
     closeMenu: "Close menu",
     closeContactForm: "Close contact form",
+    openContactOptions: "Contact us",
+    closeContactOptions: "Close contact options",
     footerContact: "Contact Us",
   },
   carousel: {
