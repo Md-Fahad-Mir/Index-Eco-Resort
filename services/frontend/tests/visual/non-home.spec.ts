@@ -81,3 +81,86 @@ for (const width of WIDTHS) {
     });
   });
 }
+
+/**
+ * The chrome's open and hover states, which a page at rest never shows. The
+ * Phase 5b chrome tokens restyle exactly these on Home, so their defaults are
+ * pinned here too. Captured on /about-us; viewport-sized, not full page.
+ */
+test.describe("chrome states on /about-us are unchanged", () => {
+  test.beforeEach(({}, testInfo) => {
+    test.skip(testInfo.project.name === "styleguide", "production routes run in `non-home`");
+  });
+
+  const shot = { animations: "disabled", threshold: 0 } as const;
+
+  const open = async (page: Page, width: number) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/about-us", { waitUntil: "load" });
+    await settle(page);
+  };
+
+  for (const width of WIDTHS) {
+    test(`solid header @ ${width}px`, async ({ page }) => {
+      await open(page, width);
+      await page.evaluate(() => window.scrollTo(0, 600));
+      await expect(page.locator("header").first()).toHaveAttribute("data-solid", "true");
+      await expect(page).toHaveScreenshot(`chrome-solid-header@${width}.png`, shot);
+    });
+
+    test(`contact modal @ ${width}px`, async ({ page }) => {
+      await open(page, width);
+      await page
+        .getByTestId("floating-dock")
+        .getByRole("button", { name: /Contact Form/i })
+        .click();
+      const dialog = page.getByRole("dialog");
+      await expect(dialog).toBeVisible();
+      // With the validation messages showing, so the error styling is pinned too.
+      await dialog.getByRole("button", { name: "Submit" }).click();
+      await expect(dialog.getByText(/is required/).first()).toBeVisible();
+      await expect(page).toHaveScreenshot(`chrome-contact-modal@${width}.png`, shot);
+    });
+  }
+
+  test("mobile nav, packages expanded @ 390px", async ({ page }) => {
+    await open(page, 390);
+    await page.getByRole("button", { name: "Open menu" }).click();
+    const sheet = page.getByRole("dialog");
+    await sheet.getByRole("button", { name: "Ownership Packages" }).click();
+    await expect(sheet.getByRole("link", { name: "Gold Ownership", exact: true })).toBeVisible();
+    await expect(page).toHaveScreenshot("chrome-mobile-nav@390.png", shot);
+  });
+
+  test("packages dropdown, first row hovered @ 1440px", async ({ page }) => {
+    await open(page, 1440);
+    const nav = page.locator('nav[data-region="header"]');
+    await nav.getByRole("button", { name: /Ownership Packages/i }).click();
+    const gold = nav.getByRole("link", { name: "Gold Ownership", exact: true });
+    await expect(gold).toBeVisible();
+    await gold.hover();
+    await expect(page).toHaveScreenshot("chrome-packages-menu@1440.png", shot);
+  });
+
+  test("hover states: dock label, Book Now, social icon @ 1440px", async ({ page }) => {
+    await open(page, 1440);
+    await page.getByTestId("floating-dock").getByRole("link", { name: /WhatsApp/ }).hover();
+    await expect(page).toHaveScreenshot("chrome-dock-hover@1440.png", shot);
+
+    await page.locator('[data-region="topbar"] a').first().hover();
+    await expect(page).toHaveScreenshot("chrome-topbar-social-hover@1440.png", shot);
+
+    await page.evaluate(() => window.scrollTo(0, 600));
+    await expect(page.locator("header").first()).toHaveAttribute("data-solid", "true");
+    await page.locator("header").getByRole("link", { name: "Book Now" }).hover();
+    await expect(page).toHaveScreenshot("chrome-book-now-hover@1440.png", shot);
+  });
+
+  test("footer link hover @ 1440px", async ({ page }) => {
+    await open(page, 1440);
+    const footer = page.locator('footer[data-region="footer"]');
+    await footer.scrollIntoViewIfNeeded();
+    await footer.getByRole("link", { name: "Offer", exact: true }).hover();
+    await expect(page).toHaveScreenshot("chrome-footer-hover@1440.png", shot);
+  });
+});
