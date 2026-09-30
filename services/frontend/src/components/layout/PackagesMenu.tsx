@@ -42,8 +42,8 @@ export function PackagesMenu({
           <Nav.Trigger
             className={cn(
               "group text-small relative inline-flex cursor-pointer items-center gap-1.5 py-2 font-medium transition-colors duration-[var(--dur-micro)]",
-              onDark ? "text-mist/90 hover:text-mist" : "text-ink hover:text-index",
-              active && (onDark ? "text-mist" : "text-index"),
+              onDark ? "text-chrome-text/90 hover:text-chrome-text" : "text-ink hover:text-index",
+              active && (onDark ? "text-chrome-text" : "text-index"),
             )}
           >
             {label}
@@ -53,24 +53,29 @@ export function PackagesMenu({
               className="size-4 transition-transform duration-[var(--dur-ui)] group-data-[state=open]:rotate-180"
             />
             {active && (
-              <span aria-hidden className="bg-brass absolute inset-x-0 -bottom-0.5 h-px" />
+              <span aria-hidden className="bg-chrome-accent absolute inset-x-0 -bottom-0.5 h-px" />
             )}
           </Nav.Trigger>
 
           <Nav.Content className="data-[state=open]:animate-in data-[state=open]:fade-in absolute top-full left-0 z-50 pt-4">
-            <ul className="bg-paper border-hairline rounded-panel shadow-float w-[320px] border p-2">
+            <ul className="bg-chrome-panel border-chrome-panel-border w-[320px] rounded-(--chrome-panel-radius) border p-2 shadow-(--chrome-panel-shadow)">
               {items.map((item) => {
                 const href = internalHref(item.href) ?? "#";
                 const isCurrent = isActiveRoute(item.href, pathname);
                 return (
-                  <li key={item.label}>
+                  // Rows are divided by an inset rule, not a border, so a theme can
+                  // draw one without moving anything (transparent by default).
+                  <li
+                    key={item.label}
+                    className="[&+&]:shadow-[inset_0_1px_0_var(--chrome-panel-rule)]"
+                  >
                     <Nav.Link asChild>
                       <Link
                         href={href}
                         aria-current={isCurrent ? "page" : undefined}
                         className={cn(
-                          "group/row hover:bg-lichen-soft flex items-center gap-4 rounded-[10px] p-2 transition-colors duration-[var(--dur-micro)]",
-                          isCurrent && "bg-lichen-soft",
+                          "group/row hover:bg-chrome-panel-hover flex items-center gap-4 rounded-(--chrome-panel-row-radius) p-2 transition-colors duration-[var(--dur-micro)]",
+                          isCurrent && "bg-chrome-panel-hover",
                         )}
                       >
                         <SmartImage
@@ -80,7 +85,9 @@ export function PackagesMenu({
                           decorative
                           frameClassName="w-[72px] shrink-0 rounded-[4px]"
                         />
-                        <span className="font-display text-ink text-[1.0625rem]">{item.label}</span>
+                        <span className="text-chrome-panel-text font-(family-name:--chrome-panel-font) text-(length:--chrome-panel-size)">
+                          {item.label}
+                        </span>
                       </Link>
                     </Nav.Link>
                   </li>

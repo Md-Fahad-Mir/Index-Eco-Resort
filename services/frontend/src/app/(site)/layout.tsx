@@ -4,6 +4,7 @@ import { ContactModalProvider } from "@/components/layout/ContactModalProvider";
 import { FloatingDock } from "@/components/layout/FloatingDock";
 import { Footer } from "@/components/layout/Footer";
 import { SiteHeader } from "@/components/layout/SiteHeader";
+import { SiteMain } from "@/components/layout/SiteMain";
 import { SkipLink } from "@/components/layout/SkipLink";
 import { getPackages, getSettings } from "@/lib/data";
 
@@ -18,9 +19,7 @@ export default async function SiteLayout({ children }: { children: ReactNode }) 
     <ContactModalProvider>
       <SkipLink />
       <SiteHeader settings={settings} packages={packages} />
-      <main id="main" className="flex-1">
-        {children}
-      </main>
+      <SiteMain>{children}</SiteMain>
       <Footer settings={settings} />
       <FloatingDock settings={settings} />
       <ContactModal settings={settings.contactModal} />

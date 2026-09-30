@@ -48,9 +48,27 @@ export const metadata: Metadata = {
   description: "INDEX Eco Resort — ownership shares, stays, dining and events.",
 };
 
+/**
+ * Marks the document `data-motion="on"` before first paint, only when JS runs
+ * and reduced motion is off. Midnight's entrance states are hidden only under
+ * that flag (styles/midnight.css), so without JS everything is visible. If the
+ * page has not hydrated within 6s — a failed bundle — the flag is withdrawn
+ * and everything shows in its final state.
+ */
+const MOTION_FLAG = `(function(){try{var d=document.documentElement;if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;d.setAttribute("data-motion","on");setTimeout(function(){if(!window.__meMotionReady)d.removeAttribute("data-motion")},6000)}catch(e){}})()`;
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${tiroBangla.variable} ${anekBangla.variable} h-full antialiased`}>
+    // The flag above is set before React hydrates, hence the suppression — it
+    // covers this element's own attributes only.
+    <html
+      lang="en"
+      className={`${tiroBangla.variable} ${anekBangla.variable} h-full antialiased`}
+      suppressHydrationWarning
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: MOTION_FLAG }} />
+      </head>
       <body className="flex min-h-full flex-col">
         <PreviewBar />
         <MotionProvider>{children}</MotionProvider>

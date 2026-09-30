@@ -28,26 +28,26 @@ export function MobileNav({ settings, pathname }: { settings: SiteSettings; path
     <Dialog.Root open={open} onOpenChange={setOpen}>
       <Dialog.Trigger
         aria-label="Open menu"
-        className="text-mist on-dark grid size-11 place-items-center lg:hidden"
+        className="text-chrome-text on-dark grid size-11 place-items-center lg:hidden"
       >
         <Menu aria-hidden className="size-6" strokeWidth={1.5} />
       </Dialog.Trigger>
 
       <Dialog.Portal>
-        <Dialog.Overlay className="bg-canopy-deep/70 data-[state=open]:animate-in data-[state=open]:fade-in fixed inset-0 z-60 backdrop-blur-[2px]" />
+        <Dialog.Overlay className="bg-chrome-overlay/70 data-[state=open]:animate-in data-[state=open]:fade-in fixed inset-0 z-60 backdrop-blur-[2px]" />
         <Dialog.Content
           className={cn(
-            "bg-canopy on-dark fixed inset-y-0 right-0 z-60 flex w-[min(22rem,88vw)] flex-col",
+            "bg-chrome-sheet on-dark fixed inset-y-0 right-0 z-60 flex w-[min(22rem,88vw)] flex-col",
             "data-[state=open]:animate-in data-[state=open]:slide-in-from-right data-[state=open]:duration-450",
           )}
         >
           <Dialog.Title className="sr-only">Menu</Dialog.Title>
 
-          <div className="border-hairline-dark flex items-center justify-between border-b px-6 py-5">
-            <span className="text-mist/70 text-label font-semibold">Menu</span>
+          <div className="border-chrome-hairline flex items-center justify-between border-b px-6 py-5">
+            <span className="text-chrome-text/70 text-label font-semibold">Menu</span>
             <Dialog.Close
               aria-label="Close menu"
-              className="text-mist hover:bg-mist hover:text-canopy rounded-pill grid size-11 place-items-center transition-colors"
+              className="text-chrome-text hover:bg-chrome-control-hover hover:text-chrome-control-hover-fg rounded-pill grid size-11 place-items-center transition-colors"
             >
               <X aria-hidden className="size-5" strokeWidth={1.5} />
             </Dialog.Close>
@@ -58,7 +58,7 @@ export function MobileNav({ settings, pathname }: { settings: SiteSettings; path
             aria-label="Mobile"
             className="flex-1 overflow-y-auto overscroll-contain px-6 pb-6"
           >
-            <ul className="divide-hairline-dark divide-y">
+            <ul className="divide-chrome-hairline divide-y">
               {settings.mobileNav.map((item) => {
                 const active = isActiveRoute(item.href, pathname, item.children);
 
@@ -73,8 +73,8 @@ export function MobileNav({ settings, pathname }: { settings: SiteSettings; path
                         <Accordion.Item value={item.label}>
                           <Accordion.Trigger
                             className={cn(
-                              "group font-display flex w-full items-center justify-between gap-3 py-5 text-[1.75rem]",
-                              active ? "text-brass" : "text-mist",
+                              "group font-display flex w-full items-center justify-between gap-3 py-5 text-(length:--chrome-sheet-link-size)",
+                              active ? "text-chrome-accent" : "text-chrome-text",
                             )}
                           >
                             {item.label}
@@ -92,7 +92,7 @@ export function MobileNav({ settings, pathname }: { settings: SiteSettings; path
                                     href={child.href}
                                     pathname={pathname}
                                     onNavigate={close}
-                                    className="text-mist/85 text-body block py-2"
+                                    className="text-chrome-text/85 text-body block py-2"
                                   >
                                     {child.label}
                                   </MobileLink>
@@ -113,8 +113,8 @@ export function MobileNav({ settings, pathname }: { settings: SiteSettings; path
                       pathname={pathname}
                       onNavigate={close}
                       className={cn(
-                        "font-display block py-5 text-[1.75rem]",
-                        active ? "text-brass" : "text-mist",
+                        "font-display block py-5 text-(length:--chrome-sheet-link-size)",
+                        active ? "text-chrome-accent" : "text-chrome-text",
                       )}
                     >
                       {item.label}
@@ -127,15 +127,15 @@ export function MobileNav({ settings, pathname }: { settings: SiteSettings; path
 
           <div
             data-region="mobile-nav"
-            className="border-hairline-dark flex flex-col gap-3 border-t px-6 pt-5"
+            className="border-chrome-hairline flex flex-col gap-3 border-t px-6 pt-5"
             style={{ paddingBottom: "max(1.25rem, env(safe-area-inset-bottom))" }}
           >
             <div className="flex gap-3">
               {/* PARITY: Call Now dials a third number, different from the top bar and footer. */}
-              <Button asChild variant="on-dark" className="flex-1">
+              <Button asChild variant="chrome-primary" className="flex-1">
                 <a href={callNow.href ?? "#"}>{callNow.label}</a>
               </Button>
-              <Button asChild variant="outline" className="text-mist flex-1">
+              <Button asChild variant="chrome-secondary" className="flex-1">
                 <Link href={bookNow}>{settings.bookNow.label}</Link>
               </Button>
             </div>
@@ -145,7 +145,7 @@ export function MobileNav({ settings, pathname }: { settings: SiteSettings; path
                   <a
                     href={social.href}
                     aria-label={socialLabel(social.network)}
-                    className="text-mist/80 hover:bg-mist hover:text-canopy rounded-pill grid size-10 place-items-center transition-colors"
+                    className="text-chrome-text/80 hover:bg-chrome-social-hover hover:text-chrome-social-hover-fg rounded-pill grid size-10 place-items-center transition-colors"
                     {...anchorProps(social.href, social.target)}
                   >
                     <SocialIcon network={social.network} className="size-4" />

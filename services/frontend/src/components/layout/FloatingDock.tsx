@@ -57,7 +57,7 @@ export function FloatingDock({ settings }: { settings: SiteSettings }) {
     >
       <ul
         className={cn(
-          "bg-canopy/94 border-hairline-dark rounded-pill flex flex-col gap-1 border p-1.5 backdrop-blur-[10px]",
+          "bg-chrome-dock/94 border-chrome-dock-rule rounded-pill flex flex-col gap-1 border p-1.5 backdrop-blur-[10px]",
         )}
       >
         <li>
@@ -88,17 +88,22 @@ export function FloatingDock({ settings }: { settings: SiteSettings }) {
 }
 
 const DOCK_ITEM =
-  "group text-mist hover:bg-mist hover:text-canopy relative grid size-11 place-items-center " +
+  "group text-chrome-dock-icon hover:bg-chrome-control-hover hover:text-chrome-control-hover-fg " +
+  "relative grid size-11 place-items-center " +
   "rounded-pill transition-colors duration-[var(--dur-micro)] lg:size-13";
 
-/** The label slides out to the left on hover and focus, tooltip-style. */
+/**
+ * The label appears to the left on hover and focus, tooltip-style. A theme can
+ * make it slide out as well, through --chrome-dock-label-shift (0 by default).
+ */
 function DockLabel({ children }: { children: string }) {
   return (
     <span
       aria-hidden
       className={cn(
-        "bg-canopy text-mist text-label pointer-events-none absolute right-[calc(100%+0.5rem)] hidden",
-        "rounded-pill px-3 py-1.5 whitespace-nowrap opacity-0 transition-opacity duration-[var(--dur-micro)]",
+        "bg-chrome-dock-label text-chrome-dock-label-fg text-label pointer-events-none absolute right-[calc(100%+0.5rem)] hidden",
+        "rounded-pill px-3 py-1.5 whitespace-nowrap opacity-0 transition-[opacity,translate] duration-[var(--dur-micro)]",
+        "translate-x-(--chrome-dock-label-shift) group-hover:translate-x-0 group-focus-visible:translate-x-0",
         "group-hover:opacity-100 group-focus-visible:opacity-100 lg:block",
       )}
     >

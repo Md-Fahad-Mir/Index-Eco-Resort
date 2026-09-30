@@ -28,6 +28,7 @@ export function MembershipCard({
   className,
   sizes = "(min-width: 1024px) 320px, (min-width: 640px) 45vw, 80vw",
   priority,
+  variant = "default",
 }: {
   card: ImgData | null | undefined;
   /** Package name, used as the link's accessible name. */
@@ -37,7 +38,13 @@ export function MembershipCard({
   className?: string;
   sizes?: string;
   priority?: boolean;
+  /**
+   * `home` is the Midnight Estate vault (docs/02 §13): shadows deep and black
+   * rather than canopy-tinted, plus a champagne rim that lights on hover.
+   */
+  variant?: "default" | "home";
 }) {
+  const home = variant === "home";
   const reduced = useReducedMotionSafe();
   const ref = useRef<HTMLDivElement>(null);
   const [hovering, setHovering] = useState(false);
@@ -53,6 +60,9 @@ export function MembershipCard({
   const shadowX = useSpring(useTransform(px, [-0.5, 0.5], [12, -12]), SPRING);
   const shadowY = useSpring(useTransform(py, [-0.5, 0.5], [12, -12]), SPRING);
   const boxShadow = useMotionTemplate`${shadowX}px ${shadowY}px 40px -14px rgb(12 33 22 / 0.55), 0 1px 1px rgb(12 33 22 / 0.2)`;
+  // Midnight: the §2.3 shadow on dark, leaning with the tilt, and the rim light.
+  const rim = useSpring(0, SPRING);
+  const homeShadow = useMotionTemplate`${shadowX}px ${shadowY}px 60px -20px rgb(0 0 0 / 0.6), 0 2px 6px rgb(0 0 0 / 0.4), 0 0 0 1px rgb(201 169 110 / ${rim})`;
 
   // Sheen origin follows the pointer across the face.
   const sheenX = useTransform(px, (v) => `${(v + 0.5) * 100}%`);
@@ -69,6 +79,7 @@ export function MembershipCard({
 
   const rest = () => {
     setHovering(false);
+    rim.set(0);
     px.set(0);
     py.set(0);
   };
@@ -85,18 +96,31 @@ export function MembershipCard({
       ref={ref}
       data-testid="membership-card-face"
       onPointerMove={handlePointerMove}
-      onPointerEnter={(e) => e.pointerType === "mouse" && setHovering(true)}
+      onPointerEnter={(e) => {
+        if (e.pointerType !== "mouse") return;
+        setHovering(true);
+        rim.set(0.35);
+      }}
       onPointerLeave={rest}
       onPointerDown={handlePointerDown}
       style={
         reduced
           ? undefined
-          : { rotateX, rotateY, boxShadow, transformStyle: "preserve-3d" as const }
+          : {
+              rotateX,
+              rotateY,
+              boxShadow: home ? homeShadow : boxShadow,
+              transformStyle: "preserve-3d" as const,
+            }
       }
       className={cn(
         // Real card corners, not a uniform radius (§6).
-        "bg-canopy-deep relative isolate overflow-hidden rounded-[4.5%_/_7.1%]",
-        reduced && "shadow-card hover:shadow-float transition-shadow duration-[var(--dur-ui)]",
+        "relative isolate overflow-hidden rounded-[4.5%_/_7.1%]",
+        home ? "bg-me-night-deep" : "bg-canopy-deep",
+        reduced &&
+          (home
+            ? "shadow-me-deep hover:shadow-me-lit transition-shadow duration-[var(--dur-ui)]"
+            : "shadow-card hover:shadow-float transition-shadow duration-[var(--dur-ui)]"),
       )}
     >
       <SmartImage image={card} sizes={sizes} ratio="card-face" priority={priority} />

@@ -17,7 +17,8 @@ import { TopBar } from "./TopBar";
 /**
  * The header sits over every page's hero. At the top it is transparent with a
  * gradient behind it for legibility over any photograph; past 24px it becomes
- * canopy with a blur and loses the top bar.
+ * solid with a blur and loses the top bar. Colours come from the chrome tokens
+ * (globals.css), so a theme scope restyles it without a branch here.
  *
  * Height changes from 88 to 72, but the header is fixed and the hero sizes
  * itself, so nothing below it moves — no layout shift.
@@ -47,14 +48,16 @@ export function SiteHeader({
       style={showPreviewBar ? { top: PREVIEW_BAR_HEIGHT } : undefined}
       className={cn(
         "on-dark fixed inset-x-0 top-0 z-50 transition-[background-color,backdrop-filter] duration-300",
-        solid ? "bg-canopy/92 backdrop-blur-[12px] backdrop-saturate-150" : "bg-transparent",
+        solid
+          ? "bg-chrome-header-solid/92 shadow-[inset_0_-1px_0_var(--chrome-header-rule)] backdrop-blur-[12px] backdrop-saturate-150"
+          : "bg-transparent",
       )}
     >
       {/* Gradient scrim: keeps white chrome readable over a bright photo. */}
       {!solid && (
         <div
           aria-hidden
-          className="from-canopy-deep/70 pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b to-transparent"
+          className="from-chrome-scrim/70 pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b to-transparent"
         />
       )}
 
@@ -102,11 +105,8 @@ export function SiteHeader({
           </nav>
 
           <div className="flex items-center gap-2">
-            <Button
-              asChild
-              variant={solid ? "primary" : "on-dark"}
-              className="hidden h-11 px-6 lg:inline-flex"
-            >
+            {/* Its two states follow the header's data-solid (globals.css). */}
+            <Button asChild variant="chrome-cta" className="hidden h-11 px-6 lg:inline-flex">
               <Link href={bookNowHref}>{settings.bookNow.label}</Link>
             </Button>
             <MobileNav settings={settings} pathname={pathname} />
@@ -130,10 +130,10 @@ function NavLink({
   const active = isActiveRoute(href, pathname);
   const className = cn(
     "text-small relative inline-block py-2 font-medium transition-colors duration-[var(--dur-micro)]",
-    active ? "text-mist" : "text-mist/85 hover:text-mist",
+    active ? "text-chrome-text" : "text-chrome-text/85 hover:text-chrome-text",
   );
   const underline = active && (
-    <span aria-hidden className="bg-brass absolute inset-x-0 -bottom-0.5 h-px" />
+    <span aria-hidden className="bg-chrome-accent absolute inset-x-0 -bottom-0.5 h-px" />
   );
 
   if (isInternal(target)) {

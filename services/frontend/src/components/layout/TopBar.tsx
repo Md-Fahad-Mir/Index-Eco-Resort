@@ -15,9 +15,12 @@ import type { SiteSettings } from "@/lib/data";
 export function TopBar({ settings }: { settings: SiteSettings }) {
   const { phone, email, socials } = settings.topBar;
   return (
-    <div data-region="topbar" className="border-hairline-dark/60 hidden border-b py-2.5 lg:block">
+    <div
+      data-region="topbar"
+      className="border-chrome-hairline/60 bg-chrome-topbar hidden border-b py-2.5 lg:block"
+    >
       <Container className="flex items-center justify-between gap-6">
-        <div className="text-mist/85 flex items-center gap-7">
+        <div className="text-chrome-topbar-text/85 flex items-center gap-7">
           <span className="text-small flex items-center gap-2">
             <Phone aria-hidden className="size-4 shrink-0" strokeWidth={1.5} />
             <span className="tabular">{phone.label}</span>
@@ -34,7 +37,7 @@ export function TopBar({ settings }: { settings: SiteSettings }) {
               <a
                 href={social.href}
                 aria-label={socialLabel(social.network)}
-                className="text-mist/85 hover:bg-mist hover:text-canopy on-dark rounded-pill grid size-9 place-items-center transition-colors duration-[var(--dur-micro)]"
+                className="text-chrome-topbar-text/85 hover:bg-chrome-social-hover hover:text-chrome-social-hover-fg on-dark rounded-pill grid size-9 place-items-center transition-colors duration-[var(--dur-micro)]"
                 {...anchorProps(social.href)}
               >
                 <SocialIcon network={social.network} className="size-4" />

@@ -16,7 +16,7 @@ export function ContactModal({ settings }: { settings: SiteSettings["contactModa
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
       <Dialog.Portal>
-        <Dialog.Overlay className="bg-canopy-deep/70 data-[state=open]:animate-in data-[state=open]:fade-in fixed inset-0 z-60 backdrop-blur-[2px]" />
+        <Dialog.Overlay className="bg-chrome-overlay/70 data-[state=open]:animate-in data-[state=open]:fade-in fixed inset-0 z-60 backdrop-blur-[2px]" />
         <Dialog.Content
           // Opened programmatically, so Radix has no trigger to hand focus back
           // to; put it back on whatever opened the dialog.
@@ -24,13 +24,16 @@ export function ContactModal({ settings }: { settings: SiteSettings["contactModa
             event.preventDefault();
             restoreFocus();
           }}
-          className="bg-paper rounded-panel shadow-float data-[state=open]:animate-in data-[state=open]:fade-in data-[state=open]:zoom-in-98 fixed top-1/2 left-1/2 z-60 max-h-[90vh] w-[min(560px,92vw)] -translate-x-1/2 -translate-y-1/2 overflow-y-auto p-8"
+          data-chrome="modal"
+          className="bg-chrome-modal data-[state=open]:animate-in rounded-(--chrome-modal-radius) shadow-(--chrome-modal-shadow) data-[state=open]:fade-in data-[state=open]:zoom-in-98 fixed top-1/2 left-1/2 z-60 max-h-[90vh] w-[min(560px,92vw)] -translate-x-1/2 -translate-y-1/2 overflow-y-auto p-8"
         >
           <div className="mb-6 flex items-start justify-between gap-4">
-            <Dialog.Title className="font-display text-h3 text-ink">{settings.title}</Dialog.Title>
+            <Dialog.Title className="font-display text-h3 text-chrome-modal-text">
+              {settings.title}
+            </Dialog.Title>
             <Dialog.Close
               aria-label="Close contact form"
-              className="text-ink-muted hover:bg-ink hover:text-mist rounded-pill -mt-1 grid size-10 shrink-0 place-items-center transition-colors"
+              className="text-chrome-modal-muted hover:bg-chrome-modal-close-hover hover:text-chrome-modal-close-hover-fg rounded-pill -mt-1 grid size-10 shrink-0 place-items-center transition-colors"
             >
               <X aria-hidden className="size-5" strokeWidth={1.5} />
             </Dialog.Close>

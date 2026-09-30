@@ -1,0 +1,250 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   Midnight Estate — the Home pilot (prompts/06b-home-redesign.md,
+   docs/02-DESIGN-SYSTEM.md §13). Dark, cinematic, champagne gold.
+
+   Everything here is scoped. Home's <main> carries data-theme="midnight"
+   (components/layout/SiteMain.tsx), and:
+     - html:has(main[data-theme="midnight"]) re-points the chrome tokens, so
+       the header, footer, dock and portalled dialogs follow — and revert the
+       moment client navigation removes the attribute;
+     - main[data-theme="midnight"] sets Home's own type scale and rhythm.
+   Every other route renders Canopy & Brass untouched.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Palette (§2.1) — utilities exist everywhere, used only on Home ───── */
+@theme {
+  --color-me-night: #0e1a15;
+  --color-me-night-deep: #09120e;
+  --color-me-forest: #1e2e27;
+  --color-me-moss: #2c3d35;
+  --color-me-champagne: #c9a96e;
+  --color-me-champagne-soft: #e3cfa3;
+  --color-me-bronze: #7a5e2e;
+  --color-me-ivory: #ede6d8;
+  --color-me-parchment: #cfc8ba;
+  --color-me-sage: #7c8b83;
+  --color-me-stone: #5a5f57;
+  --color-me-hairline-gold: rgb(201 169 110 / 0.22);
+  --color-me-hairline-ink: rgb(14 26 21 / 0.14);
+
+  /* Shadows on dark (§2.3): deep and soft, liftable objects only. */
+  --shadow-me-deep: 0 30px 60px -20px rgb(0 0 0 / 0.6), 0 2px 6px rgb(0 0 0 / 0.4);
+  /* A membership card under the pointer: the deep shadow plus its rim light. */
+  --shadow-me-lit:
+    0 30px 60px -20px rgb(0 0 0 / 0.6), 0 2px 6px rgb(0 0 0 / 0.4),
+    0 0 0 1px rgb(201 169 110 / 0.35);
+
+  --ease-me: cubic-bezier(0.19, 1, 0.22, 1);
+  --ease-me-inout: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+:root {
+  /* Motion (§3). The JS primitives mirror these in motion/midnight/tokens.ts. */
+  --me-ease: cubic-bezier(0.19, 1, 0.22, 1);
+  --me-ease-inout: cubic-bezier(0.77, 0, 0.175, 1);
+  --me-dur-reveal: 1100ms;
+  --me-dur-text: 1200ms;
+  --me-dur-light: 1600ms;
+  --me-stagger: 90ms;
+  --me-distance: 28px;
+
+  /* The frame motif (§2.3): a champagne hairline at 40%, inset 14px (10 on phones). */
+  --me-frame: rgb(201 169 110 / 0.4);
+  --me-frame-inset: 10px;
+
+  /* The photographic grade on dark (§2.4). Never on logos, posters or cards. */
+  --me-grade: brightness(0.9) saturate(0.88) contrast(1.04);
+
+  /* Section rhythm (§2.6). */
+  --me-section-y: clamp(6rem, 4rem + 7vw, 12rem);
+
+  /* Light and veils. The hero's bottom veil carries the lockup, its top veil
+     the header; the spotlight is the Plans vault's lamp. */
+  --me-veil-bottom: linear-gradient(
+    to top,
+    rgb(9 18 14 / 0.92) 0%,
+    rgb(9 18 14 / 0.55) 38%,
+    rgb(9 18 14 / 0.12) 70%,
+    transparent 100%
+  );
+  --me-veil-top: linear-gradient(to bottom, rgb(9 18 14 / 0.7), transparent);
+  --me-spotlight: radial-gradient(
+    50% 60% at 50% 0%,
+    rgb(227 207 163 / 0.2),
+    rgb(201 169 110 / 0.07) 45%,
+    transparent 75%
+  );
+}
+
+@media (min-width: 768px) {
+  :root {
+    --me-frame-inset: 14px;
+  }
+}
+
+/* ── The theme scope: chrome, page canvas, focus ─────────────────────────── */
+html:has(main[data-theme="midnight"]) {
+  color-scheme: dark;
+  background: var(--color-me-night);
+  color: var(--color-me-parchment);
+
+  /* Display face: Bodoni Moda, Bangla falling through to Noto Serif Bengali.
+     The variables are declared by the Home page (styles/midnight-fonts.ts), so
+     Tiro Bangla is never requested on Home. */
+  --font-display: var(--font-bodoni), var(--font-noto-serif-bn), serif;
+
+  /* Focus (§7): night on ivory, champagne on dark. */
+  --focus-ring: var(--color-me-night);
+  --focus-ring-on-dark: var(--color-me-champagne);
+
+  /* Shared */
+  --chrome-text: var(--color-me-ivory);
+  --chrome-accent: var(--color-me-champagne);
+  --chrome-hairline: var(--color-me-hairline-gold);
+  --chrome-overlay: var(--color-me-night-deep);
+  --chrome-control-hover: var(--color-me-champagne);
+  --chrome-control-hover-fg: var(--color-me-night);
+  --chrome-social-hover: transparent;
+  --chrome-social-hover-fg: var(--color-me-champagne);
+  --chrome-btn-radius: 0px;
+  --chrome-btn-tracking: 0.08em;
+
+  /* Top bar: night-deep, parchment text, champagne icons on hover. */
+  --chrome-topbar: var(--color-me-night-deep);
+  --chrome-topbar-text: var(--color-me-parchment);
+
+  /* Header: night at 92% once solid, with a gold hairline beneath. */
+  --chrome-header-solid: var(--color-me-night);
+  --chrome-header-rule: var(--color-me-hairline-gold);
+  --chrome-scrim: var(--color-me-night-deep);
+
+  /* Mobile sheet: Call Now primary on dark, Book Now secondary on dark. */
+  --chrome-primary: var(--color-me-champagne);
+  --chrome-primary-fg: var(--color-me-night);
+  --chrome-primary-hover: var(--color-me-champagne-soft);
+  --chrome-secondary: var(--color-me-champagne);
+  --chrome-secondary-fg: var(--color-me-ivory);
+  --chrome-secondary-fill: var(--color-me-champagne);
+  --chrome-secondary-fill-fg: var(--color-me-night);
+
+  /* Packages dropdown: a night panel with champagne hairlines. Its labels are
+     17px, below the 28px Bodoni floor (§2.2), so they take the UI face. */
+  --chrome-panel: var(--color-me-night);
+  --chrome-panel-text: var(--color-me-ivory);
+  --chrome-panel-hover: var(--color-me-moss);
+  --chrome-panel-border: var(--color-me-hairline-gold);
+  --chrome-panel-rule: var(--color-me-hairline-gold);
+  --chrome-panel-radius: 12px;
+  --chrome-panel-row-radius: 4px;
+  --chrome-panel-shadow: var(--shadow-me-deep);
+  --chrome-panel-font: var(--font-sans);
+  --chrome-panel-size: 1rem;
+
+  /* Mobile sheet: links at 2rem in the display face. */
+  --chrome-sheet: var(--color-me-night);
+  --chrome-sheet-link-size: 2rem;
+
+  /* Floating dock: night pill, gold hairline, champagne icons; labels slide. */
+  --chrome-dock: var(--color-me-night);
+  --chrome-dock-rule: var(--me-frame);
+  --chrome-dock-icon: var(--color-me-champagne);
+  --chrome-dock-label: var(--color-me-night);
+  --chrome-dock-label-fg: var(--color-me-ivory);
+  --chrome-dock-label-shift: 0.5rem;
+
+  /* Contact modal: a light form reads best, even over the dark page. */
+  --chrome-modal: var(--color-me-ivory);
+  --chrome-modal-text: var(--color-me-night);
+  --chrome-modal-muted: var(--color-me-stone);
+  --chrome-modal-close-hover: var(--color-me-night);
+  --chrome-modal-close-hover-fg: var(--color-me-ivory);
+  --chrome-modal-radius: 12px;
+  --chrome-modal-shadow: var(--shadow-me-deep);
+
+  /* Footer: night-deep, champagne headings at the Bodoni floor, parchment
+     links with a gold underline, a forest bottom bar. */
+  --chrome-footer: var(--color-me-night-deep);
+  --chrome-footer-text: var(--color-me-parchment);
+  --chrome-footer-muted: var(--color-me-sage);
+  --chrome-footer-heading: var(--color-me-champagne);
+  --chrome-footer-heading-size: 1.75rem;
+  --chrome-footer-heading-leading: 1.2;
+  --chrome-footer-rule: var(--color-me-hairline-gold);
+  --chrome-footer-underline: var(--color-me-champagne);
+  --chrome-footer-social-hover-fg: var(--color-me-champagne);
+  --chrome-footer-bar: var(--color-me-forest);
+  --chrome-footer-bar-text: var(--color-me-champagne);
+}
+
+/* Header Book Now: secondary on dark in both header states — a champagne
+   outline that fills on hover. */
+html:has(main[data-theme="midnight"]),
+html:has(main[data-theme="midnight"]) header[data-solid="true"] {
+  --chrome-cta: transparent;
+  --chrome-cta-fg: var(--color-me-ivory);
+  --chrome-cta-fill: var(--color-me-champagne);
+  --chrome-cta-fill-fg: var(--color-me-night);
+  --chrome-cta-ring: var(--color-me-champagne);
+}
+
+/* The contact form is shared with /contact, so it is re-skinned here rather
+   than branched: inside the modal the Canopy palette points at Midnight's ink. */
+html:has(main[data-theme="midnight"]) [data-chrome="modal"] {
+  color-scheme: light;
+  --color-ink: var(--color-me-night);
+  --color-ink-muted: var(--color-me-stone);
+  --color-brass-ink: var(--color-me-bronze);
+  --color-index: var(--color-me-night);
+  --color-canopy: var(--color-me-forest);
+  --color-hairline: var(--color-me-hairline-ink);
+  --focus-ring: var(--color-me-night);
+}
+
+html:has(main[data-theme="midnight"]) ::selection {
+  background: var(--color-me-champagne);
+  color: var(--color-me-night);
+}
+
+/* ── Home's own scale and rhythm (§2.2, §2.6) ────────────────────────────── */
+main[data-theme="midnight"] {
+  --text-display: clamp(3.25rem, 2rem + 6vw, 8rem);
+  --text-display--line-height: 0.95;
+  --text-h2: clamp(2.25rem, 1.5rem + 3vw, 4.25rem);
+  --text-h2--line-height: 1.05;
+  --text-h3: clamp(1.5rem, 1.2rem + 1.2vw, 2.25rem);
+  /* Bodoni's hairlines vanish below 28px (§2.2), so h4 sits at the floor. */
+  --text-h4: 1.75rem;
+  --text-h4--line-height: 1.2;
+  --section-y: var(--me-section-y);
+}
+
+/* Bangla body on dark gets the taller line (§2.2). */
+main[data-theme="midnight"] .on-dark :where(p, li):lang(bn) {
+  line-height: 1.9;
+}
+
+/* ── Motion safety (§3) ──────────────────────────────────────────────────
+   The primitives render their hidden starting state inline, for the entrance.
+   Unless the head script has marked the document `data-motion="on"` — JS ran,
+   reduced motion is off, and the page hydrated in time — every one of them
+   is forced to its final state. No JS, or reduced motion, means all visible. */
+html:not([data-motion="on"]) [data-me-reveal] {
+  opacity: 1 !important;
+  transform: none !important;
+  clip-path: none !important;
+}
+
+/* LightsOn's veil and the hero's dimmer rest at transparent. */
+html:not([data-motion="on"]) [data-me-veil] {
+  opacity: 0 !important;
+}
+
+/* The hero's progress line: one slide's worth of time, paused with the slideshow. */
+@keyframes me-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}

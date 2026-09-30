@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@import "./midnight.css";
 
 /* ═══════════════════════════════════════════════════════════════════════════
    Canopy & Brass — docs/02-DESIGN-SYSTEM.md
@@ -67,6 +68,59 @@
   --ease-in-out-soft: cubic-bezier(0.65, 0, 0.35, 1);
 }
 
+/* Semantic chrome tokens as colour utilities (`bg-chrome-panel`,
+   `text-chrome-text/85`). `inline`, so each utility reads the token where it is
+   used and a theme scope overriding the token reaches it (docs/02 §13). */
+@theme inline {
+  --color-chrome-text: var(--chrome-text);
+  --color-chrome-accent: var(--chrome-accent);
+  --color-chrome-hairline: var(--chrome-hairline);
+  --color-chrome-overlay: var(--chrome-overlay);
+  --color-chrome-control-hover: var(--chrome-control-hover);
+  --color-chrome-control-hover-fg: var(--chrome-control-hover-fg);
+  --color-chrome-social-hover: var(--chrome-social-hover);
+  --color-chrome-social-hover-fg: var(--chrome-social-hover-fg);
+  --color-chrome-topbar: var(--chrome-topbar);
+  --color-chrome-topbar-text: var(--chrome-topbar-text);
+  --color-chrome-header-solid: var(--chrome-header-solid);
+  --color-chrome-header-rule: var(--chrome-header-rule);
+  --color-chrome-scrim: var(--chrome-scrim);
+  --color-chrome-cta: var(--chrome-cta);
+  --color-chrome-cta-fg: var(--chrome-cta-fg);
+  --color-chrome-cta-fill: var(--chrome-cta-fill);
+  --color-chrome-cta-fill-fg: var(--chrome-cta-fill-fg);
+  --color-chrome-primary: var(--chrome-primary);
+  --color-chrome-primary-fg: var(--chrome-primary-fg);
+  --color-chrome-primary-hover: var(--chrome-primary-hover);
+  --color-chrome-secondary: var(--chrome-secondary);
+  --color-chrome-secondary-fg: var(--chrome-secondary-fg);
+  --color-chrome-secondary-fill: var(--chrome-secondary-fill);
+  --color-chrome-secondary-fill-fg: var(--chrome-secondary-fill-fg);
+  --color-chrome-panel: var(--chrome-panel);
+  --color-chrome-panel-text: var(--chrome-panel-text);
+  --color-chrome-panel-hover: var(--chrome-panel-hover);
+  --color-chrome-panel-border: var(--chrome-panel-border);
+  --color-chrome-sheet: var(--chrome-sheet);
+  --color-chrome-dock: var(--chrome-dock);
+  --color-chrome-dock-rule: var(--chrome-dock-rule);
+  --color-chrome-dock-icon: var(--chrome-dock-icon);
+  --color-chrome-dock-label: var(--chrome-dock-label);
+  --color-chrome-dock-label-fg: var(--chrome-dock-label-fg);
+  --color-chrome-modal: var(--chrome-modal);
+  --color-chrome-modal-text: var(--chrome-modal-text);
+  --color-chrome-modal-muted: var(--chrome-modal-muted);
+  --color-chrome-modal-close-hover: var(--chrome-modal-close-hover);
+  --color-chrome-modal-close-hover-fg: var(--chrome-modal-close-hover-fg);
+  --color-chrome-footer: var(--chrome-footer);
+  --color-chrome-footer-text: var(--chrome-footer-text);
+  --color-chrome-footer-muted: var(--chrome-footer-muted);
+  --color-chrome-footer-heading: var(--chrome-footer-heading);
+  --color-chrome-footer-rule: var(--chrome-footer-rule);
+  --color-chrome-footer-social-hover-fg: var(--chrome-footer-social-hover-fg);
+  --color-chrome-footer-bar: var(--chrome-footer-bar);
+  --color-chrome-footer-bar-text: var(--chrome-footer-bar-text);
+}
+
 /* shadcn's primitives read these semantic names; point them at our palette so
    Dialog/Sheet/Select/Popover/Calendar inherit Canopy & Brass automatically. */
 @theme inline {
@@ -117,6 +171,115 @@
 
   /* No synthetic bold/italic anywhere — Bangla must never be faux-styled (§4.4) */
   font-synthesis: none;
+
+  /* Focus rings (§11). Tokens so a theme scope can recolour them. */
+  --focus-ring: var(--color-index);
+  --focus-ring-on-dark: var(--color-brass);
+}
+
+/* ── Chrome tokens ────────────────────────────────────────────────────────
+   What the global chrome (top bar, header, packages menu, mobile nav, dock,
+   contact modal, footer) is painted with. These defaults are Canopy & Brass
+   exactly — tests/visual/non-home.spec.ts pins every non-Home page and every
+   open chrome state to the pixel. A theme scope overrides them (midnight.css);
+   components never branch on the theme. Alphas stay in the class
+   (`bg-chrome-header-solid/92`), so a token is always a solid base colour
+   unless its name says otherwise. */
+:root {
+  /* Shared */
+  --chrome-text: var(--color-mist);
+  --chrome-accent: var(--color-brass);
+  --chrome-hairline: var(--color-hairline-dark);
+  --chrome-overlay: var(--color-canopy-deep);
+  /* Round icon controls (close, dock items): filled on hover. */
+  --chrome-control-hover: var(--color-mist);
+  --chrome-control-hover-fg: var(--color-canopy);
+  /* Social icons in the top bar and the mobile sheet. */
+  --chrome-social-hover: var(--color-mist);
+  --chrome-social-hover-fg: var(--color-canopy);
+  /* Buttons in the chrome */
+  --chrome-btn-radius: var(--radius-btn);
+  --chrome-btn-tracking: 0.02em;
+
+  /* Top bar */
+  --chrome-topbar: transparent;
+  --chrome-topbar-text: var(--color-mist);
+
+  /* Header */
+  --chrome-header-solid: var(--color-canopy);
+  --chrome-header-rule: transparent;
+  --chrome-scrim: var(--color-canopy-deep);
+  /* Book Now: brass over the hero, green once the header is solid. */
+  --chrome-cta: var(--color-brass);
+  --chrome-cta-fg: var(--color-canopy);
+  --chrome-cta-fill: var(--color-mist);
+  --chrome-cta-fill-fg: var(--color-canopy);
+  --chrome-cta-ring: transparent;
+
+  /* Mobile sheet buttons: Call Now (primary) and Book Now (secondary). The
+     secondary default is the outline variant in mist, currentColor and all. */
+  --chrome-primary: var(--color-brass);
+  --chrome-primary-fg: var(--color-canopy);
+  --chrome-primary-hover: var(--color-mist);
+  --chrome-secondary: currentColor;
+  --chrome-secondary-fg: var(--color-mist);
+  --chrome-secondary-fill: currentColor;
+  --chrome-secondary-fill-fg: var(--color-paper);
+
+  /* Packages dropdown */
+  --chrome-panel: var(--color-paper);
+  --chrome-panel-text: var(--color-ink);
+  --chrome-panel-hover: var(--color-lichen-soft);
+  --chrome-panel-border: var(--color-hairline);
+  --chrome-panel-rule: transparent;
+  --chrome-panel-radius: var(--radius-panel);
+  --chrome-panel-row-radius: 10px;
+  /* shadow-float as Tailwind compiles it (hex alphas), so it matches to the pixel. */
+  --chrome-panel-shadow: 0 2px 4px #13301f14, 0 24px 48px -12px #13301f47;
+  --chrome-panel-font: var(--font-display);
+  --chrome-panel-size: 1.0625rem;
+
+  /* Mobile sheet */
+  --chrome-sheet: var(--color-canopy);
+  --chrome-sheet-link-size: 1.75rem;
+
+  /* Floating dock */
+  --chrome-dock: var(--color-canopy);
+  --chrome-dock-rule: var(--color-hairline-dark);
+  --chrome-dock-icon: var(--color-mist);
+  --chrome-dock-label: var(--color-canopy);
+  --chrome-dock-label-fg: var(--color-mist);
+  --chrome-dock-label-shift: 0px;
+
+  /* Contact modal */
+  --chrome-modal: var(--color-paper);
+  --chrome-modal-text: var(--color-ink);
+  --chrome-modal-muted: var(--color-ink-muted);
+  --chrome-modal-close-hover: var(--color-ink);
+  --chrome-modal-close-hover-fg: var(--color-mist);
+  --chrome-modal-radius: var(--radius-panel);
+  --chrome-modal-shadow: 0 2px 4px #13301f14, 0 24px 48px -12px #13301f47;
+
+  /* Footer */
+  --chrome-footer: var(--color-canopy-deep);
+  --chrome-footer-text: var(--color-mist);
+  --chrome-footer-muted: var(--color-lichen);
+  --chrome-footer-heading: var(--color-brass);
+  --chrome-footer-heading-size: var(--text-h4);
+  --chrome-footer-heading-leading: var(--text-h4--line-height);
+  --chrome-footer-rule: var(--color-hairline-dark);
+  --chrome-footer-underline: currentColor;
+  --chrome-footer-social-hover-fg: var(--color-canopy-deep);
+  --chrome-footer-bar: var(--color-index);
+  --chrome-footer-bar-text: var(--color-mist);
+}
+
+/* The header CTA's second state. */
+header[data-solid="true"] {
+  --chrome-cta: var(--color-index);
+  --chrome-cta-fg: var(--color-paper);
+  --chrome-cta-fill: var(--color-canopy);
+  --chrome-cta-fill-fg: var(--color-paper);
 }
 
 @layer base {
@@ -183,14 +346,14 @@
 
   /* ── Focus (§11) — 2px ring, offset 3px, visible on light and dark ───── */
   :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
-    outline: 2px solid var(--color-index);
+    outline: 2px solid var(--focus-ring);
     outline-offset: 3px;
     border-radius: 1px;
   }
 
   .on-dark :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible,
   :where(a, button, input, select, textarea, summary, [tabindex]).on-dark:focus-visible {
-    outline-color: var(--color-brass);
+    outline-color: var(--focus-ring-on-dark);
   }
 
   ::selection {
