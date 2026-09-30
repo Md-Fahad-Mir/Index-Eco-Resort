@@ -58,14 +58,14 @@ test.describe("styleguide", () => {
     const lineHeight = parseFloat(await computed(bookNow, "line-height"));
     expect(lineHeight / fontSize).toBeGreaterThan(1.6);
 
-    // The display face is actually Tiro, not a fallback.
-    expect(await computed(bookNow, "font-family")).toContain("Tiro");
+    // The display face is actually Jost, not a fallback.
+    expect(await computed(bookNow, "font-family")).toContain("Jost");
   });
 
   test("a mixed Bangla + English heading uses one family and one baseline", async ({ page }) => {
     const heading = page.getByTestId("sg-mixed-heading").locator("h2");
     await expect(heading).toBeVisible();
-    expect(await computed(heading, "font-family")).toContain("Tiro");
+    expect(await computed(heading, "font-family")).toContain("Jost");
     expect(await computed(heading, "letter-spacing")).toBe("normal");
   });
 

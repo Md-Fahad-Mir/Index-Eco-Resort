@@ -182,11 +182,6 @@ html:has(main[data-theme="midnight"]) {
   background: var(--color-me-night);
   color: var(--color-me-parchment);
 
-  /* Display face: Bodoni Moda, Bangla falling through to Noto Serif Bengali.
-     The variables are declared by the Home page (styles/midnight-fonts.ts), so
-     Tiro Bangla is never requested on Home. */
-  --font-display: var(--font-bodoni), var(--font-noto-serif-bn), serif;
-
   /* Focus (§7): night on ivory, champagne on dark. */
   --focus-ring: var(--color-me-night);
   --focus-ring-on-dark: var(--color-me-champagne);

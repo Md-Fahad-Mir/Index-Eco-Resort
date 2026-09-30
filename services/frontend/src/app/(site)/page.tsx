@@ -12,7 +12,6 @@ import { Testimonials } from "@/components/sections/home/Testimonials";
 import { Villa } from "@/components/sections/home/Villa";
 import { WhyBuy } from "@/components/sections/home/WhyBuy";
 import { getHome } from "@/lib/data";
-import { midnightFontVars } from "@/styles/midnight-fonts";
 
 /** Phone browser chrome matches the Midnight hero: me-night (§4). Home only. */
 export const viewport: Viewport = { themeColor: "#0e1a15" };
@@ -45,10 +44,6 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* The Midnight display faces, for the chrome as well as the page. */}
-      <style href="midnight-fonts" precedence="default">
-        {midnightFontVars}
-      </style>
       <HeroCarousel hero={home.hero} />
       <Highlights highlights={home.highlights} />
       <AboutEstate about={home.about} />
