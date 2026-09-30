@@ -4,6 +4,28 @@ import { X } from "lucide-react";
 import { Dialog as DialogPrimitive } from "radix-ui";
 import { useEffect, useRef } from "react";
 import { MOBILE_VIDEO_QUERY, videoVariants } from "@/lib/media";
+import { cn } from "@/lib/utils";
+
+/** Canopy (the About page) or Midnight Estate (Home, docs/02 §13). */
+const SKIN = {
+  default: {
+    overlay: "bg-canopy-deep/90 data-[state=open]:animate-in data-[state=open]:fade-in",
+    content: "",
+    frame: "rounded-media",
+    close: "rounded-pill border-hairline-dark text-mist hover:bg-mist hover:text-canopy border",
+  },
+  // A night room at 96%, the film in a square champagne-hairline frame that
+  // settles from .96 as it opens; the close control squares off to match.
+  home: {
+    overlay:
+      "bg-me-night-deep/96 backdrop-blur-sm data-[state=open]:animate-in data-[state=open]:fade-in data-[state=open]:duration-500",
+    content:
+      "data-[state=open]:animate-in data-[state=open]:fade-in data-[state=open]:zoom-in-96 data-[state=open]:duration-700 data-[state=open]:ease-(--me-ease)",
+    frame: "shadow-[0_0_0_1px_var(--me-frame),var(--shadow-me-deep)]",
+    close:
+      "text-me-ivory hover:bg-me-champagne hover:text-me-night shadow-[inset_0_0_0_1px_var(--me-frame)]",
+  },
+} as const;
 
 /**
  * The About block's mp4 in a dialog (§8). Plays on open, pauses and unloads on
@@ -15,15 +37,18 @@ export function VideoModal({
   onOpenChange,
   src,
   title,
+  variant = "default",
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   src: string;
   /** Accessible name for the dialog. */
   title: string;
+  variant?: keyof typeof SKIN;
 }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const variants = videoVariants(src);
+  const skin = SKIN[variant];
 
   useEffect(() => {
     const video = videoRef.current;
@@ -41,10 +66,15 @@ export function VideoModal({
   return (
     <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
       <DialogPrimitive.Portal>
-        <DialogPrimitive.Overlay className="bg-canopy-deep/90 data-[state=open]:animate-in data-[state=open]:fade-in fixed inset-0 z-50" />
-        <DialogPrimitive.Content className="fixed top-1/2 left-1/2 z-50 w-[min(92vw,1100px)] -translate-x-1/2 -translate-y-1/2 outline-none">
+        <DialogPrimitive.Overlay className={cn(skin.overlay, "fixed inset-0 z-50")} />
+        <DialogPrimitive.Content
+          className={cn(
+            "fixed top-1/2 left-1/2 z-50 w-[min(92vw,1100px)] -translate-x-1/2 -translate-y-1/2 outline-none",
+            skin.content,
+          )}
+        >
           <DialogPrimitive.Title className="sr-only">{title}</DialogPrimitive.Title>
-          <div className="rounded-media relative overflow-hidden bg-black">
+          <div className={cn(skin.frame, "relative overflow-hidden bg-black")}>
             <video
               ref={videoRef}
               controls
@@ -63,7 +93,10 @@ export function VideoModal({
           </div>
           <DialogPrimitive.Close
             aria-label="Close video"
-            className="on-dark rounded-pill border-hairline-dark text-mist hover:bg-mist hover:text-canopy absolute -top-14 right-0 inline-grid size-12 place-items-center border transition-colors"
+            className={cn(
+              "on-dark absolute -top-14 right-0 inline-grid size-12 place-items-center transition-colors",
+              skin.close,
+            )}
           >
             <X aria-hidden className="size-5" strokeWidth={1.5} />
           </DialogPrimitive.Close>

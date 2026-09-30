@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
-import { AboutBlock } from "@/components/sections/home/AboutBlock";
-import { CtaStrip } from "@/components/sections/home/CtaStrip";
-import { GallerySection } from "@/components/sections/home/GallerySection";
+import { AboutEstate } from "@/components/sections/home/AboutEstate";
+import { CtaInvitation } from "@/components/sections/home/CtaInvitation";
+import { GalleryNight } from "@/components/sections/home/GalleryNight";
 import { HeroCarousel } from "@/components/sections/home/HeroCarousel";
 import { Highlights } from "@/components/sections/home/Highlights";
 import { LatestPosts } from "@/components/sections/home/LatestPosts";
@@ -26,7 +26,19 @@ export const metadata: Metadata = {
 /**
  * Home — the Midnight Estate pilot (prompts/06b-home-redesign.md). Section
  * order is the live site's; the tones follow the redesign's rhythm (§2.6),
- * night for imagery and signature moments, ivory for long reading.
+ * night for imagery and signature moments, ivory for long reading:
+ *
+ *   hero · highlights   night, the panel straddling into ivory
+ *   about               ivory — the reading room
+ *   glance · gallery    night, night-deep
+ *   cta                 ivory — the invitation
+ *   plans               night-deep — the vault
+ *   why buy             ivory
+ *   villa · restaurant  night, night-deep
+ *   voices · journal    ivory
+ *
+ * About, Gallery and the CTA are Home-only wrappers; the shared AboutBlock,
+ * GallerySection and CtaStrip keep their Canopy look for the other pages.
  */
 export default async function HomePage() {
   const home = await getHome();
@@ -39,10 +51,10 @@ export default async function HomePage() {
       </style>
       <HeroCarousel hero={home.hero} />
       <Highlights highlights={home.highlights} />
-      <AboutBlock about={home.about} />
+      <AboutEstate about={home.about} />
       <ProjectGlance glance={home.glance} />
-      <GallerySection gallery={home.gallery} />
-      <CtaStrip cta={home.ctaStrip} />
+      <GalleryNight gallery={home.gallery} />
+      <CtaInvitation cta={home.ctaStrip} />
       <PlansVault
         eyebrow={home.plans.eyebrow}
         title={home.plans.title}

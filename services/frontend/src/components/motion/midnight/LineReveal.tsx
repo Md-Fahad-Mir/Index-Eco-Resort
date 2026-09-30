@@ -104,7 +104,10 @@ export function LineReveal({
             // Bangla vowel signs overhang the line box without being clipped.
             <span
               key={index}
-              className="-my-[0.2em] block overflow-y-clip py-[0.2em] whitespace-nowrap"
+              // `leading-[inherit]`: a span inside a Bangla heading would
+              // otherwise take the base `:lang(bn)` body line-height and the
+              // heading would jump when it returns to one text node.
+              className="-my-[0.2em] block overflow-y-clip py-[0.2em] leading-[inherit] whitespace-nowrap"
             >
               <m.span
                 className="block"

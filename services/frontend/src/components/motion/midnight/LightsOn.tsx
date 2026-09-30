@@ -33,6 +33,7 @@ export function LightsOn({
   scaleDuration?: number;
   /** Seconds. */
   delay?: number;
+  /** `parent` inside a `Curtain`: the lights come on with it, not on their own. */
   trigger?: Trigger;
 }) {
   const on = useMotionOn();
@@ -41,11 +42,7 @@ export function LightsOn({
     on ? { duration: seconds * time, ease: EASE, delay } : { duration: 0 };
 
   return (
-    <m.div
-      className={cn("relative overflow-hidden", className)}
-      initial="hidden"
-      {...triggerProps(on, trigger)}
-    >
+    <m.div className={cn("relative overflow-hidden", className)} {...triggerProps(on, trigger)}>
       <m.div
         data-me-reveal
         className="relative size-full"

@@ -6,7 +6,7 @@ import { STAGGER } from "./tokens";
 import { triggerProps, type Trigger } from "./trigger";
 import { useMotionOn } from "./useMotionOn";
 
-const TAGS = { div: m.div, ul: m.ul, ol: m.ol } as const;
+const TAGS = { div: m.div, ul: m.ul, ol: m.ol, dl: m.dl } as const;
 
 /**
  * A group whose `RevealItem`s rise in turn, eyebrow → heading → body → action
@@ -34,7 +34,6 @@ export function RevealGroup({
   return (
     <Tag
       className={className}
-      initial="hidden"
       {...triggerProps(on, trigger)}
       variants={{
         hidden: {},

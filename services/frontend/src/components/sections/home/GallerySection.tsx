@@ -15,7 +15,8 @@ import { cn } from "@/lib/utils";
 const ALL = "all";
 
 /**
- * The gallery, shared by Home and the Gallery page.
+ * The gallery in the Canopy look, for the Gallery page. Home renders its own
+ * Midnight Estate version, `GalleryNight`, from the same data.
  *
  * PARITY, oddity included: the live site caps the "All" tab on Home at 12 of
  * the 21 items while each category tab shows its full set, so 8 of the 20 images

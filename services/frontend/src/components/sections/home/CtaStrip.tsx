@@ -8,7 +8,8 @@ import { autoLang } from "@/lib/lang";
 import { internalHref, isInternal } from "@/lib/links";
 
 /**
- * The single-line call to action, shared by Home and the Gallery page.
+ * The single-line call to action in the Canopy look, for the Gallery page.
+ * Home renders its own Midnight Estate version, `CtaInvitation`.
  *
  * PARITY: the avatar is hotlinked from a WordPress theme demo on the live site
  * (audit §9.8). It is mirrored into our snapshot, but it is still not a photo

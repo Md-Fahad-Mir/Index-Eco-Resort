@@ -16,7 +16,8 @@ import type { HomeData } from "@/lib/data";
 import { anchorProps, internalHref, isInternal } from "@/lib/links";
 
 /**
- * The about block, shared by Home and the About page.
+ * The about block on the About page. Home renders its own Midnight Estate
+ * version, `AboutEstate`, from the same data.
  *
  * The collage is asymmetric — one tall image beside two stacked — so it reads
  * as an arrangement rather than a grid. The play button opens the CMS mp4 in a

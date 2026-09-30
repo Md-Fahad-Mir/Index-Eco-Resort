@@ -183,7 +183,37 @@ test.describe("reduced motion", () => {
     await page.goto("/");
     await expect(page.locator("main > *")).toHaveCount(12);
   });
+
+  test("every entrance is at its final state without scrolling", async ({ page }) => {
+    await page.goto("/");
+    expect(await page.evaluate(withheld)).toEqual([]);
+  });
 });
+
+test.describe("without JavaScript", () => {
+  test.use({ javaScriptEnabled: false });
+
+  test("the server markup alone shows every entrance's final state", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.locator("main > *")).toHaveCount(12);
+    expect(await page.evaluate(withheld)).toEqual([]);
+  });
+});
+
+/**
+ * Midnight's entrances that are still withholding content: a revealed element
+ * not fully opaque or still clipped, or a "lights on" veil not yet lifted.
+ * Runs in the page.
+ */
+function withheld(): string[] {
+  return [...document.querySelectorAll("main [data-me-reveal], main [data-me-veil]")]
+    .filter((el) => {
+      const style = getComputedStyle(el);
+      if (el.hasAttribute("data-me-veil")) return Number(style.opacity) > 0.01;
+      return Number(style.opacity) < 0.99 || style.clipPath !== "none";
+    })
+    .map((el) => `${el.tagName.toLowerCase()}.${String(el.className).slice(0, 60)}`);
+}
 
 test.describe("gallery", () => {
   test("reproduces the live counts, capped All included", async ({ page }) => {

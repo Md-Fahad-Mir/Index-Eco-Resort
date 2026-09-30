@@ -35,7 +35,6 @@ export function RuleDraw({
       data-me-reveal
       className={cn("block", className)}
       style={{ originX: ORIGIN[origin] }}
-      initial="hidden"
       {...triggerProps(on, trigger)}
       variants={{
         hidden: { scaleX: 0 },

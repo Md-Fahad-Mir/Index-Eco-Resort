@@ -25,12 +25,21 @@ export function Highlights({ highlights }: { highlights: HomeData["highlights"] 
   if (highlights.length === 0) return null;
 
   return (
-    <div className="bg-me-night relative z-20">
-      <Container>
+    // Phones: the panel floats on night. From `lg` it straddles the edge
+    // between the hero's night and About's ivory — its middle on the seam —
+    // so the two rooms are joined by one object rather than a hard line.
+    <div className="bg-me-night lg:bg-me-ivory relative z-20 pb-16 md:pb-20 lg:pb-0">
+      {/* The panel is lifted 80px into the hero, so its middle sits 40px
+          above this box's. */}
+      <span
+        aria-hidden
+        className="bg-me-night absolute inset-x-0 top-0 hidden h-[calc(50%-2.5rem)] lg:block"
+      />
+      <Container className="relative">
         <RevealGroup
           as="ul"
           delay={large ? 1.4 : 0}
-          className="bg-me-forest shadow-me-deep divide-me-hairline-gold relative grid divide-y before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-(--me-frame) lg:-mt-20 lg:grid-cols-3 lg:divide-x lg:divide-y-0"
+          className="bg-me-forest shadow-me-deep lg:shadow-me-float divide-me-hairline-gold relative grid divide-y before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-(--me-frame) lg:-mt-20 lg:grid-cols-3 lg:divide-x lg:divide-y-0"
         >
           {highlights.map((item) => {
             const href = internalHref(item.cta.href) ?? "#";
@@ -40,13 +49,14 @@ export function Highlights({ highlights }: { highlights: HomeData["highlights"] 
                 as="li"
                 // `group/link` here too, so hovering anywhere in the column
                 // draws the link's underline (TextLink draws on group-hover/link).
-                className="group/hl group/link hover:bg-me-moss flex flex-col gap-5 p-8 transition-colors duration-[var(--dur-ui)] md:p-10"
+                // Tablets: the ring beside the text, a row per highlight.
+                className="group/hl group/link hover:bg-me-moss flex flex-col gap-5 p-8 transition-colors duration-[var(--dur-ui)] md:grid md:grid-cols-[3.5rem_1fr] md:gap-x-8 md:gap-y-4 md:p-10 lg:flex"
               >
                 {item.icon ? (
                   // A thin champagne ring around an ivory medallion: the CMS
                   // icons are dark line art and a blue pin, drawn for a light
                   // page, and must stay legible exactly as uploaded.
-                  <span className="border-me-champagne/40 group-hover/hl:border-me-champagne/60 grid size-14 place-items-center rounded-full border transition-[border-color,box-shadow] duration-[var(--dur-ui)] group-hover/hl:shadow-[0_0_24px_var(--me-frame)]">
+                  <span className="border-me-champagne/40 group-hover/hl:border-me-champagne/60 grid size-14 place-items-center rounded-full border transition-[border-color,box-shadow] duration-[var(--dur-ui)] group-hover/hl:shadow-[0_0_24px_var(--me-frame)] md:row-span-3 lg:row-span-1">
                     <span className="bg-me-ivory grid size-11 place-items-center rounded-full">
                       <SmartImage
                         image={item.icon}
