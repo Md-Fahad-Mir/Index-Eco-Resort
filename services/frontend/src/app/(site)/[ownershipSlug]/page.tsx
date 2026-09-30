@@ -5,6 +5,7 @@ import { PlansStage } from "@/components/sections/home/PlansStage";
 import { PackageBenefits } from "@/components/sections/ownership/PackageBenefits";
 import { PackageIntro } from "@/components/sections/ownership/PackageIntro";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { siteUrl } from "@/config/env";
 import { getPackage, getPackages } from "@/lib/data";
 
 /**
@@ -20,11 +21,6 @@ export async function generateStaticParams() {
 
 export const dynamicParams = false;
 
-const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://indexecoresort.com").replace(
-  /\/+$/,
-  "",
-);
-
 export async function generateMetadata({
   params,
 }: PageProps<"/[ownershipSlug]">): Promise<Metadata> {
@@ -39,9 +35,9 @@ export async function generateMetadata({
     openGraph: {
       title: `${pkg.name} | INDEX Eco Resort`,
       description: pkg.discountText,
-      url: `${SITE_URL}/${pkg.slug}`,
+      url: `${siteUrl}/${pkg.slug}`,
       type: "website",
-      ...(pkg.card ? { images: [{ url: `${SITE_URL}${pkg.card.src}` }] } : {}),
+      ...(pkg.card ? { images: [{ url: `${siteUrl}${pkg.card.src}` }] } : {}),
     },
   };
 }
@@ -64,13 +60,13 @@ export default async function Page({ params }: PageProps<"/[ownershipSlug]">) {
               "@type": "ListItem",
               position: 1,
               name: pkg.hero.breadcrumb.home.label,
-              item: `${SITE_URL}/`,
+              item: `${siteUrl}/`,
             },
             {
               "@type": "ListItem",
               position: 2,
               name: pkg.hero.breadcrumb.current,
-              item: `${SITE_URL}/${pkg.slug}`,
+              item: `${siteUrl}/${pkg.slug}`,
             },
           ],
         }}

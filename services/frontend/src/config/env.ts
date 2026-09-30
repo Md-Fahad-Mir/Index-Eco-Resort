@@ -2,6 +2,16 @@
  * Environment checks that must fail loudly rather than ship the wrong thing.
  */
 
+/**
+ * The origin this deployment answers on. Metadata needs it to turn the relative
+ * paths pages declare into the absolute URLs canonical tags and Open Graph
+ * require, and structured data needs it for the same reason.
+ */
+export const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://indexecoresort.com").replace(
+  /\/+$/,
+  "",
+);
+
 /** True when the site is serving the Phase 0 snapshot rather than a real backend. */
 export const usingSnapshot = process.env.DATA_SOURCE !== "api";
 

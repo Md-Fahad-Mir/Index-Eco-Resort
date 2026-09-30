@@ -22,6 +22,36 @@ function capturedVideoId(slug: string): string {
 
 const fine = async (page: Page) => page.evaluate(() => matchMedia("(pointer: fine)").matches);
 
+/**
+ * Everything about the card, measured in one evaluate against a fresh query.
+ *
+ * `useReducedMotion` resolves only after hydration, so the card renders once
+ * more with a different motion path — a Playwright handle taken before that can
+ * detach. Nothing here is held across the re-render.
+ */
+async function cardState(page: Page) {
+  await page.evaluate(() => {
+    const el = document.querySelector('[data-testid="membership-card-face"]');
+    el?.scrollIntoView({ block: "center" });
+  });
+  return page.evaluate(() => {
+    const el = document.querySelector('[data-testid="membership-card-face"]');
+    if (!el) return null;
+    const rect = el.getBoundingClientRect();
+    return {
+      transform: getComputedStyle(el).transform.replace(/\s/g, ""),
+      corner: { x: rect.x + rect.width * 0.85, y: rect.y + rect.height * 0.2 },
+      away: { x: rect.x + rect.width / 2, y: Math.max(1, rect.y - 120) },
+    };
+  });
+}
+
+const transformOf = (page: Page) =>
+  page.evaluate(() => {
+    const el = document.querySelector('[data-testid="membership-card-face"]');
+    return el ? getComputedStyle(el).transform.replace(/\s/g, "") : null;
+  });
+
 for (const pkg of packages) {
   test.describe(`/${pkg.slug}`, () => {
     test.beforeEach(async ({ page }) => {
@@ -158,39 +188,37 @@ test.describe("the membership card", () => {
     await page.goto("/gold-ownership-2");
     if (!(await fine(page))) test.skip();
 
-    const face = page.getByTestId("membership-card-face").first();
-    await face.scrollIntoViewIfNeeded();
-    await expect(face).toBeVisible();
-    const box = (await face.boundingBox())!;
+    await expect(page.getByTestId("membership-card-face").first()).toBeVisible();
+    const card = (await cardState(page))!;
 
-    const transformOf = () =>
-      face.evaluate((el) => getComputedStyle(el).transform.replace(/\s/g, ""));
-    const atRest = await transformOf();
-
-    await page.mouse.move(box.x + box.width * 0.85, box.y + box.height * 0.2);
+    await page.mouse.move(card.corner.x, card.corner.y);
     await expect
-      .poll(transformOf, { message: "the card should tilt toward a fine pointer" })
-      .not.toBe(atRest);
+      .poll(() => transformOf(page), { message: "the card should tilt toward a fine pointer" })
+      .not.toBe(card.transform);
 
-    await page.mouse.move(box.x + box.width / 2, box.y - 200);
+    await page.mouse.move(card.away.x, card.away.y);
     await expect
-      .poll(transformOf, { message: "the card should settle back when the pointer leaves" })
-      .toBe(atRest);
+      .poll(() => transformOf(page), { message: "the card should settle back" })
+      .toBe(card.transform);
   });
 
   test("a touch gets a sweep instead of a tilt", async ({ page }) => {
     await page.goto("/gold-ownership-2");
-    const face = page.getByTestId("membership-card-face").first();
-    await expect(face).toBeVisible();
+    await expect(page.getByTestId("membership-card-face").first()).toBeVisible();
+    const before = await transformOf(page);
 
-    const before = await face.evaluate((el) => getComputedStyle(el).transform);
     await page.dispatchEvent('[data-testid="membership-card-face"]', "pointerdown", {
       pointerType: "touch",
       isPrimary: true,
     });
     // The sweep is a one-off animation, not a persistent transform.
-    await expect(face.locator("span.animate-\\[card-sweep_600ms_ease-out\\]")).toHaveCount(1);
-    expect(await face.evaluate((el) => getComputedStyle(el).transform)).toBe(before);
+    await expect(
+      page
+        .getByTestId("membership-card-face")
+        .first()
+        .locator("span.animate-\\[card-sweep_600ms_ease-out\\]"),
+    ).toHaveCount(1);
+    expect(await transformOf(page)).toBe(before);
   });
 });
 
@@ -201,17 +229,12 @@ test.describe("reduced motion", () => {
     await page.goto("/gold-ownership-2");
     await expect(page.locator("main > section")).toHaveCount(4);
 
-    const face = page.getByTestId("membership-card-face").first();
-    await face.scrollIntoViewIfNeeded();
-    await expect(face).toBeVisible();
-    const box = (await face.boundingBox())!;
-    const before = await face.evaluate((el) => getComputedStyle(el).transform);
-    await page.mouse.move(box.x + box.width * 0.85, box.y + box.height * 0.2);
+    await expect(page.getByTestId("membership-card-face").first()).toBeVisible();
+    const card = (await cardState(page))!;
+
+    await page.mouse.move(card.corner.x, card.corner.y);
     await page.waitForTimeout(400);
-    expect(
-      await face.evaluate((el) => getComputedStyle(el).transform),
-      "no tilt under prefers-reduced-motion",
-    ).toBe(before);
+    expect(await transformOf(page), "no tilt under prefers-reduced-motion").toBe(card.transform);
   });
 });
 

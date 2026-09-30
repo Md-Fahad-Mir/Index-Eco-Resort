@@ -41,13 +41,13 @@ Tick an item only after testing it on the new site at 390px and 1440px. "Same" =
 - [x] 6 core values with texts, in the CMS's order, tones alternating at every width
 
 ## Package pages (Gold, Platinum, Signature, Silver)
-- [ ] Hero image + title + breadcrumb per package
-- [ ] Heading text exactly as data (including the "Silver Ownership" label issue)
-- [ ] Discount line, Book Your Share (`#` or data href)
-- [ ] Card image
-- [ ] 9 benefits
-- [ ] YouTube video (same ID) plays
-- [ ] Choose Your Plan grid, current package indicated
+- [x] Hero image + title + breadcrumb per package — Silver's hero 404s on the live site, so it gets the designed canopy panel (OWNER-REPORT §E)
+- [x] Heading text exactly as data (including the "Silver Ownership" label issue) — asserted per package
+- [x] Discount line, Book Your Share (`#` or data href) — the captured `#` kept verbatim (rule 9b)
+- [x] Card image — large on a mist plinth, tilt for fine pointers, sweep on touch, static under reduced motion
+- [x] 9 benefits — two columns from 768px, one on a phone
+- [x] YouTube video (same ID) plays — each id asserted against `audit/html/<slug>.html`; the iframe is created only on click
+- [x] Choose Your Plan grid, current package indicated — captured order per page, `aria-current="page"` + brass ring
 
 ## Offer `/offer`
 - [ ] Hero "Offers" + "Running Offer" breadcrumb

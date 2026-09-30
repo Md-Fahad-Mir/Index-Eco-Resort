@@ -943,3 +943,161 @@ critical violations, reduced-motion and keyboard walkthroughs.
 
 **Artifacts:** `audit/screenshots/after/about-us@{390,768,1440}.png` ·
 `about-scroll-390.webm`
+
+---
+
+## Phase 6 follow-up — plain-text paragraph breaks, site-wide
+
+- **Date:** 2026-09-30
+
+Confirmed as an owner decision: blank lines in a plain-text CMS field are the
+author's paragraph structure, and the old template collapsing them was a
+template limitation, not a feature.
+
+**The snapshot was losing them too.** `audit/scripts/fixtures.mjs` normalised
+every extracted string with `/\s+/g → " "`, so the breaks never reached the
+fixtures. `t()` now splits on blank lines first and collapses whitespace only
+*within* each paragraph. Re-running the extractor changed exactly three fields
+across twelve files:
+
+| Field | Paragraphs |
+|---|---|
+| `about.visionMission.tabs[2].text` ("Our Approach") | **6** |
+| `home.villa.rooms[0].description` | **2** |
+| `home.villa.rooms[1].description` | **2** |
+
+Every other string is byte-identical — short fields have no blank lines, so the
+change cannot touch them. `pnpm fixtures:media` then restored the `/media/`
+URLs; the one file it still cannot fetch is the Silver hero, which 404s on the
+live site, exactly as before.
+
+`<Paragraph>` now does the splitting for every caller: blank lines and nothing
+else — never a single newline, never a sentence boundary — with an optional
+`lead` opener that applies only when there really is more than one paragraph.
+A single paragraph renders exactly as it did; several render as siblings in a
+spaced column. The three remaining places that built their own `<p>` around a
+CMS string (the About block's features, the core-value tiles, the footer
+description) now go through it too.
+
+Recorded as a presentation difference in `tests/parity/allowed-diffs.ts` (rule
+9e) and as a resolved item in OWNER-REPORT §B6b.
+
+**Tests.** `tests/data/contract.spec.ts` pins the split rule itself —
+`"one\ntwo"` stays one paragraph, `"One. Two."` stays one, empty input yields
+nothing — and asserts the snapshot still carries six paragraphs for Approach
+and two for each room. The page-level tests derive their expected counts from
+the fixture and additionally assert the maximum is 6 (and 2), so a future
+flattening of the data cannot make them pass on `1 === 1`.
+
+---
+
+## Phase 7 — Ownership package pages
+
+- **Date:** 2026-09-30
+- **Prompt:** `prompts/08-ownership.md`
+
+One dynamic `[ownershipSlug]` route, `generateStaticParams()` from the package
+data and `dynamicParams = false`, so the four slugs prerender and anything else
+is a 404. The existing every-slug-renders test passes unchanged.
+
+```
+PageHero  →  PackageIntro  →  PackageBenefits  →  PlansStage
+(canopy-deep)   (paper)          (mist)          (canopy-deep)
+```
+
+### The card on its plinth
+
+`PackageIntro` is a 12-column split: the offer on the left, the card on a mist
+plinth (radius 4, hairline) opposite it, with the `Reveal` unveil on the
+plinth. On a phone the card comes first — it is what the visitor came to see,
+and the heading only repeats the one already in the hero.
+
+Card behaviour was already built in Phase 2; this phase proves it:
+
+- **tilt for fine pointers only** — the handler returns early unless
+  `pointerType === "mouse"`;
+- **a single sheen sweep on touch**, with no persistent transform;
+- **completely static under reduced motion**, verified by moving the pointer
+  across the face and asserting the computed transform does not change.
+
+**A real test fault, found and fixed.** `useReducedMotion()` returns null until
+hydration, so the card renders once more with a different motion path and a
+Playwright handle taken before that can detach — the WebKit run failed roughly
+one time in three with "Element is not attached to the DOM". The card tests now
+measure position and transform in a single `evaluate` against a fresh query,
+holding nothing across the re-render. Three consecutive full runs of the spec,
+clean.
+
+### Benefits and the video
+
+Nine short lines, so two columns from 768px and one on a phone, each on its own
+hairline with a brass-ink check. The video is a facade: the test asserts that
+**nothing is requested from youtube.com before the click**, and that the iframe
+created afterwards is `youtube-nocookie` with the id the Phase 0 capture holds.
+The ids are read from `audit/html/<slug>.html`, not from the fixture, so the
+assertion is against the live site rather than against our own derivation.
+Gold and Signature genuinely share one video — that is the data.
+
+The poster now goes through `next/image` (i.ytimg.com was already an allowed
+remote host) instead of a raw `<img>`.
+
+### The Silver hero — pattern confirmed visible
+
+Silver's hero image 404s on the live site, so this is where the designed
+missing-image panel earns its place. **The leaf-vein pattern is genuinely
+painted now** after the Phase 5 fix; the test checks the layer exists, carries
+the file, has a non-trivial opacity and real height, and that the SVG itself
+contains no `stroke="currentColor"` — the exact defect that made it invisible,
+since a CSS `background-image` has no `currentColor` to inherit.
+
+`PageHero` no longer *attempts* that image. A media URL still absolute in the
+snapshot is one `fixtures:media` could not fetch, and next/image cannot load it
+either (the old origin is not in `remotePatterns`), so the request was certain
+to fail. `isMirrored()` in `src/lib/assets.ts` makes that explicit. Without it,
+`/silver-ownership-5` could not join `OWNED_ROUTES`, whose gate forbids console
+errors.
+
+### Metadata
+
+Per-package title, description, canonical and Open Graph, plus `BreadcrumbList`
+JSON-LD. The breadcrumb's visible "Home" is `href="#"` on the live site and
+stays that way (rule 9b), so the structured data carries the real path the
+crumb describes.
+
+**A bug this surfaced:** there was no `metadataBase`, so `alternates.canonical`
+stayed relative and Lighthouse rejected it — "Is not an absolute URL". Fixed in
+the root layout for every page, from `siteUrl` in `src/config/env.ts`.
+
+### Lighthouse mobile, `/gold-ownership-2` (production build)
+
+| Run | Perf | LCP | CLS | TBT | A11y | Best practices | SEO |
+|---|---|---|---|---|---|---|---|
+| Real (devtools) throttling | **99** | **1.7 s** | **0** | 30 ms | **100** | **100** | 69 |
+| Simulated (Lighthouse default) | 83 | 4.5 s | 0 | 20 ms | 100 | 100 | 69 |
+
+**LCP element:** the hero photograph, painting at **1,596 ms** under 1.6 Mbps
+and 4× CPU throttling (the `<h1>` is the earlier candidate at 972 ms). Total
+page weight 0.65 MB. The simulated figure is Lantern's projection again —
+`observedLargestContentfulPaint` in that same run is 89 ms.
+
+**SEO 69 is the preview's ceiling, not a defect.** One audit fails,
+`is-crawlable`, because the preview sends `X-Robots-Tag: noindex, nofollow` and
+a disallow-all `robots.txt` — both gated on `PREVIEW_MODE` alone, and both the
+point of a preview. Before the `metadataBase` fix, `canonical` failed too.
+
+**INP:** sweeping the pointer across the cards at 4× CPU throttling, the worst
+interaction was **24 ms** and there were **no long tasks** — against a 200 ms
+budget. The tilt runs on `transform` and `box-shadow` through motion values, so
+it never touches layout.
+
+### Gates
+
+`format:check` · `lint` · `typecheck` · `build` — all pass.
+Suite **337 passed / 22 skipped** across Chromium desktop, Chromium mobile and
+WebKit mobile. All four package routes joined `OWNED_ROUTES`, so they are now
+covered by the axe gate, the one-h1/no-console-errors gate and `main`-region
+link parity.
+
+**Artifacts:** `audit/screenshots/after/{gold-ownership-2,platinum-ownership-3,`
+`signature-ownership-4,silver-ownership-5}@{390,768,1440}.png` ·
+`ownership-card-tilt-1440.webm`

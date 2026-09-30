@@ -51,7 +51,7 @@ Ownership pages are one dynamic route driven by the package data, so **a package
 
 `services/frontend/src/fixtures/*.json` is every piece of text, link and setting captured from your site, and `services/frontend/public/media/` is 75 files (139 MB) of images and video mirrored from it, keeping their original paths. Two things to know:
 
-- **One image is missing from your server.** The Silver package's hero image returns 404, so that page has no hero photo. There is no copy to recover — it needs re-uploading.
+- **One image is missing from your server.** The Silver package's hero image returns 404, so that page has no hero photo. There is no copy to recover — it needs re-uploading. Until then `/silver-ownership-5` opens on a designed dark panel with a faint leaf pattern, laid out exactly like the other three, so it reads as intentional rather than broken.
 - **The gallery lightbox is broken on the live site inside category tabs.** Clicking a tile under any category opens nothing (those links point at a path that 404s); the "All" tab works. The new site points them at the same image file that already works, so every tile opens correctly.
 
 ## F. For whoever builds the Django backend
@@ -76,3 +76,4 @@ When it is ready, the frontend switches over by setting `DATA_SOURCE=api`, `API_
 | 1 | `APP_DEBUG=true` on production leaked stack traces, server paths and Blade source on every 404/500 | Owner reported switching it off on 2026-09-29 — verify after cut-over |
 | 2 | Deployment: a Vercel **preview** now (snapshot content, forms inert), production cut-over once Django is ready | planned |
 | 3 | No `sitemap.xml` / `robots.txt` on the live site | the new site adds both |
+| 4 | **The preview scores 69 on Lighthouse SEO, and that is deliberate.** The only failing check is "page is blocked from indexing" — the preview sends `X-Robots-Tag: noindex, nofollow` and a disallow-all `robots.txt` on purpose, so a snapshot copy of your site never competes with the real one in Google. Both come from `PREVIEW_MODE=true` alone. | clears itself at production cut-over; nothing to do |

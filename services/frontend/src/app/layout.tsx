@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Anek_Bangla, Tiro_Bangla } from "next/font/google";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import { PreviewBar } from "@/components/layout/PreviewBar";
-import { assertDataSourceIsSafe } from "@/config/env";
+import { assertDataSourceIsSafe, siteUrl } from "@/config/env";
 import "@/styles/globals.css";
 
 /**
@@ -41,6 +41,9 @@ const anekBangla = Anek_Bangla({
 assertDataSourceIsSafe();
 
 export const metadata: Metadata = {
+  // Without this, a page's relative `alternates.canonical` stays relative and
+  // is not a valid canonical URL.
+  metadataBase: new URL(siteUrl),
   title: "INDEX Eco Resort",
   description: "INDEX Eco Resort — ownership shares, stays, dining and events.",
 };
