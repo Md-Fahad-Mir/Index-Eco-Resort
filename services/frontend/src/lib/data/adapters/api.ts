@@ -15,6 +15,7 @@ import {
 } from "../schemas";
 import type { CacheTag, DataAdapter, EventFilterParams } from "../types";
 import { site } from "@/config/site";
+import type { Locale } from "@/lib/i18n/config";
 
 /**
  * A generic REST client for the backend described in docs/API-CONTRACT.md.
@@ -60,25 +61,44 @@ const query = (params: Record<string, string | undefined>) => {
   return string ? `?${string}` : "";
 };
 
+/**
+ * The content language travels as `?lang=bn|en`, so each language is its own
+ * URL and the fetch cache keeps them apart. Omitted, the backend answers in its
+ * default language.
+ */
+const withLang = (path: string, locale?: Locale) => {
+  if (!locale) return path;
+  return `${path}${path.includes("?") ? "&" : "?"}lang=${locale}`;
+};
+
 export const apiAdapter: DataAdapter = {
-  getSettings: () => get("/settings", settingsSchema, "settings"),
-  getHome: () => get("/pages/home", homeSchema, "pages"),
-  getAboutPage: () => get("/pages/about", aboutPageSchema, "pages"),
-  getOffer: () => get("/pages/offer", offerSchema, "pages"),
-  getBookNow: () => get("/pages/book-now", bookNowSchema, "pages"),
-  getContactPage: () => get("/pages/contact", contactPageSchema, "pages"),
-  getGallery: () => get("/gallery", gallerySchema, "gallery"),
+  getSettings: (locale) => get(withLang("/settings", locale), settingsSchema, "settings"),
+  getHome: (locale) => get(withLang("/pages/home", locale), homeSchema, "pages"),
+  getAboutPage: (locale) => get(withLang("/pages/about", locale), aboutPageSchema, "pages"),
+  getOffer: (locale) => get(withLang("/pages/offer", locale), offerSchema, "pages"),
+  getBookNow: (locale) => get(withLang("/pages/book-now", locale), bookNowSchema, "pages"),
+  getContactPage: (locale) => get(withLang("/pages/contact", locale), contactPageSchema, "pages"),
+  getGallery: (locale) => get(withLang("/gallery", locale), gallerySchema, "gallery"),
 
-  getPackages: () => get("/packages", ownershipPackageSchema.array(), "packages"),
-  getPackage: (slug) => getOrNull(`/packages/${slug}`, ownershipPackageSchema, "packages"),
+  getPackages: (locale) =>
+    get(withLang("/packages", locale), ownershipPackageSchema.array(), "packages"),
+  getPackage: (slug, locale) =>
+    getOrNull(withLang(`/packages/${slug}`, locale), ownershipPackageSchema, "packages"),
 
-  getEvents: () => get("/events", eventsPageSchema, "events"),
+  getEvents: (locale) => get(withLang("/events", locale), eventsPageSchema, "events"),
   /** Same parameter names and `d-m-Y` dates as the live site (contract §events). */
-  filterEvents: (params: EventFilterParams) =>
-    get(`/events/filter${query({ ...params })}`, eventSummarySchema.array(), "events"),
-  getEvent: (slug) => getOrNull(`/events/${slug}`, eventDetailSchema, "events"),
-  getRelatedEvents: (slug) => get(`/events/${slug}/related`, eventSummarySchema.array(), "events"),
+  filterEvents: (params: EventFilterParams, locale) =>
+    get(
+      `/events/filter${query({ ...params, lang: locale })}`,
+      eventSummarySchema.array(),
+      "events",
+    ),
+  getEvent: (slug, locale) =>
+    getOrNull(withLang(`/events/${slug}`, locale), eventDetailSchema, "events"),
+  getRelatedEvents: (slug, locale) =>
+    get(withLang(`/events/${slug}/related`, locale), eventSummarySchema.array(), "events"),
 
-  getPosts: () => get("/posts", postsPageSchema, "posts"),
-  getPost: (slug) => getOrNull(`/posts/${slug}`, postDetailSchema, "posts"),
+  getPosts: (locale) => get(withLang("/posts", locale), postsPageSchema, "posts"),
+  getPost: (slug, locale) =>
+    getOrNull(withLang(`/posts/${slug}`, locale), postDetailSchema, "posts"),
 };

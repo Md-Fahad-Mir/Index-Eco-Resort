@@ -2,8 +2,9 @@
 
 import { m } from "motion/react";
 import { Phone, Play } from "lucide-react";
-import Link from "next/link";
 import { useRef, useState } from "react";
+import Link from "@/components/i18n/Link";
+import { useDictionary } from "@/components/i18n/LocaleProvider";
 import { SmartImage } from "@/components/media/SmartImage";
 import { VideoModal } from "@/components/media/VideoModal";
 import { FrameDraw } from "@/components/motion/midnight/FrameDraw";
@@ -196,11 +197,12 @@ export function AboutEstate({ about }: { about: HomeData["about"] }) {
  * edge. Hover sends one gold ring out from it — once, not a loop.
  */
 function PlayButton({ onClick }: { onClick: () => void }) {
+  const dict = useDictionary();
   return (
     <button
       type="button"
       onClick={onClick}
-      aria-label="Watch video"
+      aria-label={dict.media.watchVideo}
       className="group/play bg-me-night text-me-champagne absolute right-5 bottom-5 z-10 grid size-18 place-items-center rounded-full shadow-[inset_0_0_0_1px_var(--me-frame),var(--shadow-me-deep)] transition-[scale] duration-500 ease-(--me-ease) hover:scale-105 md:right-0 md:bottom-16 md:size-24 md:translate-x-1/2"
     >
       <span

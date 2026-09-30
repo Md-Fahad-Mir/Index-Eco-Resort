@@ -1,4 +1,5 @@
-import Link from "next/link";
+import Link from "@/components/i18n/Link";
+import { getDictionary } from "@/lib/i18n/server";
 import { autoLang } from "@/lib/lang";
 import { internalHref, isInternal } from "@/lib/links";
 import { cn } from "@/lib/utils";
@@ -7,7 +8,7 @@ import { cn } from "@/lib/utils";
  * Breadcrumb above a page-hero title. The separator is a thin slanted rule
  * rather than a slash glyph (design-system §8).
  */
-export function Breadcrumbs({
+export async function Breadcrumbs({
   home,
   current,
   className,
@@ -17,8 +18,9 @@ export function Breadcrumbs({
   className?: string;
 }) {
   const href = internalHref(home.href) ?? "#";
+  const dict = await getDictionary();
   return (
-    <nav aria-label="Breadcrumb" className={cn("text-small text-mist/80", className)}>
+    <nav aria-label={dict.chrome.breadcrumb} className={cn("text-small text-mist/80", className)}>
       <ol className="flex items-center gap-3">
         <li>
           {isInternal(href) ? (

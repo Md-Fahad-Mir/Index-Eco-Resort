@@ -2,6 +2,7 @@
 
 import { m } from "motion/react";
 import { useRef } from "react";
+import { useDictionary } from "@/components/i18n/LocaleProvider";
 import { SmartImage } from "@/components/media/SmartImage";
 import { RevealGroup } from "@/components/motion/midnight/RevealGroup";
 import { ScrollDrift } from "@/components/motion/midnight/ScrollDrift";
@@ -39,6 +40,7 @@ type Fact = HomeData["glance"]["facts"][number];
  */
 export function ProjectGlance({ glance }: { glance: HomeData["glance"] }) {
   const sectionRef = useRef<HTMLElement>(null);
+  const dict = useDictionary();
 
   return (
     // overflow-clip, not hidden: hidden would make the section the slider's
@@ -73,7 +75,7 @@ export function ProjectGlance({ glance }: { glance: HomeData["glance"] }) {
         {glance.slides.length > 0 ? (
           <div className="md:ml-auto md:w-full md:max-w-md lg:col-span-5 lg:col-start-8 lg:ml-0 lg:max-w-none lg:pt-4 xl:col-span-4 xl:col-start-9">
             <FadeSlider
-              label="Project facilities"
+              label={dict.carousel.projectFacilities}
               frameClassName="aspect-4/5"
               className="lg:sticky lg:top-24"
               backdrop={

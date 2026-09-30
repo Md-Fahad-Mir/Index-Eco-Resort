@@ -1,6 +1,6 @@
 import { ArrowRight } from "lucide-react";
-import Link from "next/link";
 import type { AnchorHTMLAttributes, ReactNode } from "react";
+import Link from "@/components/i18n/Link";
 import { cn } from "@/lib/utils";
 
 type TextLinkProps = AnchorHTMLAttributes<HTMLAnchorElement> & {

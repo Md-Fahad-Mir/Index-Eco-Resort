@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { OWNED_ROUTES } from "../helpers/routes";
+import { en, OWNED_ROUTES } from "../helpers/routes";
 
 /** Every route Next.js owns: renders, one non-empty <h1> (CLAUDE.md rule 9e), no console errors. */
 for (const route of OWNED_ROUTES) {
@@ -8,7 +8,7 @@ for (const route of OWNED_ROUTES) {
     page.on("console", (msg) => msg.type() === "error" && errors.push(msg.text()));
     page.on("pageerror", (err) => errors.push(err.message));
 
-    const res = await page.goto(route);
+    const res = await page.goto(en(route));
     expect(res?.status()).toBe(200);
     await expect(page.locator("html")).toHaveAttribute("lang", "en");
 

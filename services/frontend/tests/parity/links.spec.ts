@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { auditLinks } from "../helpers/audit";
-import { OWNED_ROUTES } from "../helpers/routes";
+import { en, OWNED_ROUTES } from "../helpers/routes";
 import { isAllowedHref } from "./allowed-diffs";
 
 /**
@@ -25,11 +25,16 @@ const MOBILE_REGIONS = ["mobile-nav", "dock", "footer"] as const;
 
 const ORIGIN = "https://indexecoresort.com";
 
-/** Same destination, written either way. */
+/**
+ * Same destination, written either way. The pages are visited in English, so
+ * their internal links carry `/en`; the live site had one language and no prefix.
+ */
 const normalise = (href: string): string => {
   const trimmed = href.trim();
   if (trimmed === ORIGIN) return "/";
   if (trimmed.startsWith(`${ORIGIN}/`)) return trimmed.slice(ORIGIN.length);
+  if (trimmed === "/en") return "/";
+  if (trimmed.startsWith("/en/")) return trimmed.slice(3);
   return trimmed;
 };
 
@@ -51,7 +56,7 @@ for (const route of ROUTES) {
     expect(baseline, `audit/links.json has no entry for ${route}`).toBeTruthy();
     if (!baseline) return;
 
-    await page.goto(route);
+    await page.goto(en(route));
 
     // Both menus mount their links only when open, so open them first. On the
     // live site the same links sit in the DOM hidden by CSS; either way the

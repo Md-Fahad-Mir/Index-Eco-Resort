@@ -3,6 +3,7 @@
 import { Play } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
+import { useDictionary, useFormatter } from "@/components/i18n/LocaleProvider";
 import { cn } from "@/lib/utils";
 
 /**
@@ -21,6 +22,8 @@ export function LiteYouTube({
   className?: string;
 }) {
   const [active, setActive] = useState(false);
+  const dict = useDictionary();
+  const { t } = useFormatter();
 
   return (
     <div
@@ -43,7 +46,7 @@ export function LiteYouTube({
           type="button"
           onClick={() => setActive(true)}
           className="group absolute inset-0 size-full cursor-pointer"
-          aria-label={`Play video: ${title}`}
+          aria-label={t(dict.media.playVideo, { title })}
         >
           {/* ytimg serves one fixed size (480x360); next/image still re-encodes
               it and holds it to the width the layout actually uses. */}

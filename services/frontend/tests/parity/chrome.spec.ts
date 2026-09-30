@@ -1,6 +1,7 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 import { describeViolations } from "../helpers/audit";
+import { en } from "../helpers/routes";
 
 /**
  * The global chrome's behaviour. These run in every parity project, so the
@@ -15,7 +16,7 @@ const isMobileViewport = async (page: import("@playwright/test").Page) =>
 
 test.describe("header", () => {
   test("becomes solid after scrolling and stays readable", async ({ page }) => {
-    await page.goto("/about-us");
+    await page.goto(en("/about-us"));
     const header = page.locator("header");
     await expect(header).toHaveAttribute("data-solid", "false");
 
@@ -32,7 +33,7 @@ test.describe("header", () => {
 
   test("marks the current page", async ({ page }) => {
     if (await isMobileViewport(page)) test.skip();
-    await page.goto("/offer");
+    await page.goto(en("/offer"));
     await expect(page.locator('nav[data-region="header"] [aria-current="page"]')).toHaveText(
       "Offer",
     );
@@ -40,7 +41,7 @@ test.describe("header", () => {
 
   test("the packages dropdown opens by keyboard and lists all four", async ({ page }) => {
     if (await isMobileViewport(page)) test.skip();
-    await page.goto("/");
+    await page.goto(en("/"));
     // Scoped to the header: the footer lists the same four packages.
     const nav = page.locator('nav[data-region="header"]');
     const trigger = nav.getByRole("button", { name: /Ownership Packages/i });
@@ -62,7 +63,7 @@ test.describe("header", () => {
 test.describe("mobile menu", () => {
   test("opens, traps focus, closes on Escape and returns focus", async ({ page }) => {
     if (!(await isMobileViewport(page))) test.skip();
-    await page.goto("/");
+    await page.goto(en("/"));
 
     const trigger = page.getByRole("button", { name: "Open menu" });
     await trigger.click();
@@ -83,11 +84,14 @@ test.describe("mobile menu", () => {
 
   test("About points at the working page and packages expand", async ({ page }) => {
     if (!(await isMobileViewport(page))) test.skip();
-    await page.goto("/");
+    await page.goto(en("/"));
     await page.getByRole("button", { name: "Open menu" }).click();
 
     // PARITY (rule 9c): the live href is /about_us, which returns 500.
-    await expect(page.getByRole("link", { name: "About Us" })).toHaveAttribute("href", "/about-us");
+    await expect(page.getByRole("link", { name: "About Us" })).toHaveAttribute(
+      "href",
+      en("/about-us"),
+    );
 
     const sheet = page.getByRole("dialog");
     await sheet.getByRole("button", { name: "Ownership Packages" }).click();
@@ -102,7 +106,7 @@ test.describe("mobile menu", () => {
 
   test("closes when a link is followed", async ({ page }) => {
     if (!(await isMobileViewport(page))) test.skip();
-    await page.goto("/");
+    await page.goto(en("/"));
     await page.getByRole("button", { name: "Open menu" }).click();
     await page.getByRole("link", { name: "Offer" }).click();
     await expect(page).toHaveURL(/\/offer$/);
@@ -112,7 +116,7 @@ test.describe("mobile menu", () => {
 
 test.describe("floating dock", () => {
   test("keeps the live hrefs exactly, contradictions included", async ({ page }) => {
-    await page.goto("/");
+    await page.goto(en("/"));
     const dock = page.getByTestId("floating-dock");
     await expect(dock).toBeVisible();
 
@@ -129,7 +133,7 @@ test.describe("floating dock", () => {
 
   test("sits clear of the home indicator on mobile", async ({ page }) => {
     if (!(await isMobileViewport(page))) test.skip();
-    await page.goto("/");
+    await page.goto(en("/"));
     const dock = page.getByTestId("floating-dock");
     const bottom = await dock.evaluate((el) => getComputedStyle(el).bottom);
     // max(1rem, env(safe-area-inset-bottom)) resolves to at least 16px.
@@ -137,7 +141,7 @@ test.describe("floating dock", () => {
   });
 
   test("its buttons meet the touch-target minimum", async ({ page }) => {
-    await page.goto("/");
+    await page.goto(en("/"));
     const buttons = page.getByTestId("floating-dock").locator("a, button");
     for (const button of await buttons.all()) {
       const box = await button.boundingBox();
@@ -149,7 +153,7 @@ test.describe("floating dock", () => {
 
 test.describe("contact modal", () => {
   test("opens from the dock, validates, submits and returns focus", async ({ page }) => {
-    await page.goto("/");
+    await page.goto(en("/"));
     const trigger = page
       .getByTestId("floating-dock")
       .getByRole("button", { name: /Contact Form/i });
@@ -177,9 +181,10 @@ test.describe("contact modal", () => {
   });
 
   test("submits the field names the live form used", async ({ page }) => {
-    await page.goto("/");
+    await page.goto(en("/"));
     const payloads: unknown[] = [];
-    await page.route("**/api/forms/contact", async (route) => {
+    // The page's language rides along as ?lang=, outside the payload.
+    await page.route(/\/api\/forms\/contact(\?|$)/, async (route) => {
       payloads.push(route.request().postDataJSON());
       await route.fulfill({ status: 200, body: JSON.stringify({ ok: true }) });
     });
@@ -208,7 +213,7 @@ test.describe("contact modal", () => {
 test.describe("accessibility", () => {
   for (const route of ["/", "/about-us", "/silver-ownership-5"]) {
     test(`${route} has no serious or critical violations`, async ({ page }) => {
-      await page.goto(route);
+      await page.goto(en(route));
       const results = await new AxeBuilder({ page })
         .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
         .analyze();

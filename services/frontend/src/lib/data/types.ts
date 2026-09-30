@@ -13,6 +13,7 @@ import type {
   PostsPage,
   SiteSettings,
 } from "./schemas";
+import type { Locale } from "@/lib/i18n/config";
 
 /** Query parameters of the events filter, named exactly as the live site sends them. */
 export type EventFilterParams = {
@@ -27,23 +28,26 @@ export type EventFilterParams = {
 /**
  * One interface, two implementations (fixtures now, Django later). Pages depend
  * only on this, which is what makes the backend swap invisible to them.
+ *
+ * `locale` picks the language of the content. Without one, the content comes
+ * back as the backend stores it by default (for the snapshot: as captured).
  */
 export type DataAdapter = {
-  getSettings(): Promise<SiteSettings>;
-  getHome(): Promise<HomeData>;
-  getAboutPage(): Promise<AboutPage>;
-  getPackages(): Promise<OwnershipPackage[]>;
-  getPackage(slug: string): Promise<OwnershipPackage | null>;
-  getOffer(): Promise<Offer>;
-  getBookNow(): Promise<BookNow>;
-  getContactPage(): Promise<ContactPage>;
-  getGallery(): Promise<Gallery>;
-  getEvents(): Promise<EventsPage>;
-  filterEvents(params: EventFilterParams): Promise<EventSummary[]>;
-  getEvent(slug: string): Promise<EventDetail | null>;
-  getRelatedEvents(slug: string): Promise<EventSummary[]>;
-  getPosts(): Promise<PostsPage>;
-  getPost(slug: string): Promise<PostDetail | null>;
+  getSettings(locale?: Locale): Promise<SiteSettings>;
+  getHome(locale?: Locale): Promise<HomeData>;
+  getAboutPage(locale?: Locale): Promise<AboutPage>;
+  getPackages(locale?: Locale): Promise<OwnershipPackage[]>;
+  getPackage(slug: string, locale?: Locale): Promise<OwnershipPackage | null>;
+  getOffer(locale?: Locale): Promise<Offer>;
+  getBookNow(locale?: Locale): Promise<BookNow>;
+  getContactPage(locale?: Locale): Promise<ContactPage>;
+  getGallery(locale?: Locale): Promise<Gallery>;
+  getEvents(locale?: Locale): Promise<EventsPage>;
+  filterEvents(params: EventFilterParams, locale?: Locale): Promise<EventSummary[]>;
+  getEvent(slug: string, locale?: Locale): Promise<EventDetail | null>;
+  getRelatedEvents(slug: string, locale?: Locale): Promise<EventSummary[]>;
+  getPosts(locale?: Locale): Promise<PostsPage>;
+  getPost(slug: string, locale?: Locale): Promise<PostDetail | null>;
 };
 
 /** Cache tags used for on-demand revalidation (architecture §4). */

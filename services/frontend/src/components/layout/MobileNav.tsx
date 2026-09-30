@@ -1,10 +1,11 @@
 "use client";
 
 import { ChevronDown, Menu, X } from "lucide-react";
-import Link from "next/link";
 import { Accordion, Dialog } from "radix-ui";
 import { useState } from "react";
 import { SocialIcon, socialLabel } from "@/components/brand/SocialIcon";
+import Link from "@/components/i18n/Link";
+import { useDictionary } from "@/components/i18n/LocaleProvider";
 import { Button } from "@/components/ui/Button";
 import type { SiteSettings } from "@/lib/data";
 import { anchorProps, internalHref, isActiveRoute, isInternal } from "@/lib/links";
@@ -17,6 +18,7 @@ import { cn } from "@/lib/utils";
  */
 export function MobileNav({ settings, pathname }: { settings: SiteSettings; pathname: string }) {
   const [open, setOpen] = useState(false);
+  const dict = useDictionary();
   // Closing on click rather than on a pathname change keeps this out of an
   // effect, and it also closes for same-page links.
   const close = () => setOpen(false);
@@ -27,7 +29,7 @@ export function MobileNav({ settings, pathname }: { settings: SiteSettings; path
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
       <Dialog.Trigger
-        aria-label="Open menu"
+        aria-label={dict.chrome.openMenu}
         className="text-chrome-text on-dark grid size-11 place-items-center lg:hidden"
       >
         <Menu aria-hidden className="size-6" strokeWidth={1.5} />
@@ -41,12 +43,12 @@ export function MobileNav({ settings, pathname }: { settings: SiteSettings; path
             "data-[state=open]:animate-in data-[state=open]:slide-in-from-right data-[state=open]:duration-450",
           )}
         >
-          <Dialog.Title className="sr-only">Menu</Dialog.Title>
+          <Dialog.Title className="sr-only">{dict.chrome.menu}</Dialog.Title>
 
           <div className="border-chrome-hairline flex items-center justify-between border-b px-6 py-5">
-            <span className="text-chrome-text/70 text-label font-semibold">Menu</span>
+            <span className="text-chrome-text/70 text-label font-semibold">{dict.chrome.menu}</span>
             <Dialog.Close
-              aria-label="Close menu"
+              aria-label={dict.chrome.closeMenu}
               className="text-chrome-text hover:bg-chrome-control-hover hover:text-chrome-control-hover-fg rounded-pill grid size-11 place-items-center transition-colors"
             >
               <X aria-hidden className="size-5" strokeWidth={1.5} />
@@ -55,7 +57,7 @@ export function MobileNav({ settings, pathname }: { settings: SiteSettings; path
 
           <nav
             data-region="mobile-nav"
-            aria-label="Mobile"
+            aria-label={dict.chrome.mobileNav}
             className="flex-1 overflow-y-auto overscroll-contain px-6 pb-6"
           >
             <ul className="divide-chrome-hairline divide-y">

@@ -1,8 +1,8 @@
 "use client";
 
 import { m, useMotionTemplate, useMotionValue, useSpring, useTransform } from "motion/react";
-import Link from "next/link";
 import { useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
+import Link from "@/components/i18n/Link";
 import { useReducedMotionSafe } from "@/components/motion/useReducedMotionSafe";
 import { SmartImage, type ImgData } from "@/components/media/SmartImage";
 import { cn } from "@/lib/utils";

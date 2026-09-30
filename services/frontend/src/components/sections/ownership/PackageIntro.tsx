@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/i18n/Link";
 import { Reveal } from "@/components/motion/Reveal";
 import { MembershipCard } from "@/components/ownership/MembershipCard";
 import { Heading } from "@/components/typography/Heading";

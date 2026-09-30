@@ -1,6 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 import { routeSlug } from "../helpers/audit";
-import { FROZEN_ROUTES } from "../helpers/routes";
+import { en, FROZEN_ROUTES } from "../helpers/routes";
 
 /**
  * Phase 5b guard. Home is being redesigned ("Midnight Estate") and the global
@@ -52,7 +52,7 @@ for (const route of ROUTES) {
     test(`${route} @ ${width}px is unchanged`, async ({ page }, testInfo) => {
       test.skip(testInfo.project.name === "styleguide", "production routes run in `non-home`");
       await page.setViewportSize({ width, height: 900 });
-      await page.goto(route, { waitUntil: "load" });
+      await page.goto(en(route), { waitUntil: "load" });
       await settle(page);
       await expect(page).toHaveScreenshot(`${routeSlug(route)}@${width}.png`, {
         fullPage: true,
@@ -69,7 +69,7 @@ for (const width of WIDTHS) {
   test(`styleguide @ ${width}px is unchanged`, async ({ page }, testInfo) => {
     test.skip(testInfo.project.name !== "styleguide", "the styleguide exists only in dev");
     await page.setViewportSize({ width, height: 900 });
-    await page.goto("/styleguide", { waitUntil: "load" });
+    await page.goto(en("/styleguide"), { waitUntil: "load" });
     // The dev-server badge is not part of the design.
     await page.addStyleTag({ content: "nextjs-portal{display:none!important}" });
     // The styleguide sits outside the site layout: no header to wait for.
@@ -96,7 +96,7 @@ test.describe("chrome states on /about-us are unchanged", () => {
 
   const open = async (page: Page, width: number) => {
     await page.setViewportSize({ width, height: 900 });
-    await page.goto("/about-us", { waitUntil: "load" });
+    await page.goto(en("/about-us"), { waitUntil: "load" });
     await settle(page);
   };
 
@@ -144,7 +144,10 @@ test.describe("chrome states on /about-us are unchanged", () => {
 
   test("hover states: dock label, Book Now, social icon @ 1440px", async ({ page }) => {
     await open(page, 1440);
-    await page.getByTestId("floating-dock").getByRole("link", { name: /WhatsApp/ }).hover();
+    await page
+      .getByTestId("floating-dock")
+      .getByRole("link", { name: /WhatsApp/ })
+      .hover();
     await expect(page).toHaveScreenshot("chrome-dock-hover@1440.png", shot);
 
     await page.locator('[data-region="topbar"] a').first().hover();

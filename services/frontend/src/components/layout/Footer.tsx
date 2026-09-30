@@ -1,9 +1,10 @@
-import Link from "next/link";
 import { SocialIcon, socialLabel } from "@/components/brand/SocialIcon";
+import Link from "@/components/i18n/Link";
 import { SmartImage } from "@/components/media/SmartImage";
 import { Paragraph } from "@/components/typography/Text";
 import { Container } from "@/components/ui/Container";
 import type { SiteSettings } from "@/lib/data";
+import { getDictionary } from "@/lib/i18n/server";
 import { anchorProps, internalHref, isInternal } from "@/lib/links";
 
 /**
@@ -19,8 +20,9 @@ const FOOTER_HEADING =
   "font-display text-chrome-footer-heading mb-5 " +
   "text-(length:--chrome-footer-heading-size) leading-(--chrome-footer-heading-leading)";
 
-export function Footer({ settings }: { settings: SiteSettings }) {
+export async function Footer({ settings }: { settings: SiteSettings }) {
   const { footer } = settings;
+  const dict = await getDictionary();
   return (
     <footer data-region="footer" className="bg-chrome-footer text-chrome-footer-text on-dark">
       <Container className="grid gap-12 py-[clamp(3.5rem,6vw,5.5rem)] lg:grid-cols-12 lg:gap-8">
@@ -85,7 +87,7 @@ export function Footer({ settings }: { settings: SiteSettings }) {
         ))}
 
         <div className="lg:col-span-4">
-          <h2 className={FOOTER_HEADING}>Contact Us</h2>
+          <h2 className={FOOTER_HEADING}>{dict.chrome.footerContact}</h2>
           <ul className="divide-chrome-footer-rule divide-y">
             {footer.contact.map((item) => (
               <li key={item.text} className="py-3 first:pt-0 last:pb-0">

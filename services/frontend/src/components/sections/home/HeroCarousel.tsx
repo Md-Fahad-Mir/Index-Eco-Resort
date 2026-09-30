@@ -3,8 +3,9 @@
 import { Pause, Play } from "lucide-react";
 import { m, useMotionValue, useScroll, useTransform, type MotionValue } from "motion/react";
 import Image from "next/image";
-import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
+import Link from "@/components/i18n/Link";
+import { useDictionary, useFormatter } from "@/components/i18n/LocaleProvider";
 import { SmartImage } from "@/components/media/SmartImage";
 import { FrameDraw } from "@/components/motion/midnight/FrameDraw";
 import { LightsOn } from "@/components/motion/midnight/LightsOn";
@@ -50,6 +51,8 @@ export function HeroCarousel({ hero }: { hero: HomeData["hero"] }) {
   const motionOn = useMotionOn();
   const wide = useMedia(MEDIUM_UP);
   const reduced = useMedia(REDUCED);
+  const dict = useDictionary();
+  const { t, digits } = useFormatter();
 
   const [selected, setSelected] = useState(0);
   // Each time a slide is shown its progress line starts again.
@@ -117,7 +120,7 @@ export function HeroCarousel({ hero }: { hero: HomeData["hero"] }) {
       ref={sectionRef}
       data-testid="hero"
       aria-roledescription="carousel"
-      aria-label="Highlights"
+      aria-label={dict.carousel.heroLabel}
       className="on-dark bg-me-night text-me-ivory relative isolate flex min-h-[max(640px,100svh)] touch-pan-y flex-col overflow-hidden"
       onMouseEnter={() => setInteracting(true)}
       onMouseLeave={() => setInteracting(false)}
@@ -158,7 +161,7 @@ export function HeroCarousel({ hero }: { hero: HomeData["hero"] }) {
                 key={index}
                 role="group"
                 aria-roledescription="slide"
-                aria-label={`${index + 1} of ${count}`}
+                aria-label={t(dict.carousel.slideOf, { n: index + 1, total: count })}
                 data-active={active}
                 className={cn(
                   "absolute inset-0",
@@ -192,7 +195,10 @@ export function HeroCarousel({ hero }: { hero: HomeData["hero"] }) {
 
       {/* Two veils: a strong one below for the type, a light one above for
           the header. */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 bg-(image:--me-veil-bottom)" />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-(image:--me-veil-bottom)"
+      />
       <div
         aria-hidden
         className="pointer-events-none absolute inset-x-0 top-0 h-48 bg-(image:--me-veil-top)"
@@ -218,7 +224,7 @@ export function HeroCarousel({ hero }: { hero: HomeData["hero"] }) {
       >
         <RevealItem className="flex items-center gap-5">
           <span aria-hidden className="text-label tabular text-me-parchment">
-            {pad(selected + 1)} <span className="text-me-sage">/ {pad(count)}</span>
+            {digits(pad(selected + 1))} <span className="text-me-sage">/ {digits(pad(count))}</span>
           </span>
           <ProgressLine
             key={cycle}
@@ -232,7 +238,7 @@ export function HeroCarousel({ hero }: { hero: HomeData["hero"] }) {
           <button
             type="button"
             onClick={toggle}
-            aria-label={playing ? "Pause slideshow" : "Play slideshow"}
+            aria-label={playing ? dict.carousel.pauseSlideshow : dict.carousel.playSlideshow}
             className="text-me-ivory hover:bg-me-champagne hover:text-me-night grid size-11 place-items-center shadow-[inset_0_0_0_1px_var(--me-frame)] transition-colors duration-[var(--dur-micro)]"
           >
             {playing ? (
@@ -246,7 +252,7 @@ export function HeroCarousel({ hero }: { hero: HomeData["hero"] }) {
 
       {/* Which slide is showing, for assistive tech. */}
       <p aria-live="polite" className="sr-only">
-        Slide {selected + 1} of {count}
+        {t(dict.carousel.slideStatus, { n: selected + 1, total: count })}
       </p>
     </section>
   );
@@ -277,7 +283,12 @@ function HeroLockup({ slide }: { slide: Slide }) {
         />
       ) : null}
 
-      <RevealGroup trigger="mount" delay={1} stagger={0.12} className="flex flex-col items-center gap-9">
+      <RevealGroup
+        trigger="mount"
+        delay={1}
+        stagger={0.12}
+        className="flex flex-col items-center gap-9"
+      >
         {subline ? (
           <RevealItem
             as="p"

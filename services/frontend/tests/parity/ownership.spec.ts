@@ -3,6 +3,7 @@ import path from "node:path";
 import { expect, test, type Page } from "@playwright/test";
 import { AUDIT_DIR } from "../helpers/audit";
 import packages from "../../src/fixtures/packages.json";
+import { en } from "../helpers/routes";
 
 /**
  * The four ownership pages, all from one dynamic route.
@@ -55,7 +56,7 @@ const transformOf = (page: Page) =>
 for (const pkg of packages) {
   test.describe(`/${pkg.slug}`, () => {
     test.beforeEach(async ({ page }) => {
-      await page.goto(`/${pkg.slug}`);
+      await page.goto(en(`/${pkg.slug}`));
     });
 
     test("hero, heading and call to action are exactly the captured data", async ({ page }) => {
@@ -153,7 +154,7 @@ for (const pkg of packages) {
 
 test.describe("the missing hero image", () => {
   test("Silver falls back to the designed panel, and the pattern is painted", async ({ page }) => {
-    await page.goto("/silver-ownership-5");
+    await page.goto(en("/silver-ownership-5"));
     const hero = page.getByTestId("page-hero");
     await expect(hero).toHaveAttribute("data-has-image", "false");
     // Nothing is requested for an image the snapshot could not mirror.
@@ -185,7 +186,7 @@ test.describe("the missing hero image", () => {
 
 test.describe("the membership card", () => {
   test("tilts under a fine pointer and rests when it leaves", async ({ page }) => {
-    await page.goto("/gold-ownership-2");
+    await page.goto(en("/gold-ownership-2"));
     if (!(await fine(page))) test.skip();
 
     await expect(page.getByTestId("membership-card-face").first()).toBeVisible();
@@ -203,7 +204,7 @@ test.describe("the membership card", () => {
   });
 
   test("a touch gets a sweep instead of a tilt", async ({ page }) => {
-    await page.goto("/gold-ownership-2");
+    await page.goto(en("/gold-ownership-2"));
     await expect(page.getByTestId("membership-card-face").first()).toBeVisible();
     const before = await transformOf(page);
 
@@ -226,7 +227,7 @@ test.describe("reduced motion", () => {
   test.use({ reducedMotion: "reduce" });
 
   test("the card is static and every section still renders", async ({ page }) => {
-    await page.goto("/gold-ownership-2");
+    await page.goto(en("/gold-ownership-2"));
     await expect(page.locator("main > section")).toHaveCount(4);
 
     await expect(page.getByTestId("membership-card-face").first()).toBeVisible();
@@ -240,16 +241,16 @@ test.describe("reduced motion", () => {
 
 test.describe("keyboard", () => {
   test("the card in the plan grid is one focusable link", async ({ page }) => {
-    await page.goto("/gold-ownership-2");
+    await page.goto(en("/gold-ownership-2"));
     const link = page.getByRole("link", { name: "Platinum Ownership" }).last();
     await link.focus();
     await expect(link).toBeFocused();
-    await expect(link).toHaveAttribute("href", "/platinum-ownership-3");
+    await expect(link).toHaveAttribute("href", en("/platinum-ownership-3"));
   });
 
   test("the whole page is reachable by keyboard", async ({ page }) => {
     if ((page.viewportSize()?.width ?? 1440) < 1024) test.skip();
-    await page.goto("/gold-ownership-2");
+    await page.goto(en("/gold-ownership-2"));
 
     const seen = new Set<string>();
     for (let i = 0; i < 40; i++) {

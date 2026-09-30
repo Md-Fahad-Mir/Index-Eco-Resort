@@ -3,6 +3,7 @@
 import { X } from "lucide-react";
 import { Dialog as DialogPrimitive } from "radix-ui";
 import { useEffect, useRef } from "react";
+import { useDictionary } from "@/components/i18n/LocaleProvider";
 import { MOBILE_VIDEO_QUERY, videoVariants } from "@/lib/media";
 import { cn } from "@/lib/utils";
 
@@ -47,6 +48,7 @@ export function VideoModal({
   variant?: keyof typeof SKIN;
 }) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const dict = useDictionary();
   const variants = videoVariants(src);
   const skin = SKIN[variant];
 
@@ -92,7 +94,7 @@ export function VideoModal({
             </video>
           </div>
           <DialogPrimitive.Close
-            aria-label="Close video"
+            aria-label={dict.media.closeVideo}
             className={cn(
               "on-dark absolute -top-14 right-0 inline-grid size-12 place-items-center transition-colors",
               skin.close,

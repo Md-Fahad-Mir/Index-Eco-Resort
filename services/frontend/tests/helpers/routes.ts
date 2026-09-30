@@ -37,3 +37,10 @@ export const OWNED_ROUTES: readonly string[] = [
 ];
 
 export const SCREENSHOT_WIDTHS = [390, 768, 1440] as const;
+
+/**
+ * The English URL of a route. The live site the parity suite compares against
+ * is English, and so is `/en/…`; the bare paths now serve Bangla, the default
+ * language (src/proxy.ts). Parity specs visit routes through this.
+ */
+export const en = (route: string): string => (route === "/" ? "/en" : `/en${route}`);

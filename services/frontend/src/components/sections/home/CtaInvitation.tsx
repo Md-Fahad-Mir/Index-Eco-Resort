@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/i18n/Link";
 import { SmartImage } from "@/components/media/SmartImage";
 import { LineReveal } from "@/components/motion/midnight/LineReveal";
 import { RevealGroup } from "@/components/motion/midnight/RevealGroup";

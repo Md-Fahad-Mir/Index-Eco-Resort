@@ -2,7 +2,7 @@ import { mkdirSync } from "node:fs";
 import path from "node:path";
 import { test } from "@playwright/test";
 import { AFTER_SCREENSHOTS_DIR, routeSlug } from "../helpers/audit";
-import { FROZEN_ROUTES, SCREENSHOT_WIDTHS } from "../helpers/routes";
+import { en, FROZEN_ROUTES, SCREENSHOT_WIDTHS } from "../helpers/routes";
 
 /**
  * Full-page "after" screenshots at 390/768/1440, named exactly like the Phase 0
@@ -14,7 +14,7 @@ for (const route of FROZEN_ROUTES) {
   for (const width of SCREENSHOT_WIDTHS) {
     test(`${route} @ ${width}px`, async ({ page }) => {
       await page.setViewportSize({ width, height: 900 });
-      await page.goto(route, { waitUntil: "load" });
+      await page.goto(en(route), { waitUntil: "load" });
       await page.addStyleTag({
         content:
           "*,*::before,*::after{animation-duration:0s!important;transition-duration:0s!important}",

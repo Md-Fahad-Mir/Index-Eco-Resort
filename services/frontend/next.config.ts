@@ -102,6 +102,8 @@ const buildConfig = (isDev: boolean): NextConfig => ({
         destination: "/about-us",
         permanent: true,
       },
+      // The same, on the English site (src/proxy.ts).
+      { source: "/en/about_us", destination: "/en/about-us", permanent: true },
     ];
   },
   async rewrites() {

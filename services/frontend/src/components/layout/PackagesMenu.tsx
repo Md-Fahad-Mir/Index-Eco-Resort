@@ -1,8 +1,8 @@
 "use client";
 
 import { ChevronDown } from "lucide-react";
-import Link from "next/link";
 import { NavigationMenu as Nav } from "radix-ui";
+import Link from "@/components/i18n/Link";
 import { SmartImage } from "@/components/media/SmartImage";
 import type { PackageSummary } from "@/lib/data";
 import { internalHref, isActiveRoute } from "@/lib/links";

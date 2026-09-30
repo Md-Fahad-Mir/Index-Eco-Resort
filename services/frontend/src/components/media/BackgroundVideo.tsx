@@ -2,6 +2,7 @@
 
 import { Pause, Play } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { useDictionary } from "@/components/i18n/LocaleProvider";
 import { useReducedMotionSafe } from "@/components/motion/useReducedMotionSafe";
 import { cn } from "@/lib/utils";
 
@@ -14,7 +15,7 @@ export function BackgroundVideo({
   src,
   poster,
   className,
-  label = "Background video",
+  label,
 }: {
   src: string;
   /** Shown before the video loads; this is the LCP element. */
@@ -23,6 +24,7 @@ export function BackgroundVideo({
   label?: string;
 }) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const dict = useDictionary();
   const reduced = useReducedMotionSafe();
   // Under reduced motion or Save-Data the video never auto-starts.
   const [playing, setPlaying] = useState(false);
@@ -102,14 +104,14 @@ export function BackgroundVideo({
         playsInline
         preload="none"
         poster={poster}
-        aria-label={label}
+        aria-label={label ?? dict.media.backgroundVideo}
         className="size-full object-cover"
         {...(enabled ? { src } : {})}
       />
       <button
         type="button"
         onClick={toggle}
-        aria-label={playing ? "Pause background video" : "Play background video"}
+        aria-label={playing ? dict.media.pauseBackgroundVideo : dict.media.playBackgroundVideo}
         className="on-dark rounded-pill border-hairline-dark bg-canopy/60 text-mist hover:bg-mist hover:text-canopy absolute right-6 bottom-6 z-10 inline-grid size-11 place-items-center border backdrop-blur-sm transition-colors duration-[var(--dur-micro)]"
       >
         {playing ? (

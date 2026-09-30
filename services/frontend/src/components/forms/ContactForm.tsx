@@ -5,6 +5,7 @@ import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useDictionary, useFormatter, useLocale } from "@/components/i18n/LocaleProvider";
 import { Button } from "@/components/ui/Button";
 import { Field, Input, Textarea } from "@/components/ui/Field";
 import type { FormField as FormFieldSpec } from "@/lib/data";
@@ -34,6 +35,9 @@ export function ContactForm({
   tone?: "light" | "dark";
   onSuccess?: () => void;
 }) {
+  const locale = useLocale();
+  const dict = useDictionary();
+  const { t } = useFormatter();
   const [done, setDone] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
 
@@ -44,9 +48,9 @@ export function ContactForm({
   const shape: Record<string, z.ZodTypeAny> = {};
   for (const field of visible) {
     let rule: z.ZodString = z.string();
-    if (field.type === "email") rule = rule.email("Enter a valid email address.");
+    if (field.type === "email") rule = rule.email(dict.forms.invalidEmail);
     shape[field.name!] = field.required
-      ? rule.min(1, `${labelFor(field)} is required.`)
+      ? rule.min(1, t(dict.forms.required, { label: labelFor(field) }))
       : (rule.optional().or(z.literal("")) as unknown as z.ZodString);
   }
   const schema = z.object(shape);
@@ -64,7 +68,7 @@ export function ContactForm({
     const payload: Record<string, string> = { ...values };
     for (const field of hidden) payload[field.name!] = field.value ?? "";
 
-    const response = await fetch("/api/forms/contact", {
+    const response = await fetch(`/api/forms/contact?lang=${locale}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
@@ -87,7 +91,7 @@ export function ContactForm({
       }
       return;
     }
-    setFormError(body?.message ?? "Something went wrong. Please try again.");
+    setFormError(body?.message ?? dict.forms.genericError);
   });
 
   if (done) return <FormSuccess message={successMessage} />;

@@ -3,6 +3,7 @@
 import { ChevronLeft, ChevronRight, Star } from "lucide-react";
 import { m } from "motion/react";
 import { useState } from "react";
+import { useDictionary, useFormatter } from "@/components/i18n/LocaleProvider";
 import { SmartImage } from "@/components/media/SmartImage";
 import { RevealGroup } from "@/components/motion/midnight/RevealGroup";
 import { RevealItem } from "@/components/motion/midnight/RevealItem";
@@ -32,6 +33,8 @@ const pad = (n: number) => String(n).padStart(2, "0");
 export function Testimonials({ testimonials }: { testimonials: HomeData["testimonials"] }) {
   const items = testimonials.items;
   const [index, setIndex] = useState(0);
+  const dict = useDictionary();
+  const { t, digits } = useFormatter();
   if (items.length === 0) return null;
   const many = items.length > 1;
   const go = (next: number) => setIndex(((next % items.length) + items.length) % items.length);
@@ -71,17 +74,25 @@ export function Testimonials({ testimonials }: { testimonials: HomeData["testimo
 
         {many ? (
           <div className="flex items-center gap-5">
-            <EstateIconButton tone="ivory" label="Previous review" onClick={() => go(index - 1)}>
+            <EstateIconButton
+              tone="ivory"
+              label={dict.carousel.previousReview}
+              onClick={() => go(index - 1)}
+            >
               <ChevronLeft aria-hidden strokeWidth={1.25} />
             </EstateIconButton>
             <span aria-hidden className="text-label tabular text-me-stone">
-              {pad(index + 1)} / {pad(items.length)}
+              {digits(pad(index + 1))} / {digits(pad(items.length))}
             </span>
-            <EstateIconButton tone="ivory" label="Next review" onClick={() => go(index + 1)}>
+            <EstateIconButton
+              tone="ivory"
+              label={dict.carousel.nextReview}
+              onClick={() => go(index + 1)}
+            >
               <ChevronRight aria-hidden strokeWidth={1.25} />
             </EstateIconButton>
             <p aria-live="polite" className="sr-only">
-              Review {index + 1} of {items.length}
+              {t(dict.carousel.reviewStatus, { n: index + 1, total: items.length })}
             </p>
           </div>
         ) : null}
@@ -137,11 +148,13 @@ function Quote({ testimonial }: { testimonial: Testimonial }) {
 /** The rating: bronze stars that fill one after another, 70ms apart. */
 function Stars({ rating }: { rating: number }) {
   const on = useMotionOn();
+  const dict = useDictionary();
+  const { t } = useFormatter();
   return (
     <m.div
       // role="img" so the label is permitted and the stars read as one graphic.
       role="img"
-      aria-label={`${rating} out of 5 stars`}
+      aria-label={t(dict.carousel.stars, { rating })}
       className="flex gap-1.5"
       initial="hidden"
       whileInView="shown"

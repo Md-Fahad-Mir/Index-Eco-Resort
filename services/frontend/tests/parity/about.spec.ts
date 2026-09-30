@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { expect, test, type Page } from "@playwright/test";
+import { en } from "../helpers/routes";
 
 /**
  * About page behaviour (Phase 6).
@@ -19,7 +20,7 @@ const about = JSON.parse(
 const tabs = about.visionMission.tabs;
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("/about-us");
+  await page.goto(en("/about-us"));
 });
 
 test("the hero renders one non-empty h1 at the h1 scale", async ({ page }) => {
@@ -178,7 +179,7 @@ test.describe("reduced motion", () => {
   test.use({ reducedMotion: "reduce" });
 
   test("every section is present and the tabs still work", async ({ page }) => {
-    await page.goto("/about-us");
+    await page.goto(en("/about-us"));
     await expect(page.locator("main > *")).toHaveCount(5);
 
     // The unveil is the only entrance on this page; under reduce it must not
@@ -198,7 +199,7 @@ test.describe("keyboard", () => {
   test("the whole page is reachable, and tabbing leaves the tab strip", async ({ page }) => {
     const width = page.viewportSize()?.width ?? 1440;
     if (width < 1024) test.skip();
-    await page.goto("/about-us");
+    await page.goto(en("/about-us"));
 
     const seen = new Set<string>();
     for (let i = 0; i < 40; i++) {

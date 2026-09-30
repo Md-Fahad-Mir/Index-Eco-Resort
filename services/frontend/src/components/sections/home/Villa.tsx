@@ -1,9 +1,10 @@
 "use client";
 
 import { m } from "motion/react";
-import Link from "next/link";
 import { Tabs as TabsPrimitive } from "radix-ui";
 import { useState } from "react";
+import Link from "@/components/i18n/Link";
+import { useDictionary, useFormatter } from "@/components/i18n/LocaleProvider";
 import { Lightbox } from "@/components/media/Lightbox";
 import { SmartImage } from "@/components/media/SmartImage";
 import { LineReveal } from "@/components/motion/midnight/LineReveal";
@@ -46,6 +47,7 @@ const toValue = (label: string) => label.trim().replace(/\s+/g, "-");
  */
 export function Villa({ villa }: { villa: HomeData["villa"] }) {
   const rooms = villa.rooms;
+  const dict = useDictionary();
   const [tab, setTab] = useState(() => toValue(rooms[0]?.tabLabel ?? ""));
   // The photograph fade belongs to a switch; the first room enters with the page.
   const [switched, setSwitched] = useState(false);
@@ -83,7 +85,7 @@ export function Villa({ villa }: { villa: HomeData["villa"] }) {
             <div className="-mx-(--container-pad) [scrollbar-width:none] overflow-x-auto px-(--container-pad) lg:col-span-5 lg:mx-0 lg:justify-self-end lg:px-0 [&::-webkit-scrollbar]:hidden">
               <TabsPrimitive.List
                 ref={list}
-                aria-label="Room types"
+                aria-label={dict.carousel.roomTypes}
                 className="border-me-hairline-gold relative flex w-max min-w-full gap-9 border-b lg:min-w-0"
               >
                 <span
@@ -126,6 +128,8 @@ export function Villa({ villa }: { villa: HomeData["villa"] }) {
 
 function RoomPanel({ room, switched }: { room: Room; switched: boolean }) {
   const on = useMotionOn();
+  const dict = useDictionary();
+  const { t } = useFormatter();
   const [lightboxAt, setLightboxAt] = useState<number | null>(null);
   const href = internalHref(room.cta.href) ?? "#";
 
@@ -140,7 +144,7 @@ function RoomPanel({ room, switched }: { room: Room; switched: boolean }) {
         transition={{ duration: 0.7, ease: EASE }}
       >
         <FadeSlider
-          label={`${room.name} photographs`}
+          label={t(dict.carousel.roomPhotos, { name: room.name })}
           frameClassName="aspect-4/3"
           slides={room.images.map((image, index) => (
             <button

@@ -1,7 +1,7 @@
 "use client";
 
-import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
+import { useRoutePathname } from "@/components/i18n/LocaleProvider";
 
 /**
  * Routes that wear a theme other than Canopy & Brass. Home is the Midnight
@@ -17,7 +17,7 @@ const THEME_BY_ROUTE: Record<string, "midnight"> = { "/": "midnight" };
  * follow, and client navigation reverts them with the attribute.
  */
 export function SiteMain({ children }: { children: ReactNode }) {
-  const pathname = usePathname();
+  const pathname = useRoutePathname();
   return (
     <main id="main" className="flex-1" data-theme={THEME_BY_ROUTE[pathname]}>
       {children}

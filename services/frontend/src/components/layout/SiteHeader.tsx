@@ -1,8 +1,9 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { LanguageSwitch } from "@/components/i18n/LanguageSwitch";
+import Link from "@/components/i18n/Link";
+import { useDictionary, useRoutePathname } from "@/components/i18n/LocaleProvider";
 import { SmartImage } from "@/components/media/SmartImage";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
@@ -29,7 +30,8 @@ export function SiteHeader({
   settings: SiteSettings;
   packages: PackageSummary[];
 }) {
-  const pathname = usePathname();
+  const pathname = useRoutePathname();
+  const dict = useDictionary();
   const [solid, setSolid] = useState(false);
 
   useEffect(() => {
@@ -80,7 +82,7 @@ export function SiteHeader({
             />
           </Link>
 
-          <nav data-region="header" aria-label="Main" className="hidden lg:block">
+          <nav data-region="header" aria-label={dict.chrome.mainNav} className="hidden lg:block">
             <ul className="flex items-center gap-8">
               {settings.nav.map((item) =>
                 item.children?.length ? (
@@ -102,7 +104,8 @@ export function SiteHeader({
             </ul>
           </nav>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 lg:gap-3">
+            <LanguageSwitch />
             {/* Its two states follow the header's data-solid (globals.css). */}
             <Button asChild variant="chrome-cta" className="hidden h-11 px-6 lg:inline-flex">
               <Link href={bookNowHref}>{settings.bookNow.label}</Link>

@@ -3,6 +3,7 @@
 import useEmblaCarousel from "embla-carousel-react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useEffect, useReducer, type ReactNode } from "react";
+import { useDictionary, useFormatter } from "@/components/i18n/LocaleProvider";
 import { IconButton } from "@/components/ui/IconButton";
 import { cn } from "@/lib/utils";
 
@@ -33,6 +34,8 @@ export function Slider({
   controlsPosition = "below",
 }: SliderProps) {
   const [emblaRef, embla] = useEmblaCarousel({ loop: false, align: "start" });
+  const dict = useDictionary();
+  const { t, digits } = useFormatter();
   // Embla owns the carousel state. Rather than mirror it into React state (which
   // would mean a setState inside an effect), re-render on its events and read the
   // current values during render.
@@ -57,7 +60,7 @@ export function Slider({
     <div className={cn("flex items-center gap-5", controlsPosition === "above" && "justify-end")}>
       <div className="flex gap-2">
         <IconButton
-          label="Previous slide"
+          label={dict.carousel.previousSlide}
           tone={tone}
           disabled={!canPrev}
           onClick={() => embla?.scrollPrev()}
@@ -65,7 +68,7 @@ export function Slider({
           <ChevronLeft strokeWidth={1.5} />
         </IconButton>
         <IconButton
-          label="Next slide"
+          label={dict.carousel.nextSlide}
           tone={tone}
           disabled={!canNext}
           onClick={() => embla?.scrollNext()}
@@ -75,7 +78,7 @@ export function Slider({
       </div>
 
       <p className={cn("tabular text-small", tone === "light" ? "text-ink-muted" : "text-lichen")}>
-        {String(selected + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
+        {digits(String(selected + 1).padStart(2, "0"))} / {digits(String(total).padStart(2, "0"))}
       </p>
 
       <div
@@ -110,7 +113,7 @@ export function Slider({
               key={i}
               role="group"
               aria-roledescription="slide"
-              aria-label={`${i + 1} of ${total}`}
+              aria-label={t(dict.carousel.slideOf, { n: i + 1, total })}
               className={cn("min-w-0 shrink-0 grow-0 basis-full", slideClassName)}
             >
               {slide}

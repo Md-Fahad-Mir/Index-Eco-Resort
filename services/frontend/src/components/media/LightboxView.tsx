@@ -6,6 +6,7 @@ import Counter from "yet-another-react-lightbox/plugins/counter";
 import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/captions.css";
 import "yet-another-react-lightbox/plugins/counter.css";
+import { useDictionary } from "@/components/i18n/LocaleProvider";
 import type { LightboxSlide } from "./Lightbox";
 
 /** Backdrops: Canopy's green, or Midnight's night room at 96% (docs/02 §13). */
@@ -30,12 +31,14 @@ export default function LightboxView({
   onClose: () => void;
   tone: keyof typeof BACKDROP;
 }) {
+  const { lightbox } = useDictionary().media;
   return (
     <YARL
       open
       close={onClose}
       index={index}
       plugins={[Captions, Counter]}
+      labels={{ Previous: lightbox.previous, Next: lightbox.next, Close: lightbox.close }}
       className={tone === "midnight" ? "me-lightbox" : undefined}
       animation={{ fade: 450, swipe: 500 }}
       captions={{ descriptionTextAlign: "center", descriptionMaxLines: 2 }}

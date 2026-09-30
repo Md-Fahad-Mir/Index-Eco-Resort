@@ -2,6 +2,7 @@
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRef, useState, type KeyboardEvent, type ReactNode } from "react";
+import { useDictionary, useFormatter } from "@/components/i18n/LocaleProvider";
 import { cn } from "@/lib/utils";
 import { EstateIconButton } from "./EstateIconButton";
 
@@ -28,7 +29,7 @@ export function FadeSlider({
   className,
   backdrop,
   thumbs,
-  thumbLabel = (index) => `Show photograph ${index + 1}`,
+  thumbLabel,
   controlsClassName,
 }: {
   /** Names the carousel for assistive tech. */
@@ -45,6 +46,8 @@ export function FadeSlider({
   controlsClassName?: string;
 }) {
   const count = slides.length;
+  const dict = useDictionary();
+  const { t, digits } = useFormatter();
   const [index, setIndex] = useState(0);
   const swipe = useRef<{ x: number; y: number } | null>(null);
   // A drag that changed the slide must not also click the slide's button.
@@ -107,7 +110,7 @@ export function FadeSlider({
                 key={i}
                 role="group"
                 aria-roledescription="slide"
-                aria-label={`${i + 1} of ${count}`}
+                aria-label={t(dict.carousel.slideOf, { n: i + 1, total: count })}
                 inert={!active}
                 data-active={active}
                 className={cn(
@@ -132,7 +135,7 @@ export function FadeSlider({
                 <button
                   key={i}
                   type="button"
-                  aria-label={thumbLabel(i)}
+                  aria-label={thumbLabel ? thumbLabel(i) : t(dict.carousel.showPhoto, { n: i + 1 })}
                   aria-current={i === index}
                   onClick={() => go(i)}
                   className={cn(
@@ -152,15 +155,15 @@ export function FadeSlider({
 
           <div className="flex items-center gap-5">
             <div className="flex gap-2">
-              <EstateIconButton label="Previous slide" onClick={() => go(index - 1)}>
+              <EstateIconButton label={dict.carousel.previousSlide} onClick={() => go(index - 1)}>
                 <ChevronLeft aria-hidden strokeWidth={1.25} />
               </EstateIconButton>
-              <EstateIconButton label="Next slide" onClick={() => go(index + 1)}>
+              <EstateIconButton label={dict.carousel.nextSlide} onClick={() => go(index + 1)}>
                 <ChevronRight aria-hidden strokeWidth={1.25} />
               </EstateIconButton>
             </div>
             <span aria-hidden className="text-label tabular text-me-parchment whitespace-nowrap">
-              {pad(index + 1)} <span className="text-me-sage">/ {pad(count)}</span>
+              {digits(pad(index + 1))} <span className="text-me-sage">/ {digits(pad(count))}</span>
             </span>
             {thumbs ? null : (
               <span

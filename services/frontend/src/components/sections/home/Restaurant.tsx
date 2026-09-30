@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/i18n/Link";
 import { SmartImage } from "@/components/media/SmartImage";
 import { Curtain } from "@/components/motion/midnight/Curtain";
 import { FrameDraw } from "@/components/motion/midnight/FrameDraw";

@@ -2,6 +2,7 @@
 
 import { AnimatePresence, m } from "motion/react";
 import { useMemo, useRef, useState, type CSSProperties } from "react";
+import { useDictionary, useFormatter } from "@/components/i18n/LocaleProvider";
 import { Lightbox } from "@/components/media/Lightbox";
 import { SmartImage } from "@/components/media/SmartImage";
 import { LightsOn } from "@/components/motion/midnight/LightsOn";
@@ -45,6 +46,8 @@ export function GalleryNight({ gallery }: { gallery: GalleryBlock }) {
   const [lightboxAt, setLightboxAt] = useState<number | null>(null);
   const on = useMotionOn();
   const wide = useMedia(MEDIUM_UP, true);
+  const dict = useDictionary();
+  const { t } = useFormatter();
 
   const items = useMemo(
     () => (category === ALL ? gallery.items : (gallery.itemsByCategory[category] ?? [])),
@@ -153,7 +156,7 @@ export function GalleryNight({ gallery }: { gallery: GalleryBlock }) {
                         ) : null}
                       </span>
                       <span className="sr-only">
-                        View {item.title || item.categoryName} full size
+                        {t(dict.carousel.viewFullSize, { title: item.title || item.categoryName })}
                       </span>
                     </button>
                   </li>

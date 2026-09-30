@@ -1,9 +1,9 @@
 "use client";
 
 import { Mail, Phone } from "lucide-react";
-import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { SocialIcon } from "@/components/brand/SocialIcon";
+import { useRoutePathname } from "@/components/i18n/LocaleProvider";
 import type { SiteSettings } from "@/lib/data";
 import { anchorProps } from "@/lib/links";
 import { cn } from "@/lib/utils";
@@ -19,7 +19,7 @@ import { useContactModal } from "./ContactModalProvider";
  */
 export function FloatingDock({ settings }: { settings: SiteSettings }) {
   const dock = settings.floatingDock;
-  const pathname = usePathname();
+  const pathname = useRoutePathname();
   const { openModal } = useContactModal();
   const [hidden, setHidden] = useState(false);
 

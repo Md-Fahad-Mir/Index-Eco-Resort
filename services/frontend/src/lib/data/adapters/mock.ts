@@ -27,6 +27,8 @@ import {
 } from "../schemas";
 import type { DataAdapter, EventFilterParams } from "../types";
 import { parseDmY } from "../filters";
+import { translate } from "../translate";
+import type { Locale } from "@/lib/i18n/config";
 
 /**
  * Serves the Phase 0 content snapshot. This is the default adapter and the one
@@ -49,32 +51,40 @@ const eventDetails = () =>
 const packages = () =>
   packagesFixture.map((p, i) => parse(ownershipPackageSchema, p, `packages[${i}]`));
 
+/** The payload in the requested language; as captured when none is given. */
+const inLocale = <T>(value: T, locale?: Locale): T => (locale ? translate(value, locale) : value);
+
 export const mockAdapter: DataAdapter = {
-  getSettings: async () => parse(settingsSchema, settingsFixture, "settings"),
-  getHome: async () => parse(homeSchema, homeFixture, "home"),
-  getAboutPage: async () => parse(aboutPageSchema, aboutFixture, "about"),
-  getPackages: async () => packages(),
-  getPackage: async (slug) => packages().find((p) => p.slug === slug) ?? null,
-  getOffer: async () => parse(offerSchema, offerFixture, "offer"),
-  getBookNow: async () => parse(bookNowSchema, bookNowFixture, "book-now"),
-  getContactPage: async () => parse(contactPageSchema, contactFixture, "contact"),
-  getGallery: async () => parse(gallerySchema, galleryFixture, "gallery"),
-  getEvents: async () => events(),
+  getSettings: async (locale) =>
+    inLocale(parse(settingsSchema, settingsFixture, "settings"), locale),
+  getHome: async (locale) => inLocale(parse(homeSchema, homeFixture, "home"), locale),
+  getAboutPage: async (locale) => inLocale(parse(aboutPageSchema, aboutFixture, "about"), locale),
+  getPackages: async (locale) => inLocale(packages(), locale),
+  getPackage: async (slug, locale) =>
+    inLocale(packages().find((p) => p.slug === slug) ?? null, locale),
+  getOffer: async (locale) => inLocale(parse(offerSchema, offerFixture, "offer"), locale),
+  getBookNow: async (locale) => inLocale(parse(bookNowSchema, bookNowFixture, "book-now"), locale),
+  getContactPage: async (locale) =>
+    inLocale(parse(contactPageSchema, contactFixture, "contact"), locale),
+  getGallery: async (locale) => inLocale(parse(gallerySchema, galleryFixture, "gallery"), locale),
+  getEvents: async (locale) => inLocale(events(), locale),
 
   /**
    * Mirrors the live `/events/filter` behaviour (audit/interactions.md §5):
    * dates arrive as `d-m-Y`, a single date without a category is ignored, and
    * an event whose dates are null never matches a date filter.
+   *
+   * Matching runs on the captured data; only the result is translated.
    */
-  filterEvents: async ({ start_date, end_date, category_id }: EventFilterParams) => {
+  filterEvents: async ({ start_date, end_date, category_id }: EventFilterParams, locale) => {
     const all = events().events;
     const onlyOneDate = Boolean(start_date) !== Boolean(end_date);
-    if (onlyOneDate && !category_id) return all;
+    if (onlyOneDate && !category_id) return inLocale(all, locale);
 
     const from = parseDmY(start_date);
     const to = parseDmY(end_date);
 
-    return all.filter((event) => {
+    const matches = all.filter((event) => {
       if (category_id && !matchesCategory(event, category_id)) return false;
       if (!from && !to) return true;
       const when = eventDate(event);
@@ -83,15 +93,24 @@ export const mockAdapter: DataAdapter = {
       if (to && when > to) return false;
       return true;
     });
+    return inLocale(matches, locale);
   },
 
-  getEvent: async (slug) => eventDetails().find((e) => e.slug === slug) ?? null,
-  getRelatedEvents: async (slug) => events().events.filter((e) => e.slug !== slug),
-  getPosts: async () => parse(postsPageSchema, postsFixture, "posts"),
-  getPost: async (slug) =>
-    postDetailsFixture
-      .map((p, i) => parse(postDetailSchema, p, `post-details[${i}]`))
-      .find((p) => p.slug === slug) ?? null,
+  getEvent: async (slug, locale) =>
+    inLocale(eventDetails().find((e) => e.slug === slug) ?? null, locale),
+  getRelatedEvents: async (slug, locale) =>
+    inLocale(
+      events().events.filter((e) => e.slug !== slug),
+      locale,
+    ),
+  getPosts: async (locale) => inLocale(parse(postsPageSchema, postsFixture, "posts"), locale),
+  getPost: async (slug, locale) =>
+    inLocale(
+      postDetailsFixture
+        .map((p, i) => parse(postDetailSchema, p, `post-details[${i}]`))
+        .find((p) => p.slug === slug) ?? null,
+      locale,
+    ),
 };
 
 /** The fixtures carry the category name; the filter uses the id from the select. */

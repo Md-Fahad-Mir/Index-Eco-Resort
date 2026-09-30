@@ -2,6 +2,7 @@ import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
 import { describeViolations } from "../helpers/audit";
 import home from "../../src/fixtures/home.json";
+import { en } from "../helpers/routes";
 
 /**
  * Home: every section from the audit, the hero's carousel behaviour, and the
@@ -13,12 +14,12 @@ const mobile = async (page: Page) => (page.viewportSize()?.width ?? 1440) < 1024
 
 test.describe("sections", () => {
   test("all twelve sections render in order", async ({ page }) => {
-    await page.goto("/");
+    await page.goto(en("/"));
     await expect(page.locator("main > *")).toHaveCount(12);
   });
 
   test("exactly one non-empty h1, and it survives a slide change", async ({ page }) => {
-    await page.goto("/");
+    await page.goto(en("/"));
     const h1 = page.locator("h1");
     await expect(h1).toHaveCount(1);
     await expect(h1).toHaveText("Index Eco Resort");
@@ -39,7 +40,7 @@ test.describe("sections", () => {
   });
 
   test("empty CMS text is not rendered", async ({ page }) => {
-    await page.goto("/");
+    await page.goto(en("/"));
     // Slide 1's subline and title are empty in the data; nothing should stand in.
     const empties = await page.evaluate(
       () =>
@@ -53,7 +54,7 @@ test.describe("sections", () => {
 
 test.describe("hero", () => {
   test("has one control that pauses both the rotation and the video", async ({ page }) => {
-    await page.goto("/");
+    await page.goto(en("/"));
     const pause = page.getByRole("button", { name: "Pause slideshow" });
     await expect(pause).toBeVisible();
 
@@ -68,7 +69,7 @@ test.describe("hero", () => {
   });
 
   test("the video is muted, inline and not looping", async ({ page }) => {
-    await page.goto("/");
+    await page.goto(en("/"));
     const attrs = await page.evaluate(() => {
       const v = document.querySelector("video");
       if (!v) return null;
@@ -97,7 +98,7 @@ test.describe("media budget", () => {
         videoRequests.push({ url: r.url(), atMs: Date.now() - started });
     });
 
-    await page.goto("/");
+    await page.goto(en("/"));
     // Read the largest paint the browser actually recorded.
     const lcpMs = await page.evaluate(
       () =>
@@ -132,7 +133,7 @@ test.describe("media budget", () => {
     page.on("response", (r) => {
       if (/\.mp4(\?|$)/.test(r.url())) videoBytes += Number(r.headers()["content-length"] ?? 1);
     });
-    await page.goto("/");
+    await page.goto(en("/"));
     await page.waitForTimeout(4000);
     expect(videoBytes, "no video on a metered connection").toBe(0);
 
@@ -147,7 +148,7 @@ test.describe("media budget", () => {
   });
 
   test("the phone encode is offered below 1024px, the original above", async ({ page }) => {
-    await page.goto("/");
+    await page.goto(en("/"));
     // Press play so the sources are attached regardless of connection.
     await page
       .getByRole("button", { name: /slideshow/i })
@@ -171,7 +172,7 @@ test.describe("reduced motion", () => {
   test.use({ reducedMotion: "reduce" });
 
   test("nothing autoplays and the control is still offered", async ({ page }) => {
-    await page.goto("/");
+    await page.goto(en("/"));
     // Starts paused, so the control invites playing rather than pausing.
     await expect(page.getByRole("button", { name: "Play slideshow" })).toBeVisible();
     await page.waitForTimeout(1200);
@@ -180,12 +181,12 @@ test.describe("reduced motion", () => {
   });
 
   test("the page still shows all of its sections", async ({ page }) => {
-    await page.goto("/");
+    await page.goto(en("/"));
     await expect(page.locator("main > *")).toHaveCount(12);
   });
 
   test("every entrance is at its final state without scrolling", async ({ page }) => {
-    await page.goto("/");
+    await page.goto(en("/"));
     expect(await page.evaluate(withheld)).toEqual([]);
   });
 });
@@ -194,7 +195,7 @@ test.describe("without JavaScript", () => {
   test.use({ javaScriptEnabled: false });
 
   test("the server markup alone shows every entrance's final state", async ({ page }) => {
-    await page.goto("/");
+    await page.goto(en("/"));
     await expect(page.locator("main > *")).toHaveCount(12);
     expect(await page.evaluate(withheld)).toEqual([]);
   });
@@ -217,7 +218,7 @@ function withheld(): string[] {
 
 test.describe("gallery", () => {
   test("reproduces the live counts, capped All included", async ({ page }) => {
-    await page.goto("/");
+    await page.goto(en("/"));
     const grid = page.locator("section", { has: page.getByRole("button", { name: /^All$/ }) });
     const tiles = grid.locator("ul li");
 
@@ -245,7 +246,7 @@ test.describe("gallery", () => {
   });
 
   test("a tile opens the lightbox and Escape closes it", async ({ page }) => {
-    await page.goto("/");
+    await page.goto(en("/"));
     await page
       .getByRole("button", { name: /View .* full size/ })
       .first()
@@ -259,7 +260,7 @@ test.describe("gallery", () => {
 
 test.describe("villa", () => {
   test("both room tabs switch, quirks and all", async ({ page }) => {
-    await page.goto("/");
+    await page.goto(en("/"));
     const rooms = home.villa.rooms;
     const tabs = page.getByRole("tab");
     await expect(tabs).toHaveCount(rooms.length);
@@ -279,7 +280,7 @@ test.describe("villa", () => {
       "the room descriptions should still hold two paragraphs",
     ).toBe(2);
 
-    await page.goto("/");
+    await page.goto(en("/"));
     for (const [index, room] of rooms.entries()) {
       if (index > 0) {
         await page.getByRole("tab", { name: room.tabLabel, exact: true }).click();
@@ -305,7 +306,7 @@ function splitOnBlankLines(text: string): string[] {
 
 test.describe("accessibility", () => {
   test("Home has no serious or critical violations", async ({ page }) => {
-    await page.goto("/");
+    await page.goto(en("/"));
     const results = await new AxeBuilder({ page })
       .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
       .analyze();
@@ -317,7 +318,7 @@ test.describe("accessibility", () => {
 
   test("the whole page is reachable by keyboard", async ({ page }) => {
     if (await mobile(page)) test.skip();
-    await page.goto("/");
+    await page.goto(en("/"));
     // Walk forward and make sure focus keeps landing on real controls rather
     // than getting stuck or disappearing into a trap.
     const seen = new Set<string>();

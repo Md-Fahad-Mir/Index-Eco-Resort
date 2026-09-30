@@ -1,8 +1,9 @@
 "use client";
 
 import { Phone, Play } from "lucide-react";
-import Link from "next/link";
 import { useState } from "react";
+import Link from "@/components/i18n/Link";
+import { useDictionary } from "@/components/i18n/LocaleProvider";
 import { Reveal } from "@/components/motion/Reveal";
 import { SmartImage } from "@/components/media/SmartImage";
 import { VideoModal } from "@/components/media/VideoModal";
@@ -26,6 +27,7 @@ import { anchorProps, internalHref, isInternal } from "@/lib/links";
  */
 export function AboutBlock({ about }: { about: HomeData["about"] }) {
   const [videoOpen, setVideoOpen] = useState(false);
+  const dict = useDictionary();
   const [tall, ...stacked] = about.images;
   const ctaHref = internalHref(about.cta.href) ?? "#";
 
@@ -45,7 +47,7 @@ export function AboutBlock({ about }: { about: HomeData["about"] }) {
                 <button
                   type="button"
                   onClick={() => setVideoOpen(true)}
-                  aria-label="Watch video"
+                  aria-label={dict.media.watchVideo}
                   className="bg-brass text-canopy rounded-pill shadow-lift absolute -right-7 bottom-10 grid size-22 place-items-center transition-transform duration-[var(--dur-ui)] ease-[var(--ease-out-soft)] hover:scale-105"
                 >
                   <Play

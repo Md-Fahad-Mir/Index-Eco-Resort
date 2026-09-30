@@ -1,10 +1,11 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 import { describeViolations } from "../helpers/audit";
-import { OWNED_ROUTES } from "../helpers/routes";
+import { en, OWNED_ROUTES } from "../helpers/routes";
 
 /** WCAG 2.2 AA gate: no serious or critical axe violations on any owned route. */
-for (const route of OWNED_ROUTES) {
+// Both languages: the Bangla default at the bare path, English under /en.
+for (const route of OWNED_ROUTES.flatMap((r) => [r, en(r)])) {
   test(`${route} has no serious/critical accessibility violations`, async ({ page }) => {
     await page.goto(route);
     const results = await new AxeBuilder({ page })
