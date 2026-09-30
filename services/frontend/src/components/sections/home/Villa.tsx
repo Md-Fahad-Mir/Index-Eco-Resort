@@ -35,7 +35,8 @@ const toValue = (label: string) => label.trim().replace(/\s+/g, "-");
  * tab per room, set as large display words with a champagne rule that slides
  * beneath the chosen one. Each room is a crossfading photograph with
  * thumbnails and a forest card that overlaps the image's right edge on large
- * screens — name, description, amenities, Book Now. Switching rooms fades the
+ * screens — name, description, amenities, Book Now. The photographs turn on
+ * their own and hold while the lightbox is open. Switching rooms fades the
  * new photographs up and raises the card's name line by line.
  *
  * Radix Tabs directly rather than the shared `Tabs`: the About page's
@@ -146,6 +147,9 @@ function RoomPanel({ room, switched }: { room: Room; switched: boolean }) {
         <FadeSlider
           label={t(dict.carousel.roomPhotos, { name: room.name })}
           frameClassName="aspect-4/3"
+          autoplay
+          // The lightbox covers the page; the room waits beneath it.
+          paused={lightboxAt !== null}
           slides={room.images.map((image, index) => (
             <button
               key={`${image.src}-${index}`}

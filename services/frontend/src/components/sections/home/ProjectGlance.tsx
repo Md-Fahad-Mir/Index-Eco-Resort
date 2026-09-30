@@ -28,7 +28,7 @@ type Fact = HomeData["glance"]["facts"][number];
  * ledger arrives its hairlines are drawn left to right in turn and each value
  * surfaces with its line, as if engraved.
  *
- * Beside it, the promotional slides crossfade in a 4:5 frame with an offset
+ * Beside it, the promotional slides turn on their own in a 4:5 frame with an offset
  * champagne outline that drifts against the image. From 1024px the slider
  * stays in view while the ledger scrolls past it, its photographs settling
  * from 1.08 as the section passes, as in Why Buy.
@@ -77,6 +77,7 @@ export function ProjectGlance({ glance }: { glance: HomeData["glance"] }) {
             <FadeSlider
               label={dict.carousel.projectFacilities}
               frameClassName="aspect-4/5"
+              autoplay
               className="lg:sticky lg:top-24"
               backdrop={
                 // The offset outline: 16px down and right, drifting against the

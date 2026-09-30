@@ -355,3 +355,87 @@ html:not([data-motion="on"]) [data-me-draw] {
     transform: scaleX(1);
   }
 }
+
+/* FadeSlider's turn. The incoming photograph is uncovered from the side it
+   arrives on and settles from 1.1; the outgoing one slips a little the other
+   way and dims beneath it; a gold seam rides the edge between them. `next`
+   arrives from the right, `prev` from the left. */
+@keyframes me-uncover-next {
+  from {
+    clip-path: inset(0 0 0 100%);
+  }
+  to {
+    clip-path: inset(0);
+  }
+}
+
+@keyframes me-uncover-prev {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0);
+  }
+}
+
+@keyframes me-settle {
+  from {
+    scale: 1.1;
+  }
+  to {
+    scale: 1;
+  }
+}
+
+@keyframes me-recede-next {
+  to {
+    translate: -10% 0;
+  }
+}
+
+@keyframes me-recede-prev {
+  to {
+    translate: 10% 0;
+  }
+}
+
+@keyframes me-dim {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.6;
+  }
+}
+
+/* The seam travels with the uncovering edge on the same curve, so the two
+   stay together; its brightness is a separate, linear animation because a
+   keyframe list would re-apply the curve to each segment. */
+@keyframes me-seam-next {
+  from {
+    translate: 100% 0;
+  }
+  to {
+    translate: 0 0;
+  }
+}
+
+@keyframes me-seam-prev {
+  from {
+    translate: -100% 0;
+  }
+  to {
+    translate: 0 0;
+  }
+}
+
+@keyframes me-glint {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  12%,
+  78% {
+    opacity: 1;
+  }
+}

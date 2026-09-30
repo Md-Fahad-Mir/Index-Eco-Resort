@@ -55,11 +55,13 @@ test.describe("sections", () => {
 test.describe("hero", () => {
   test("has one control that pauses both the rotation and the video", async ({ page }) => {
     await page.goto(en("/"));
-    const pause = page.getByRole("button", { name: "Pause slideshow" });
+    // The home sliders below have their own; this is the hero's.
+    const hero = page.getByTestId("hero");
+    const pause = hero.getByRole("button", { name: "Pause slideshow" });
     await expect(pause).toBeVisible();
 
     await pause.click();
-    await expect(page.getByRole("button", { name: "Play slideshow" })).toBeVisible();
+    await expect(hero.getByRole("button", { name: "Play slideshow" })).toBeVisible();
 
     const paused = await page.evaluate(() => {
       const video = document.querySelector("video");
@@ -151,8 +153,8 @@ test.describe("media budget", () => {
     await page.goto(en("/"));
     // Press play so the sources are attached regardless of connection.
     await page
+      .getByTestId("hero")
       .getByRole("button", { name: /slideshow/i })
-      .first()
       .click();
     await page.waitForTimeout(500);
     const sources = await page.evaluate(() =>
@@ -174,7 +176,9 @@ test.describe("reduced motion", () => {
   test("nothing autoplays and the control is still offered", async ({ page }) => {
     await page.goto(en("/"));
     // Starts paused, so the control invites playing rather than pausing.
-    await expect(page.getByRole("button", { name: "Play slideshow" })).toBeVisible();
+    await expect(
+      page.getByTestId("hero").getByRole("button", { name: "Play slideshow" }),
+    ).toBeVisible();
     await page.waitForTimeout(1200);
     const paused = await page.evaluate(() => document.querySelector("video")?.paused ?? null);
     expect(paused).toBe(true);
