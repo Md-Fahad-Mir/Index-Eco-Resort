@@ -17,7 +17,10 @@ const PORT = Number(process.env.STYLEGUIDE_PORT ?? 3100);
 const baseURL = EXISTING ?? `http://localhost:${PORT}`;
 
 export default defineConfig({
-  testDir: "tests/styleguide",
+  testDir: "tests",
+  // The styleguide specs, plus the styleguide's Phase 5b pixel baselines
+  // (tests/visual/non-home.spec.ts skips its production routes here).
+  testMatch: [/styleguide\/.*\.spec\.ts$/, /visual\/non-home\.spec\.ts$/],
   fullyParallel: false,
   reporter: [["list"]],
   outputDir: "tests/.results-styleguide",

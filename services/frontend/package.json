@@ -13,6 +13,7 @@
     "test:e2e": "playwright test --project=data --project=parity-desktop --project=parity-mobile --project=parity-mobile-webkit",
     "test:visual": "playwright test --project=visual",
     "test:styleguide": "playwright test --config=playwright.styleguide.config.ts",
+    "test:non-home": "playwright test --project=non-home && playwright test --config=playwright.styleguide.config.ts tests/visual/non-home.spec.ts",
     "fixtures:media": "node scripts/fixtures-media.mjs",
     "contract:export": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/export-contract.mts",
     "test:data": "playwright test --project=data",

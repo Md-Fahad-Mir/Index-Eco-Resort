@@ -63,7 +63,14 @@ export default defineConfig({
     },
     {
       name: "visual",
-      testMatch: /visual/,
+      testMatch: /visual\/screenshots/,
+      use: { ...devices["Desktop Chrome"], deviceScaleFactor: 1 },
+    },
+    {
+      // Phase 5b: pixel baselines for every route except Home, which must not
+      // move while Home is redesigned. See tests/visual/non-home.spec.ts.
+      name: "non-home",
+      testMatch: /visual\/non-home/,
       use: { ...devices["Desktop Chrome"], deviceScaleFactor: 1 },
     },
   ],
