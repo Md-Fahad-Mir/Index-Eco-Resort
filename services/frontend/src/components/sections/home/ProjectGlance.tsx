@@ -1,9 +1,11 @@
 "use client";
 
 import { m } from "motion/react";
+import { useRef } from "react";
 import { SmartImage } from "@/components/media/SmartImage";
 import { RevealGroup } from "@/components/motion/midnight/RevealGroup";
 import { ScrollDrift } from "@/components/motion/midnight/ScrollDrift";
+import { ScrollScale } from "@/components/motion/midnight/ScrollScale";
 import { DUR, EASE } from "@/components/motion/midnight/tokens";
 import { useMotionOn, useRevealScale } from "@/components/motion/midnight/useMotionOn";
 import { Container } from "@/components/ui/Container";
@@ -26,7 +28,9 @@ type Fact = HomeData["glance"]["facts"][number];
  * surfaces with its line, as if engraved.
  *
  * Beside it, the promotional slides crossfade in a 4:5 frame with an offset
- * champagne outline that drifts against the image.
+ * champagne outline that drifts against the image. From 1024px the slider
+ * stays in view while the ledger scrolls past it, its photographs settling
+ * from 1.08 as the section passes, as in Why Buy.
  *
  * PARITY: slide 2 of the live slider is a test entry captioned "3454 /
  * 45645645". It renders as stored; docs/OWNER-REPORT.md §B asks for it to be
@@ -34,8 +38,15 @@ type Fact = HomeData["glance"]["facts"][number];
  * posters (§2.4).
  */
 export function ProjectGlance({ glance }: { glance: HomeData["glance"] }) {
+  const sectionRef = useRef<HTMLElement>(null);
+
   return (
-    <section className="on-dark bg-me-night text-me-parchment me-grain section-y relative overflow-hidden">
+    // overflow-clip, not hidden: hidden would make the section the slider's
+    // scroll container, and it would never stick.
+    <section
+      ref={sectionRef}
+      className="on-dark bg-me-night text-me-parchment me-grain section-y relative overflow-clip"
+    >
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-10 bg-(image:--me-lamp)"
@@ -64,11 +75,13 @@ export function ProjectGlance({ glance }: { glance: HomeData["glance"] }) {
             <FadeSlider
               label="Project facilities"
               frameClassName="aspect-4/5"
-              className="lg:sticky lg:top-28"
+              className="lg:sticky lg:top-24"
               backdrop={
-                // The offset outline: 16px down and right, drifting against the image.
+                // The offset outline: 16px down and right, drifting against the
+                // image — with the section, so it keeps drifting while stuck.
                 <ScrollDrift
                   distance={16}
+                  target={sectionRef}
                   className="pointer-events-none absolute inset-0 translate-x-3 translate-y-3 md:translate-x-4 md:translate-y-4"
                 >
                   <span
@@ -79,13 +92,15 @@ export function ProjectGlance({ glance }: { glance: HomeData["glance"] }) {
               }
               slides={glance.slides.map((slide, index) => (
                 <figure key={`${slide.image.src}-${index}`} className="absolute inset-0">
-                  <SmartImage
-                    image={slide.image}
-                    sizes="(min-width: 1280px) 30vw, (min-width: 1024px) 38vw, 92vw"
-                    ratio="auto"
-                    frameClassName="absolute inset-0 bg-me-forest"
-                    className="size-full object-cover"
-                  />
+                  <ScrollScale target={sectionRef} className="absolute inset-0">
+                    <SmartImage
+                      image={slide.image}
+                      sizes="(min-width: 1280px) 30vw, (min-width: 1024px) 38vw, 92vw"
+                      ratio="auto"
+                      frameClassName="absolute inset-0 bg-me-forest"
+                      className="size-full object-cover"
+                    />
+                  </ScrollScale>
                   {slide.label || slide.caption ? (
                     <figcaption className="from-me-night-deep/95 via-me-night-deep/60 absolute inset-x-0 bottom-0 flex flex-col gap-2 bg-linear-to-t to-transparent px-6 pt-20 pb-6 md:px-8 md:pb-8">
                       {slide.label ? (

@@ -22,13 +22,25 @@ export function StickyStory({
   media,
   header,
   items,
+  as = "ol",
   className,
+  mediaClassName,
+  stickyClassName,
+  columnClassName,
 }: {
   media: ReactNode;
   /** Eyebrow and heading, above the items in the text column. */
   header?: ReactNode;
   items: ReactNode[];
+  /** `div` when the items are passages rather than a sequence. */
+  as?: "ol" | "div";
   className?: string;
+  /** The media column's span; 6 by default. */
+  mediaClassName?: string;
+  /** The 80vh sticky box, e.g. to centre media that doesn't fill it. */
+  stickyClassName?: string;
+  /** The text column; columns 8–12 by default. */
+  columnClassName?: string;
 }) {
   const on = useMotionOn();
   const large = useMedia(LARGE_UP);
@@ -55,14 +67,14 @@ export function StickyStory({
       data-story={story ? "sticky" : "stacked"}
       className={cn("flex flex-col gap-12 lg:grid lg:grid-cols-12 lg:gap-x-8", className)}
     >
-      <div className="lg:col-span-6">
-        <div className="lg:sticky lg:top-24 lg:h-[80vh]">{media}</div>
+      <div className={cn("lg:col-span-6", mediaClassName)}>
+        <div className={cn("lg:sticky lg:top-24 lg:h-[80vh]", stickyClassName)}>{media}</div>
       </div>
-      <div className="flex flex-col gap-10 lg:col-span-5 lg:col-start-8">
+      <div className={cn("flex flex-col gap-10 lg:col-span-5 lg:col-start-8", columnClassName)}>
         {header}
-        <RevealGroup as="ol" className="flex flex-col">
+        <RevealGroup as={as} className="flex flex-col">
           {items.map((item, index) => (
-            <RevealItem key={index} as="li">
+            <RevealItem key={index} as={as === "ol" ? "li" : "div"}>
               <div
                 ref={(el) => {
                   refs.current[index] = el;
