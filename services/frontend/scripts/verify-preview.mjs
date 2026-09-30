@@ -159,13 +159,7 @@ const ROUTES = [
   }
 }
 
-/* ── 4. The preview banner is actually shown ───────────────────────────── */
-{
-  const html = await (await get("/")).text();
-  record("Preview", "banner present", html.includes("Preview — forms are not sent"));
-}
-
-/* ── 5. Media are real files, not Git LFS pointers ─────────────────────── */
+/* ── 4. Media are real files, not Git LFS pointers ─────────────────────── */
 {
   // Sample across types; an LFS pointer is ~130 bytes of text starting with
   // "version https://git-lfs.github.com/spec/v1".

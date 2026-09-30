@@ -1,3 +1,32 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:7676a11585445f96145b7bab08ee12e040036ed1ecc8f96d4c51766cdf7b9145
-size 1070
+{
+  "generatedAt": "2026-09-30T07:56:24.095Z",
+  "videos": [
+    {
+      "source": "/media/public/storage/images/admin/about/videos/4TWwAMvTgJ39D96pHV4qtLLLKckaFVlBmtN60rWX.mp4",
+      "poster": "/media/public/storage/images/admin/about/videos/4TWwAMvTgJ39D96pHV4qtLLLKckaFVlBmtN60rWX-poster.jpg",
+      "mobile": "/media/public/storage/images/admin/about/videos/4TWwAMvTgJ39D96pHV4qtLLLKckaFVlBmtN60rWX-720p.mp4",
+      "originalBytes": 6214833,
+      "posterBytes": 97789,
+      "mobileBytes": 3781132,
+      "droppedAudio": false
+    },
+    {
+      "source": "/media/public/storage/images/general-settings/background_video/6bRNJdyXHXxSzhwQwiHGrmpX9RyMcvBUkMXnLflZ.mp4",
+      "poster": "/media/public/storage/images/general-settings/background_video/6bRNJdyXHXxSzhwQwiHGrmpX9RyMcvBUkMXnLflZ-poster.jpg",
+      "mobile": "/media/public/storage/images/general-settings/background_video/6bRNJdyXHXxSzhwQwiHGrmpX9RyMcvBUkMXnLflZ-720p.mp4",
+      "originalBytes": 18571550,
+      "posterBytes": 102613,
+      "mobileBytes": 3713858,
+      "droppedAudio": true
+    },
+    {
+      "source": "/media/public/storage/images/general-settings/background_video/index-eco-resort-hero-4k.mp4",
+      "poster": "/media/public/storage/images/general-settings/background_video/index-eco-resort-hero-4k-poster.jpg",
+      "mobile": "/media/public/storage/images/general-settings/background_video/index-eco-resort-hero-4k-720p.mp4",
+      "originalBytes": 20015053,
+      "posterBytes": 101124,
+      "mobileBytes": 1266015,
+      "droppedAudio": false
+    }
+  ]
+}

@@ -15,23 +15,18 @@ async function isPreview(request: import("@playwright/test").APIRequestContext) 
 }
 
 test.describe("indexability follows the data source", () => {
-  test("a preview is closed to crawlers; a production build is open", async ({ page, request }) => {
+  test("a preview is closed to crawlers; a production build is open", async ({ request }) => {
     const preview = await isPreview(request);
 
     const robots = await request.get("/robots.txt");
     expect(robots.status()).toBe(200);
     const body = await robots.text();
 
-    await page.goto("/");
-    const banner = page.getByText("Preview — forms are not sent");
-
     if (preview) {
       expect(body, "preview robots.txt must disallow everything").toContain("Disallow: /");
       expect(body).not.toContain("Allow: /");
-      await expect(banner, "a preview must say so").toBeVisible();
     } else {
       expect(body, "production robots.txt should allow crawling").toContain("Allow: /");
-      await expect(banner).toBeHidden();
     }
   });
 

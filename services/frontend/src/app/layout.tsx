@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Jost } from "next/font/google";
 import { MotionProvider } from "@/components/motion/MotionProvider";
-import { PreviewBar } from "@/components/layout/PreviewBar";
 import { assertDataSourceIsSafe, siteUrl } from "@/config/env";
 import "@/styles/globals.css";
 
@@ -51,7 +50,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <script dangerouslySetInnerHTML={{ __html: MOTION_FLAG }} />
       </head>
       <body className="flex min-h-full flex-col">
-        <PreviewBar />
         <MotionProvider>{children}</MotionProvider>
       </body>
     </html>

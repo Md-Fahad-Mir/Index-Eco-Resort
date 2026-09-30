@@ -21,8 +21,7 @@ const BASE = (process.env.API_BASE_URL ?? "").replace(/\/+$/, "");
  *
  * With the snapshot (the default) nothing leaves the browser: it waits about as
  * long as a real request, logs the payload in development, and reports success,
- * so the whole flow can be exercised before a backend exists. The site shows a
- * "Preview — forms are not sent" bar whenever this is the case.
+ * so the whole flow can be exercised before a backend exists.
  */
 export async function submitForm(
   kind: FormKind,

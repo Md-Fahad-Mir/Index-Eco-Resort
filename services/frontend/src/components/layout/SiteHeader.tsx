@@ -10,7 +10,6 @@ import type { PackageSummary, SiteSettings } from "@/lib/data";
 import { internalHref, isActiveRoute, isInternal } from "@/lib/links";
 import { cn } from "@/lib/utils";
 import { MobileNav } from "./MobileNav";
-import { PREVIEW_BAR_HEIGHT, showPreviewBar } from "./PreviewBar";
 import { PackagesMenu } from "./PackagesMenu";
 import { TopBar } from "./TopBar";
 
@@ -45,7 +44,6 @@ export function SiteHeader({
   return (
     <header
       data-solid={solid}
-      style={showPreviewBar ? { top: PREVIEW_BAR_HEIGHT } : undefined}
       className={cn(
         "on-dark fixed inset-x-0 top-0 z-50 transition-[background-color,backdrop-filter] duration-300",
         solid
