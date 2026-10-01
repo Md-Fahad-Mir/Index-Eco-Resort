@@ -61,7 +61,10 @@ export function AboutEstate({ about }: { about: HomeData["about"] }) {
           media={
             // Phones: the tall photograph, then two side by side. From 768px
             // the desktop arrangement: tall beside a stacked, lowered pair.
-            <div className="grid grid-cols-2 gap-3 md:grid-cols-12 md:gap-4">
+            // From 1024px the collage is pinned in an 80vh box, and it stands
+            // about 0.875 × its width plus the mat's 40px: on a short laptop
+            // screen its width is capped so the whole collage stays in view.
+            <div className="grid grid-cols-2 gap-3 md:grid-cols-12 md:gap-4 lg:max-w-[calc((80vh-2rem)/0.875)]">
               {/* z-10: the play disc crosses the gap, over the drifting column
                   beside it (whose transform makes its own stacking context).
                   self-start: the frame and mat hug the photograph, not the row. */}

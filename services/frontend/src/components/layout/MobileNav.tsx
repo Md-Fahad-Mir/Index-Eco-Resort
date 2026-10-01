@@ -77,7 +77,7 @@ export function MobileNav({ settings, pathname }: { settings: SiteSettings; path
                             className={cn(
                               // text-start: a button centres its text, and a
                               // long label wraps on a phone.
-                              "group font-display flex w-full items-center justify-between gap-3 py-5 text-start text-(length:--chrome-sheet-link-size)",
+                              "group font-display flex w-full items-center justify-between gap-3 py-5 text-start text-(length:--chrome-sheet-link-size) leading-tight",
                               active ? "text-chrome-accent" : "text-chrome-text",
                             )}
                           >
@@ -117,7 +117,7 @@ export function MobileNav({ settings, pathname }: { settings: SiteSettings; path
                       pathname={pathname}
                       onNavigate={close}
                       className={cn(
-                        "font-display block py-5 text-(length:--chrome-sheet-link-size)",
+                        "font-display block py-5 text-(length:--chrome-sheet-link-size) leading-tight",
                         active ? "text-chrome-accent" : "text-chrome-text",
                       )}
                     >

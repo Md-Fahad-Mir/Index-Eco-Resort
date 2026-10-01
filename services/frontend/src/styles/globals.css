@@ -8,6 +8,10 @@
    screen. */
 @custom-variant short (@media (min-width: 64rem) and (max-height: 45rem));
 
+/* Phones turned sideways (an iPhone gives ~390px of height): Home's hero
+   becomes exactly one screen and its lockup tightens to fit it. */
+@custom-variant phone-landscape (@media (orientation: landscape) and (max-width: 63.99rem) and (max-height: 30rem));
+
 /* ═══════════════════════════════════════════════════════════════════════════
    Canopy & Brass — docs/02-DESIGN-SYSTEM.md
    The only place raw values are allowed. Components use tokens exclusively.
@@ -302,6 +306,11 @@ header[data-solid="true"] {
     font-size: var(--text-body);
     line-height: var(--text-body--line-height);
     font-variant-numeric: lining-nums;
+    /* CMS text is not ours to shorten: a long URL, email or unbroken word
+       wraps rather than widening its column, and nothing can push the page
+       sideways on a phone. `clip`, not `hidden`, so sticky keeps working. */
+    overflow-wrap: break-word;
+    overflow-x: clip;
   }
 
   /* Headings take the display face; sizes come from the component, never from the element. */

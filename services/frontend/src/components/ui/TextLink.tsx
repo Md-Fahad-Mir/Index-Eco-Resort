@@ -43,7 +43,13 @@ export function TextLink({ href, children, withArrow, className, ...props }: Tex
     </>
   );
 
-  const classes = cn("group/link inline-flex items-center gap-2 text-small font-medium", className);
+  const classes = cn(
+    "group/link inline-flex items-center gap-2 text-small font-medium",
+    // To a finger the link is 44px tall: padding grows the hit area and an
+    // equal negative margin keeps the layout exactly where it was.
+    "pointer-coarse:-my-2.5 pointer-coarse:py-2.5",
+    className,
+  );
 
   if (isInternal) {
     return (

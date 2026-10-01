@@ -4,6 +4,9 @@ import { autoLang } from "@/lib/lang";
 import { internalHref, isInternal } from "@/lib/links";
 import { cn } from "@/lib/utils";
 
+/** The link's hit area grows to 44px without moving the line. */
+const TOUCH = "hover:text-mist -mx-3 -my-3 inline-block px-3 py-3 transition-colors";
+
 /**
  * Breadcrumb above a page-hero title. The separator is a thin slanted rule
  * rather than a slash glyph (design-system §8).
@@ -24,11 +27,11 @@ export async function Breadcrumbs({
       <ol className="flex items-center gap-3">
         <li>
           {isInternal(href) ? (
-            <Link href={href} className="hover:text-mist transition-colors">
+            <Link href={href} className={TOUCH}>
               {home.label}
             </Link>
           ) : (
-            <a href={href} className="hover:text-mist transition-colors">
+            <a href={href} className={TOUCH}>
               {home.label}
             </a>
           )}

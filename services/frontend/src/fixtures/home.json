@@ -870,6 +870,20 @@
           "label": "Read More",
           "href": "https://indexecoresort.com/blog-details/kuzakataz-adhunik-risort-binizoger-ntun-smvabna-2"
         }
+      },
+      {
+        "title": "Slow mornings by the water at Index Eco Resort",
+        "excerpt": "Misty sunrises, quiet walks beside the lake and long breakfasts under the trees: a gentle guide to spending a slow day at the resort.",
+        "image": {
+          "src": "/media/public/storage/images/admin/blogs/IU1okoiDJOu273Rcv0mLc9atqyFD0ipjCf7eQwAr.jpg",
+          "alt": "Pool and pavilion at Index Eco Resort"
+        },
+        "href": "https://indexecoresort.com/blogs",
+        "slug": "slow-mornings-by-the-water-dummy",
+        "cta": {
+          "label": "Read More",
+          "href": "https://indexecoresort.com/blogs"
+        }
       }
     ]
   }

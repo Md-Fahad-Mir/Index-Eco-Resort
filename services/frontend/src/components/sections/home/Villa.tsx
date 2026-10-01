@@ -193,8 +193,10 @@ function RoomPanel({ room, switched }: { room: Room; switched: boolean }) {
       </m.div>
 
       {/* The card: a forest panel with a gold hairline along its top, over
-          the image's right edge from 1024px. */}
-      <div className="bg-me-forest shadow-me-deep relative z-10 flex flex-col gap-8 p-7 before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-(--me-frame) md:p-12 lg:col-start-8 lg:col-end-13 lg:row-start-1 lg:mt-20 lg:self-start">
+          the image's right edge from 1024px. Below `xl` it takes one more
+          column and a little less padding, or the room's name and amenities
+          break word by word. */}
+      <div className="bg-me-forest shadow-me-deep relative z-10 flex flex-col gap-8 p-7 before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-(--me-frame) md:p-12 lg:col-start-7 lg:col-end-13 lg:row-start-1 lg:mt-20 lg:self-start lg:p-10 xl:col-start-8 xl:p-12">
         <LineReveal
           as="h3"
           text={room.name}

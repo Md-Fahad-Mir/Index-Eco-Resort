@@ -68,19 +68,22 @@ export function GalleryNight({ gallery }: { gallery: GalleryBlock }) {
   return (
     <section className="on-dark bg-me-night-deep text-me-parchment me-grain section-y relative overflow-hidden">
       <div className="flex flex-col gap-12 md:gap-16">
-        {/* The heading keeps the page's column; only the wall widens. */}
-        <div className="container-site flex flex-col gap-10 lg:grid lg:grid-cols-12 lg:items-end lg:gap-x-8">
+        {/* The heading keeps the page's column; only the wall widens. The
+            chips sit beside it from `xl`: in half of a 1024px column they
+            would break into three ragged rows, so below that they run in one
+            row under the heading. */}
+        <div className="container-site flex flex-col gap-10 xl:grid xl:grid-cols-12 xl:items-end xl:gap-x-8">
           <EstateHeading
             tone="night"
             eyebrow={gallery.eyebrow}
             title={gallery.title}
-            className="lg:col-span-6"
+            className="xl:col-span-6"
           />
           <Chips
             chips={chips}
             active={category}
             onSelect={setCategory}
-            className="lg:col-span-6 lg:col-start-7"
+            className="xl:col-span-6 xl:col-start-7"
           />
         </div>
 
@@ -185,7 +188,7 @@ export function GalleryNight({ gallery }: { gallery: GalleryBlock }) {
 
 /**
  * The filter: hairline pills, the active one filled champagne by a single
- * pill that slides between them. On phones the row scrolls sideways under
+ * pill that slides between them. Below `xl` the row scrolls sideways under
  * soft edge fades, and the chosen chip is brought to the middle.
  */
 function Chips({
@@ -208,11 +211,11 @@ function Chips({
     <div
       ref={scroller}
       className={cn(
-        "-mx-(--container-pad) [scrollbar-width:none] overflow-x-auto [mask-image:linear-gradient(to_right,transparent,black_var(--container-pad),black_calc(100%-var(--container-pad)),transparent)] px-(--container-pad) lg:mx-0 lg:overflow-visible lg:[mask-image:none] lg:px-0 [&::-webkit-scrollbar]:hidden",
+        "-mx-(--container-pad) [scrollbar-width:none] overflow-x-auto [mask-image:linear-gradient(to_right,transparent,black_var(--container-pad),black_calc(100%-var(--container-pad)),transparent)] px-(--container-pad) xl:mx-0 xl:overflow-visible xl:[mask-image:none] xl:px-0 [&::-webkit-scrollbar]:hidden",
         className,
       )}
     >
-      <div ref={row} className="relative flex w-max gap-2 lg:w-auto lg:flex-wrap lg:justify-end">
+      <div ref={row} className="relative flex w-max gap-2 xl:w-auto xl:flex-wrap xl:justify-end">
         <span
           ref={pill}
           aria-hidden
@@ -229,7 +232,7 @@ function Chips({
               lang={autoLang(chip.name)}
               onClick={(event) => {
                 onSelect(chip.id);
-                // Only the phone row scrolls; on wide screens the chips wrap.
+                // Only the single row scrolls; from `xl` the chips wrap.
                 const strip = scroller.current;
                 if (strip && strip.scrollWidth > strip.clientWidth) {
                   const box = event.currentTarget.getBoundingClientRect();

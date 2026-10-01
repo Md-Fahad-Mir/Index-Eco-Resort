@@ -87,10 +87,13 @@ export function TabsList({
       <TabsPrimitive.List
         aria-label={label}
         className={cn(
-          "flex w-max items-center",
+          "flex items-center",
           variant === "underline"
-            ? "border-hairline min-w-full gap-8 border-b"
-            : "rounded-pill border-hairline gap-1 border p-1",
+            ? "border-hairline w-max min-w-full gap-8 border-b"
+            : // Phones: a full-width segmented control. It never scrolls: a
+              // label too long for its share of a narrow screen wraps inside
+              // its segment instead.
+              "rounded-pill border-hairline w-full gap-1 border p-1 sm:w-max",
           className,
         )}
       >
@@ -112,7 +115,7 @@ export function TabsTrigger({ value, children }: { value: string; children: stri
         "group relative cursor-pointer whitespace-nowrap transition-colors duration-[var(--dur-micro)]",
         variant === "underline"
           ? "text-h4 font-display text-ink-muted data-[state=active]:text-ink pb-4"
-          : "rounded-pill text-label label-track text-ink-muted data-[state=active]:text-paper px-5 py-2.5 font-semibold",
+          : "rounded-pill text-label label-track text-ink-muted data-[state=active]:text-paper flex-auto px-2.5 py-3 font-semibold text-balance whitespace-normal sm:flex-none sm:px-5 sm:py-2.5 sm:whitespace-nowrap",
       )}
     >
       {/* The moving indicator: one element shared across triggers via layoutId. */}
