@@ -52,8 +52,13 @@ export default async function HomePage() {
 
   return (
     <>
-      <HeroCarousel hero={home.hero} />
-      <Highlights highlights={home.highlights} />
+      {/* From `lg` the hero and the highlights panel share the first screen:
+          the hero takes what the panel leaves, so the whole panel is in view
+          on arrival with a strip of ivory beneath it. */}
+      <div data-fold className="lg:flex lg:min-h-[calc(100svh-1.5rem)] lg:flex-col">
+        <HeroCarousel hero={home.hero} />
+        <Highlights highlights={home.highlights} />
+      </div>
       <AboutEstate about={home.about} />
       <ProjectGlance glance={home.glance} />
       <GalleryNight gallery={home.gallery} />

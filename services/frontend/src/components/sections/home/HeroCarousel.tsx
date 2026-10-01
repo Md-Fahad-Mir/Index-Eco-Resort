@@ -111,7 +111,7 @@ export function HeroCarousel({ hero }: { hero: HomeData["hero"] }) {
       data-testid="hero"
       aria-roledescription={carousel ? "carousel" : undefined}
       aria-label={dict.carousel.heroLabel}
-      className="on-dark bg-me-night text-me-ivory relative isolate flex min-h-[max(640px,100svh)] touch-pan-y flex-col overflow-hidden"
+      className="on-dark bg-me-night text-me-ivory relative isolate flex min-h-[max(640px,100svh)] touch-pan-y flex-col overflow-hidden lg:min-h-[30rem] lg:flex-auto"
       onMouseEnter={() => setInteracting(true)}
       onMouseLeave={() => setInteracting(false)}
       onFocusCapture={() => setInteracting(true)}
@@ -182,10 +182,11 @@ export function HeroCarousel({ hero }: { hero: HomeData["hero"] }) {
       </m.div>
 
       {/* Two veils: a strong one below for the type, a light one above for
-          the header. */}
+          the header. From `lg`, where the type is centred, the lower veil
+          eases off so the photograph runs lit into the highlights panel. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-(image:--me-veil-bottom)"
+        className="pointer-events-none absolute inset-0 bg-(image:--me-veil-bottom) lg:bg-(image:--me-veil-bottom-lg)"
       />
       <div
         aria-hidden
@@ -194,11 +195,12 @@ export function HeroCarousel({ hero }: { hero: HomeData["hero"] }) {
 
       <FrameDraw trigger="mount" delay={0.3} />
 
-      {/* The lockup: centred on large screens, in the lower half on phones.
-          From `lg` the highlights panel overlaps the hero's last 80px, so the
-          lockup centres in what is left above it. */}
+      {/* The lockup: centred on tablets, in the lower half on phones. From
+          `lg` the highlights panel overlaps the hero's last 128px and the
+          lockup sits 24px above it, leaving the space under the header to the
+          photograph. */}
       <m.div
-        className="container-site relative z-10 flex flex-1 flex-col items-center justify-end pt-36 pb-16 text-center md:justify-center md:pt-40 md:pb-12 lg:pb-[calc(5rem+3rem)]"
+        className="container-site short:pb-36 relative z-10 flex flex-1 flex-col items-center justify-end pt-36 pb-16 text-center md:justify-center md:pt-40 md:pb-12 lg:justify-end lg:pt-38 lg:pb-38"
         style={drift ? { opacity: lockupOpacity, y: lockupY } : undefined}
       >
         {lockup ? <HeroLockup slide={lockup} /> : null}
@@ -224,8 +226,15 @@ function HeroLockup({ slide }: { slide: Slide }) {
   const href = internalHref(slide.cta.href) ?? "#";
 
   return (
-    <div className="flex flex-col items-center gap-7 md:gap-9">
-      <RuleDraw trigger="mount" delay={0.5} origin="center" className="bg-me-champagne h-px w-10" />
+    <div className="short:gap-4 flex flex-col items-center gap-7 md:gap-9 lg:gap-6">
+      {/* From `lg` the shorter hero puts the photograph's own sign just above
+          the title, and the hairline would cross its lettering. */}
+      <RuleDraw
+        trigger="mount"
+        delay={0.5}
+        origin="center"
+        className="bg-me-champagne h-px w-10 lg:hidden"
+      />
 
       {title ? (
         <LineReveal
@@ -235,7 +244,9 @@ function HeroLockup({ slide }: { slide: Slide }) {
           trigger="mount"
           delay={0.6}
           stagger={0.11}
-          className="text-display text-me-ivory max-w-[16ch]"
+          // From `lg` the hero shares the screen with the panel, so the
+          // title also answers to the screen's height.
+          className="text-display text-me-ivory max-w-[16ch] lg:text-[length:min(var(--text-display),12svh)]"
         />
       ) : null}
 
@@ -243,14 +254,14 @@ function HeroLockup({ slide }: { slide: Slide }) {
         trigger="mount"
         delay={1}
         stagger={0.12}
-        className="flex flex-col items-center gap-9"
+        className="short:gap-4 flex flex-col items-center gap-9 lg:gap-6"
       >
         {subline ? (
           <RevealItem
             as="p"
             lang={autoLang(subline)}
             className={cn(
-              "font-display text-me-champagne max-w-[40ch] text-[clamp(1.125rem,0.95rem+0.7vw,1.625rem)] leading-snug",
+              "font-display text-me-champagne max-w-[40ch] text-[clamp(1.125rem,0.95rem+0.7vw,1.625rem)] leading-snug lg:max-w-[64ch]",
               // Bangla has no true italic, and a faked one is forbidden (§4.4).
               !isBangla(subline) && "italic",
             )}
@@ -460,7 +471,9 @@ function HeroMedia({
       priority={index === 0}
       decorative
       frameClassName="absolute inset-0 bg-me-night"
-      className="size-full object-cover [filter:var(--me-grade)]"
+      // From `lg` the panel covers the hero's foot, so the frame favours the
+      // upper part of the picture.
+      className="size-full object-cover [filter:var(--me-grade)] lg:object-[50%_25%]"
     />
   );
 }

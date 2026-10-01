@@ -12,10 +12,13 @@ import { en } from "../helpers/routes";
 
 const mobile = async (page: Page) => (page.viewportSize()?.width ?? 1440) < 1024;
 
+/** The sections, counting the hero and highlights inside their shared fold. */
+const sections = (page: Page) => page.locator("main > :not([data-fold]), main > [data-fold] > *");
+
 test.describe("sections", () => {
   test("all twelve sections render in order", async ({ page }) => {
     await page.goto(en("/"));
-    await expect(page.locator("main > *")).toHaveCount(12);
+    await expect(sections(page)).toHaveCount(12);
   });
 
   test("exactly one non-empty h1, in the accessibility tree", async ({ page }) => {
@@ -82,7 +85,7 @@ test.describe("reduced motion", () => {
 
   test("the page still shows all of its sections", async ({ page }) => {
     await page.goto(en("/"));
-    await expect(page.locator("main > *")).toHaveCount(12);
+    await expect(sections(page)).toHaveCount(12);
   });
 
   test("every entrance is at its final state without scrolling", async ({ page }) => {
@@ -96,7 +99,7 @@ test.describe("without JavaScript", () => {
 
   test("the server markup alone shows every entrance's final state", async ({ page }) => {
     await page.goto(en("/"));
-    await expect(page.locator("main > *")).toHaveCount(12);
+    await expect(sections(page)).toHaveCount(12);
     expect(await page.evaluate(withheld)).toEqual([]);
   });
 });

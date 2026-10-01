@@ -3,6 +3,11 @@
 @import "shadcn/tailwind.css";
 @import "./midnight.css";
 
+/* Laptop screens with little height (a 1366×768 laptop leaves ~650px in a
+   browser): Home's hero and highlights panel tighten so both fit the first
+   screen. */
+@custom-variant short (@media (min-width: 64rem) and (max-height: 45rem));
+
 /* ═══════════════════════════════════════════════════════════════════════════
    Canopy & Brass — docs/02-DESIGN-SYSTEM.md
    The only place raw values are allowed. Components use tokens exclusively.
