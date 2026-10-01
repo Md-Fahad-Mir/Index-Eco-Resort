@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-30T07:56:24.095Z",
+  "generatedAt": "2026-10-01T04:41:48.222Z",
   "videos": [
     {
       "source": "/media/public/storage/images/admin/about/videos/4TWwAMvTgJ39D96pHV4qtLLLKckaFVlBmtN60rWX.mp4",
@@ -20,12 +20,12 @@
       "droppedAudio": true
     },
     {
-      "source": "/media/public/storage/images/general-settings/background_video/index-eco-resort-hero-4k.mp4",
-      "poster": "/media/public/storage/images/general-settings/background_video/index-eco-resort-hero-4k-poster.jpg",
-      "mobile": "/media/public/storage/images/general-settings/background_video/index-eco-resort-hero-4k-720p.mp4",
-      "originalBytes": 20015053,
-      "posterBytes": 101124,
-      "mobileBytes": 1266015,
+      "source": "/media/public/storage/images/general-settings/background_video/index-eco-resort-hero.mp4",
+      "poster": "/media/public/storage/images/general-settings/background_video/index-eco-resort-hero-poster.jpg",
+      "mobile": "/media/public/storage/images/general-settings/background_video/index-eco-resort-hero-720p.mp4",
+      "originalBytes": 12739284,
+      "posterBytes": 56791,
+      "mobileBytes": 584482,
       "droppedAudio": false
     }
   ]
