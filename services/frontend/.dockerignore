@@ -1,0 +1,22 @@
+# Installed and built inside the image.
+node_modules
+.next
+out
+build
+coverage
+*.tsbuildinfo
+next-env.d.ts
+
+# Local env files must not reach the image; configure with --build-arg and -e.
+.env*
+!.env.example
+
+# Tests and their output are not part of the build.
+tests
+playwright-report
+
+# Docker, editor and OS files.
+Dockerfile
+.dockerignore
+**/.DS_Store
+**/*.zip

@@ -1,0 +1,25 @@
+# The Next.js server behind index.reeddoy.com (deploy/nginx/index.reeddoy.com.conf).
+#
+#   sudo cp index-eco-resort.service /etc/systemd/system/
+#   sudo systemctl daemon-reload && sudo systemctl enable --now index-eco-resort
+#
+# After a new `pnpm build`: sudo systemctl restart index-eco-resort
+
+[Unit]
+Description=INDEX Eco Resort (Next.js) for index.reeddoy.com
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/root/Index_Eco_Resort/Index-Eco-Resort/services/frontend
+Environment=NODE_ENV=production
+Environment=NEXT_TELEMETRY_DISABLED=1
+# The VPS has 1 GB of RAM shared with insurancebd and Postgres.
+Environment=NODE_OPTIONS=--max-old-space-size=384
+# Loopback only: the public way in is nginx on port 80.
+ExecStart=/usr/bin/node node_modules/next/dist/bin/next start -H 127.0.0.1 -p 3100
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

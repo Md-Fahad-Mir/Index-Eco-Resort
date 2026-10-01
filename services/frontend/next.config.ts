@@ -72,6 +72,9 @@ const securityHeaders = (isDev: boolean) => [
  */
 const buildConfig = (isDev: boolean): NextConfig => ({
   poweredByHeader: false,
+  // The Docker image (Dockerfile) ships only the traced files and runs
+  // `node server.js`. Off by default so the systemd deploy keeps `next start`.
+  ...(process.env.NEXT_OUTPUT === "standalone" ? { output: "standalone" as const } : {}),
   images: {
     formats: ["image/avif", "image/webp"],
     remotePatterns: [

@@ -12,3 +12,12 @@ pnpm test:visual    # screenshots → ../../audit/screenshots/after/
 ```
 
 `DATA_SOURCE=mock` (default, `.env.example`) serves the Phase 0 fixtures in `src/fixtures/`.
+
+## Docker
+
+```bash
+# Local preview on the fixtures, over plain http (env vars are build args; see the Dockerfile)
+docker build -t index-eco-resort --build-arg PREVIEW_MODE=true \
+  --build-arg NEXT_PUBLIC_SITE_URL=http://localhost:3000 .
+docker run --rm -p 3000:3000 -e REVALIDATE_SECRET=change-me index-eco-resort
+```
