@@ -53,21 +53,12 @@ test.describe("sections", () => {
 });
 
 test.describe("hero", () => {
-  test("has one control that pauses both the rotation and the video", async ({ page }) => {
+  test("shows no slide counter, progress line or pause control", async ({ page }) => {
     await page.goto(en("/"));
-    // The home sliders below have their own; this is the hero's.
+    // The owner asked for the media to stand clear; the lockup's link is all.
     const hero = page.getByTestId("hero");
-    const pause = hero.getByRole("button", { name: "Pause slideshow" });
-    await expect(pause).toBeVisible();
-
-    await pause.click();
-    await expect(hero.getByRole("button", { name: "Play slideshow" })).toBeVisible();
-
-    const paused = await page.evaluate(() => {
-      const video = document.querySelector("video");
-      return video ? video.paused : null;
-    });
-    expect(paused, "the video pauses with the slideshow").toBe(true);
+    await expect(hero.getByRole("button")).toHaveCount(0);
+    await expect(hero.getByText("01")).toHaveCount(0);
   });
 
   test("the video is muted, inline and not looping", async ({ page }) => {
@@ -173,12 +164,8 @@ test.describe("media budget", () => {
 test.describe("reduced motion", () => {
   test.use({ reducedMotion: "reduce" });
 
-  test("nothing autoplays and the control is still offered", async ({ page }) => {
+  test("nothing autoplays", async ({ page }) => {
     await page.goto(en("/"));
-    // Starts paused, so the control invites playing rather than pausing.
-    await expect(
-      page.getByTestId("hero").getByRole("button", { name: "Play slideshow" }),
-    ).toBeVisible();
     await page.waitForTimeout(1200);
     const paused = await page.evaluate(() => document.querySelector("video")?.paused ?? null);
     expect(paused).toBe(true);

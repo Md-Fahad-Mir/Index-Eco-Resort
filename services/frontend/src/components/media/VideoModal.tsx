@@ -2,7 +2,7 @@
 
 import { X } from "lucide-react";
 import { Dialog as DialogPrimitive } from "radix-ui";
-import { useEffect, useRef } from "react";
+import { useCallback } from "react";
 import { useDictionary } from "@/components/i18n/LocaleProvider";
 import { MOBILE_VIDEO_QUERY, videoVariants } from "@/lib/media";
 import { cn } from "@/lib/utils";
@@ -47,23 +47,25 @@ export function VideoModal({
   title: string;
   variant?: keyof typeof SKIN;
 }) {
-  const videoRef = useRef<HTMLVideoElement>(null);
   const dict = useDictionary();
   const variants = videoVariants(src);
   const skin = SKIN[variant];
 
-  useEffect(() => {
-    const video = videoRef.current;
+  // Radix mounts the content — and so a fresh <video> — only once the dialog
+  // is open, and its Portal a render after that, so an effect keyed on `open`
+  // finds no element. Start playback as the element attaches instead: that is
+  // still inside the click's task, so the browser lets it play with sound.
+  // Closing unmounts the element, which stops it.
+  const playOnMount = useCallback((video: HTMLVideoElement | null) => {
     if (!video) return;
-    if (open) {
-      video.currentTime = 0;
+    video.play().catch(() => {
+      // Sound refused: play muted rather than sit on the poster.
+      video.muted = true;
       void video.play().catch(() => {
-        /* autoplay can be refused; the controls remain usable */
+        /* autoplay refused outright; the controls remain usable */
       });
-    } else {
-      video.pause();
-    }
-  }, [open]);
+    });
+  }, []);
 
   return (
     <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
@@ -78,7 +80,7 @@ export function VideoModal({
           <DialogPrimitive.Title className="sr-only">{title}</DialogPrimitive.Title>
           <div className={cn(skin.frame, "relative overflow-hidden bg-black")}>
             <video
-              ref={videoRef}
+              ref={playOnMount}
               controls
               playsInline
               // The poster is a real frame from the clip; the CMS has none, so

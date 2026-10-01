@@ -1,7 +1,6 @@
 "use client";
 
-import { Pause, Play } from "lucide-react";
-import { m, useMotionValue, useScroll, useTransform, type MotionValue } from "motion/react";
+import { m, useScroll, useTransform } from "motion/react";
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "@/components/i18n/Link";
@@ -28,8 +27,6 @@ const REDUCED = "(prefers-reduced-motion: reduce)";
 /** A horizontal drag longer than this changes slide, as the original's drag did. */
 const SWIPE_PX = 48;
 
-const pad = (n: number) => String(n).padStart(2, "0");
-
 /**
  * The hero — Midnight Estate's "lights on" (prompts/06b-home-redesign.md §5.1).
  *
@@ -41,9 +38,9 @@ const pad = (n: number) => String(n).padStart(2, "0");
  * the media crossfades beneath it. So the page's single `<h1>` never moves or
  * hides, whichever slide is showing.
  *
- * Accessibility the original lacks: one control that pauses both the rotation
- * and the video (WCAG 2.2.2), rotation that holds on hover and keyboard focus,
- * and no autoplay at all under reduced motion.
+ * There is no visible slide counter, progress line or pause control; the owner
+ * asked for the media to stand clear. Rotation still holds on hover and keyboard
+ * focus, and under reduced motion nothing autoplays at all.
  */
 export function HeroCarousel({ hero }: { hero: HomeData["hero"] }) {
   const slides = hero.slides;
@@ -52,29 +49,23 @@ export function HeroCarousel({ hero }: { hero: HomeData["hero"] }) {
   const wide = useMedia(MEDIUM_UP);
   const reduced = useMedia(REDUCED);
   const dict = useDictionary();
-  const { t, digits } = useFormatter();
+  const { t } = useFormatter();
 
   const [selected, setSelected] = useState(0);
-  // Each time a slide is shown its progress line starts again.
+  // Each time a slide is shown its rotation clock starts again.
   const [cycle, setCycle] = useState(0);
-  // The visitor's choice wins; until they make one, reduced motion decides.
   // Derived rather than synced in an effect, so server and client agree.
-  const [choice, setChoice] = useState<"auto" | "play" | "pause">("auto");
-  const playing = choice === "auto" ? !reduced : choice === "play";
+  const playing = !reduced;
   const [interacting, setInteracting] = useState(false);
-  // A press of the control opts in to loading media that autoplay declined.
-  const [userRequested, setUserRequested] = useState(false);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
-  const videoProgress = useMotionValue(0);
   const swipe = useRef<{ x: number; y: number } | null>(null);
 
   const show = useCallback(
     (index: number) => {
       setSelected(((index % count) + count) % count);
       setCycle((c) => c + 1);
-      videoProgress.set(0);
     },
-    [count, videoProgress],
+    [count],
   );
   const advance = useCallback(() => show(selected + 1), [show, selected]);
 
@@ -91,18 +82,13 @@ export function HeroCarousel({ hero }: { hero: HomeData["hero"] }) {
     });
   }, [selected, playing]);
 
-  const toggle = () => {
-    setUserRequested(true);
-    setChoice(playing ? "pause" : "play");
-  };
-
   // The lockup is the slide that has a title (rule 9e: the page's one h1).
   const lockup = slides.find((s) => s.title.trim()) ?? slides.find((s) => s.subline.trim());
   const current = slides[selected];
-  // Image slides rotate on the progress line's clock; never under reduced
-  // motion, never while held by hover or focus, never with a single slide.
+  // Image slides rotate on a clock; never under reduced motion, never while
+  // held by hover or focus, never with a single slide.
   const rotates = count > 1 && !reduced && current?.kind !== "video";
-  const running = playing && !interacting;
+  useRotation(rotates && playing && !interacting, hero.autoplayMs, cycle, advance);
 
   // Scroll-out, ≥768px: the media drifts, the lockup lifts away (§5.1).
   const sectionRef = useRef<HTMLElement>(null);
@@ -178,11 +164,7 @@ export function HeroCarousel({ hero }: { hero: HomeData["hero"] }) {
                   index={index}
                   active={active}
                   playing={playing}
-                  userRequested={userRequested}
                   onEnded={advance}
-                  onProgress={(fraction) => {
-                    if (active) videoProgress.set(fraction);
-                  }}
                   register={(el) => {
                     videoRefs.current[index] = el;
                   }}
@@ -206,49 +188,15 @@ export function HeroCarousel({ hero }: { hero: HomeData["hero"] }) {
 
       <FrameDraw trigger="mount" delay={0.3} />
 
-      {/* The lockup: centred on large screens, in the lower half on phones. */}
+      {/* The lockup: centred on large screens, in the lower half on phones.
+          From `lg` the highlights panel overlaps the hero's last 80px, so the
+          lockup centres in what is left above it. */}
       <m.div
-        className="container-site relative z-10 flex flex-1 flex-col items-center justify-end pt-36 pb-10 text-center md:justify-center md:pt-40 md:pb-12"
+        className="container-site relative z-10 flex flex-1 flex-col items-center justify-end pt-36 pb-16 text-center md:justify-center md:pt-40 md:pb-12 lg:pb-[calc(5rem+3rem)]"
         style={drift ? { opacity: lockupOpacity, y: lockupY } : undefined}
       >
         {lockup ? <HeroLockup slide={lockup} /> : null}
       </m.div>
-
-      {/* Bottom centre: which slide, how far through it, and the control.
-          Clear of the highlights panel, which overlaps the hero by 80px from
-          `lg` up and must never cover the pause control. */}
-      <RevealGroup
-        trigger="mount"
-        delay={1.3}
-        className="relative z-10 flex justify-center pb-10 lg:pb-[calc(5rem+2.5rem)]"
-      >
-        <RevealItem className="flex items-center gap-5">
-          <span aria-hidden className="text-label tabular text-me-parchment">
-            {digits(pad(selected + 1))} <span className="text-me-sage">/ {digits(pad(count))}</span>
-          </span>
-          <ProgressLine
-            key={cycle}
-            video={current?.kind === "video"}
-            videoProgress={videoProgress}
-            timed={rotates}
-            running={running}
-            durationMs={hero.autoplayMs}
-            onDone={advance}
-          />
-          <button
-            type="button"
-            onClick={toggle}
-            aria-label={playing ? dict.carousel.pauseSlideshow : dict.carousel.playSlideshow}
-            className="text-me-ivory hover:bg-me-champagne hover:text-me-night grid size-11 place-items-center shadow-[inset_0_0_0_1px_var(--me-frame)] transition-colors duration-[var(--dur-micro)]"
-          >
-            {playing ? (
-              <Pause aria-hidden className="size-4 fill-current" strokeWidth={1.5} />
-            ) : (
-              <Play aria-hidden className="size-4 translate-x-px fill-current" strokeWidth={1.5} />
-            )}
-          </button>
-        </RevealItem>
-      </RevealGroup>
 
       {/* Which slide is showing, for assistive tech. */}
       <p aria-live="polite" className="sr-only">
@@ -320,48 +268,29 @@ function HeroLockup({ slide }: { slide: Slide }) {
 }
 
 /**
- * The 120px gold progress line. For an image slide it is a CSS animation of
- * the autoplay interval whose end advances the carousel — so pausing, hover
- * and focus freeze the line and the rotation together. For the video slide it
- * follows the clip's own time. With nothing timing it, it rests empty.
+ * Advances an image slide after `durationMs`. Hover and focus hold the clock
+ * rather than restart it, so a slide never gets a fresh interval just because
+ * the pointer passed over it; a new slide (`cycle`) starts it afresh.
  */
-function ProgressLine({
-  video,
-  videoProgress,
-  timed,
-  running,
-  durationMs,
-  onDone,
-}: {
-  video: boolean;
-  videoProgress: MotionValue<number>;
-  timed: boolean;
-  running: boolean;
-  durationMs: number;
-  onDone: () => void;
-}) {
-  return (
-    <span aria-hidden className="bg-me-hairline-gold relative block h-px w-[120px] overflow-hidden">
-      {video ? (
-        // `timeupdate` lands about four times a second; the transition
-        // smooths the steps between.
-        <m.span
-          className="bg-me-champagne absolute inset-0 origin-left [transition:transform_250ms_linear]"
-          style={{ scaleX: videoProgress }}
-        />
-      ) : timed ? (
-        <span
-          data-testid="hero-progress"
-          className="bg-me-champagne absolute inset-0 origin-left animate-[me-progress_linear_forwards]"
-          style={{
-            animationDuration: `${durationMs}ms`,
-            animationPlayState: running ? "running" : "paused",
-          }}
-          onAnimationEnd={onDone}
-        />
-      ) : null}
-    </span>
-  );
+function useRotation(running: boolean, durationMs: number, cycle: number, onDone: () => void) {
+  const left = useRef(durationMs);
+  const done = useRef(onDone);
+  useEffect(() => {
+    done.current = onDone;
+  });
+  // Cleanups run before effects, so a held clock is banked before this resets it.
+  useEffect(() => {
+    left.current = durationMs;
+  }, [cycle, durationMs]);
+  useEffect(() => {
+    if (!running) return;
+    const started = performance.now();
+    const timer = window.setTimeout(() => done.current(), left.current);
+    return () => {
+      window.clearTimeout(timer);
+      left.current = Math.max(0, left.current - (performance.now() - started));
+    };
+  }, [running, cycle]);
 }
 
 /**
@@ -375,18 +304,14 @@ function HeroMedia({
   index,
   active,
   playing,
-  userRequested,
   onEnded,
-  onProgress,
   register,
 }: {
   slide: Slide;
   index: number;
   active: boolean;
   playing: boolean;
-  userRequested: boolean;
   onEnded: () => void;
-  onProgress: (fraction: number) => void;
   register: (el: HTMLVideoElement | null) => void;
 }) {
   const [idleReady, setIdleReady] = useState(false);
@@ -401,7 +326,7 @@ function HeroMedia({
     ).connection;
 
     // Save-Data and slow connections never get the video: the poster is the
-    // whole experience, and the play control fetches it on request.
+    // whole experience.
     if (connection?.saveData) return;
     if (/(^|-)2g|3g/.test(connection?.effectiveType ?? "")) return;
 
@@ -438,8 +363,8 @@ function HeroMedia({
     };
   }, [slide.videoUrl]);
 
-  // Load because the page has settled, or because the visitor pressed play.
-  const allowed = idleReady || userRequested;
+  // Load once the page has settled.
+  const allowed = idleReady;
 
   // Off-screen and hidden-tab pausing.
   useEffect(() => {
@@ -497,10 +422,6 @@ function HeroMedia({
           // Not `loop`: the original advances the carousel when the clip ends.
           onEnded={() => {
             if (active && playing) onEnded();
-          }}
-          onTimeUpdate={(event) => {
-            const { currentTime, duration } = event.currentTarget;
-            if (duration > 0) onProgress(currentTime / duration);
           }}
           onCanPlay={() => setVideoReady(true)}
           // Nothing is fetched until `allowed`; the sources are not rendered
