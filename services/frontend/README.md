@@ -20,4 +20,9 @@ pnpm test:visual    # screenshots → ../../audit/screenshots/after/
 docker build -t index-eco-resort --build-arg PREVIEW_MODE=true \
   --build-arg NEXT_PUBLIC_SITE_URL=http://localhost:3000 .
 docker run --rm -p 3000:3000 -e REVALIDATE_SECRET=change-me index-eco-resort
+
+# The index.reeddoy.com VPS is amd64: from an Apple Silicon Mac, cross-build and stream it over
+docker build --platform linux/amd64 -t index-eco-resort:server --build-arg PREVIEW_MODE=true \
+  --build-arg NEXT_PUBLIC_SITE_URL=https://index.reeddoy.com .
+docker save index-eco-resort:server | gzip | ssh root@172.105.34.9 'gunzip | docker load'
 ```

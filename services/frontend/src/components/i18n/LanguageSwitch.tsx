@@ -1,5 +1,6 @@
 "use client";
 
+import NextLink from "next/link";
 import { LOCALE_COOKIE, localizePath, locales, type Locale } from "@/lib/i18n/config";
 import { cn } from "@/lib/utils";
 import { useDictionary, useLocale, useRoutePathname } from "./LocaleProvider";
@@ -15,15 +16,10 @@ function rememberLocale(locale: Locale) {
  * বাং | EN, beside Book Now. Each option links to the same page in its
  * language; the current one is marked rather than linked.
  *
- * The options are plain anchors, so switching is a full document load rather
- * than a client transition. The language is the root layout's segment, and a
- * client transition re-renders `<html>` without the head script that marks it
- * `data-motion="on"` (app/[lang]/layout.tsx) — every entrance on the new page
- * would then jump straight to its final state. A fresh document also brings
- * the new language's `lang`, fonts and metadata in before first paint.
- *
  * The choice is also stored in a cookie so a later visit to a bare URL opens
- * in it (src/proxy.ts). It is written on click, before the navigation starts.
+ * in it (src/proxy.ts). It is written on click, before the navigation starts,
+ * and the links are not prefetched — a prefetch made under the old cookie
+ * would carry the proxy's redirect back to the old language.
  */
 export function LanguageSwitch({ className }: { className?: string }) {
   const locale = useLocale();
@@ -58,11 +54,12 @@ export function LanguageSwitch({ className }: { className?: string }) {
             {dict.language.short[option]}
           </span>
         ) : (
-          <a
+          <NextLink
             key={option}
             href={localizePath(path, option)}
             hrefLang={option}
             lang={option}
+            prefetch={false}
             onClick={() => rememberLocale(option)}
             aria-label={dict.language.names[option]}
             className={cn(
@@ -71,7 +68,7 @@ export function LanguageSwitch({ className }: { className?: string }) {
             )}
           >
             {dict.language.short[option]}
-          </a>
+          </NextLink>
         ),
       )}
     </div>
