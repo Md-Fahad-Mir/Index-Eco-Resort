@@ -9,8 +9,7 @@ import type { SiteSettings } from "@/lib/data";
  * turns solid (handled by SiteHeader).
  *
  * PARITY: the phone number and email are plain text on the live site, not
- * links, and the numbers shown here are placeholders that disagree with the
- * footer's — both are listed in docs/OWNER-REPORT.md §B.
+ * links — listed in docs/OWNER-REPORT.md §B.
  */
 export function TopBar({ settings }: { settings: SiteSettings }) {
   const { phone, email, socials } = settings.topBar;

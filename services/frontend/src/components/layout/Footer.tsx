@@ -12,9 +12,8 @@ import { cn } from "@/lib/utils";
  * The footer (design-system §8). Every link comes from data and is rendered
  * verbatim, including two the live site gets wrong:
  *
- * PARITY: the Facebook href is relative ("www.facebook.com/indexecoresort") and
- * therefore resolves against our own origin; TikTok is "#"; the credit line has
- * no href at all. All three are listed in docs/OWNER-REPORT.md §B.
+ * PARITY: TikTok is "#" and the credit line has no href at all. Both are
+ * listed in docs/OWNER-REPORT.md §B.
  */
 /** Column headings: size and leading are tokens, so a theme can set a larger display size. */
 const FOOTER_HEADING =

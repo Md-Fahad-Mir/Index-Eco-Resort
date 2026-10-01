@@ -12,11 +12,6 @@ import { useContactModal } from "./ContactModalProvider";
 /**
  * The three persistent contact actions (design-system §8), folded behind one
  * message button in the bottom-right corner; clicking it fans them out above.
- *
- * PARITY: every href is exactly what the live site uses, and they disagree with
- * each other — the WhatsApp button and the phone button both use
- * +8801700729312 while the panel *displays* 01711307580. That is real and is
- * listed in docs/OWNER-REPORT.md §B for the backend's settings.
  */
 export function FloatingDock({ settings }: { settings: SiteSettings }) {
   const dock = settings.floatingDock;

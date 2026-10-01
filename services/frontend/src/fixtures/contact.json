@@ -65,8 +65,8 @@
   "mapEmbedUrl": "https://www.google.com/maps?q=Colombia+Super+market+%285th+floor%29%2C+31-+Mohakhali+C%2FA%2C+Dhaka-1213%2C+Bangladesh.&output=embed",
   "hotline": {
     "label": "Hotline",
-    "value": "01711307580",
-    "href": "#"
+    "value": "01711-307580",
+    "href": "tel:+8801711307580"
   },
   "infoCards": [
     {

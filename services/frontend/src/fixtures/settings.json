@@ -9,25 +9,25 @@
   "favicon": "/media/public/storage/images/general-settings/fav_icon/HSBQrgk1PzynpNN2f8h8WNQnq9WGNskR1XqTP459.png",
   "topBar": {
     "phone": {
-      "label": "01700000000",
+      "label": "01711-307580",
       "href": null
     },
     "email": {
-      "label": "info@veotech.com",
+      "label": "chowdhurydriqbal@gmail.com",
       "href": null
     },
     "socials": [
       {
         "network": "facebook",
-        "href": "https://www.facebook.com/bdresellhub"
+        "href": "https://web.facebook.com/indexecoresort"
       },
       {
-        "network": "brand-x",
-        "href": "https://www.instagram.com/bdresellhub"
+        "network": "instagram",
+        "href": "#"
       },
       {
         "network": "youtube",
-        "href": "https://www.youtube.com/@BDResellHub"
+        "href": "#"
       }
     ]
   },
@@ -136,7 +136,7 @@
   ],
   "mobileCallNow": {
     "label": "Call Now",
-    "href": "tel:09638657301"
+    "href": "tel:+8801711307580"
   },
   "bookNow": {
     "label": "Book Now",
@@ -145,15 +145,15 @@
   "floatingDock": {
     "whatsappButton": {
       "label": "WhatsApp",
-      "href": "https://web.whatsapp.com/send?phone=+8801700729312"
+      "href": "https://web.whatsapp.com/send?phone=+8801711307580"
     },
     "phoneButton": {
       "label": "Phone",
-      "href": "tel:+8801700729312"
+      "href": "tel:+8801711307580"
     },
     "panelPhone": {
-      "label": "01711307580",
-      "href": "tel:+8801700729312"
+      "label": "01711-307580",
+      "href": "tel:+8801711307580"
     },
     "panelWhatsapp": {
       "label": "WhatsApp",
@@ -227,7 +227,7 @@
     "socials": [
       {
         "network": "facebook",
-        "href": "www.facebook.com/indexecoresort",
+        "href": "https://web.facebook.com/indexecoresort",
         "target": "_blank"
       },
       {
@@ -297,12 +297,12 @@
     ],
     "contact": [
       {
-        "text": "Phone: 01711307580",
-        "href": "tel:01711307580"
+        "text": "Phone: 01711-307580",
+        "href": "tel:+8801711307580"
       },
       {
-        "text": "Email: info@indexecoresort.com",
-        "href": "mailto:info@indexecoresort.com"
+        "text": "Email: chowdhurydriqbal@gmail.com",
+        "href": "mailto:chowdhurydriqbal@gmail.com"
       },
       {
         "text": "Working Hours: 10:00AM To 06:00PM",
