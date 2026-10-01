@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Anek_Bangla, Jost } from "next/font/google";
+import { Jost } from "next/font/google";
+import localFont from "next/font/local";
 import { notFound } from "next/navigation";
 import { LocaleProvider } from "@/components/i18n/LocaleProvider";
 import { MotionProvider } from "@/components/motion/MotionProvider";
@@ -22,15 +23,27 @@ const jost = Jost({
 
 /**
  * Jost has no Bengali glyphs, so Bangla falls through to this face, stacked
- * right behind it (globals.css). Bengali subset only — Latin stays Jost — and
- * variable, like Jost. Its `unicode-range` means a page with no Bangla never
- * downloads it.
+ * right behind it (globals.css). Anek Bangla's Bengali subset from Google
+ * Fonts, variable like Jost. Kept in the repo rather than loaded through
+ * next/font/google so its face can carry `size-adjust`: Anek's letters sit
+ * larger on the em than Jost's, and this brings Bangla down to sit with Latin
+ * at every size, in Bangla-only and mixed lines alike. Its `unicode-range`
+ * means a page with no Bangla never downloads it.
  */
-const anekBangla = Anek_Bangla({
+const anekBangla = localFont({
+  src: "../../fonts/AnekBangla-Bengali.woff2",
   variable: "--font-bangla",
-  subsets: ["bengali"],
+  weight: "100 800",
   display: "swap",
   preload: false,
+  declarations: [
+    { prop: "size-adjust", value: "90%" },
+    {
+      prop: "unicode-range",
+      value:
+        "U+0951-0952, U+0964-0965, U+0980-09FE, U+1CD0, U+1CD2, U+1CD5-1CD6, U+1CD8, U+1CE1, U+1CEA, U+1CED, U+1CF2, U+1CF5-1CF7, U+200C-200D, U+20B9, U+25CC, U+A8F1",
+    },
+  ],
 });
 
 // Refuses a production build that would serve snapshot content as if it were

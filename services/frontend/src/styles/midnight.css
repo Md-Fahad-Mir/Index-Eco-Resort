@@ -70,9 +70,8 @@
     rgb(9 18 14 / 0.12) 70%,
     transparent 100%
   );
-  /* From `lg` the lockup is centred and the highlights panel covers the foot,
-     so the shade sits behind the type and the photograph stays lit down to
-     the panel. */
+  /* From `lg` the shade sits behind the type and the photograph stays lit
+     down to its foot. */
   --me-veil-bottom-lg: linear-gradient(
     to top,
     rgb(9 18 14 / 0.3) 0%,

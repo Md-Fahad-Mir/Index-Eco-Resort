@@ -34,7 +34,7 @@ export async function generateMetadata(): Promise<Metadata> {
  * order is the live site's; the tones follow the redesign's rhythm (§2.6),
  * night for imagery and signature moments, ivory for long reading:
  *
- *   hero · highlights   night, the panel straddling into ivory
+ *   hero · highlights   night, the panel beneath it on ivory
  *   about               ivory — the reading room
  *   glance · gallery    night, night-deep
  *   cta                 ivory — the invitation
@@ -52,13 +52,10 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* From `lg` the hero and the highlights panel share the first screen:
-          the hero takes what the panel leaves, so the whole panel is in view
-          on arrival with a strip of ivory beneath it. */}
-      <div data-fold className="lg:flex lg:min-h-[calc(100svh-1.5rem)] lg:flex-col">
-        <HeroCarousel hero={home.hero} />
-        <Highlights highlights={home.highlights} />
-      </div>
+      {/* The hero fills the whole first screen; the highlights panel starts
+          where the photograph ends. */}
+      <HeroCarousel hero={home.hero} />
+      <Highlights highlights={home.highlights} />
       <AboutEstate about={home.about} />
       <ProjectGlance glance={home.glance} />
       <GalleryNight gallery={home.gallery} />

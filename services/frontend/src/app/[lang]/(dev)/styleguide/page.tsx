@@ -145,7 +145,7 @@ export default function StyleguidePage() {
             aside={
               <Paragraph>
                 No tracking on Bangla, a taller line, no synthetic italics, and Bangla optically
-                sized down at display steps so mixed lines sit level.
+                sized down so mixed lines sit level.
               </Paragraph>
             }
           />

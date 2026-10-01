@@ -340,12 +340,9 @@ header[data-solid="true"] {
     line-height: 1.25;
   }
 
-  /* Optical size match: Bangla runs large next to Latin at display sizes (§4.5) */
-  .text-display:lang(bn),
-  .text-h1:lang(bn),
-  .text-h2:lang(bn) {
-    font-size: 0.94em;
-  }
+  /* Optical size match (§4.5): Bangla runs large next to Latin, so the Bangla
+     face itself is sized down (`size-adjust`, app/[lang]/layout.tsx) — every
+     size, every line, mixed or not. */
 
   /*
    * Small labels used to get Anek's `wdth: 110` for an engraved feel. Carrying

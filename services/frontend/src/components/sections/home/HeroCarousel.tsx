@@ -111,7 +111,7 @@ export function HeroCarousel({ hero }: { hero: HomeData["hero"] }) {
       data-testid="hero"
       aria-roledescription={carousel ? "carousel" : undefined}
       aria-label={dict.carousel.heroLabel}
-      className="on-dark bg-me-night text-me-ivory phone-landscape:min-h-svh relative isolate flex min-h-[max(640px,100svh)] touch-pan-y flex-col overflow-hidden lg:min-h-[30rem] lg:flex-auto"
+      className="on-dark bg-me-night text-me-ivory phone-landscape:min-h-svh relative isolate flex min-h-[max(640px,100svh)] touch-pan-y flex-col overflow-hidden"
       onMouseEnter={() => setInteracting(true)}
       onMouseLeave={() => setInteracting(false)}
       onFocusCapture={() => setInteracting(true)}
@@ -182,8 +182,8 @@ export function HeroCarousel({ hero }: { hero: HomeData["hero"] }) {
       </m.div>
 
       {/* Two veils: a strong one below for the type, a light one above for
-          the header. From `lg`, where the type is centred, the lower veil
-          eases off so the photograph runs lit into the highlights panel. */}
+          the header. From `lg` the lower veil eases off so the photograph
+          stays lit down to its foot. */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 bg-(image:--me-veil-bottom) lg:bg-(image:--me-veil-bottom-lg)"
@@ -196,12 +196,11 @@ export function HeroCarousel({ hero }: { hero: HomeData["hero"] }) {
       <FrameDraw trigger="mount" delay={0.3} />
 
       {/* The lockup: centred on tablets, in the lower half on phones (and
-          at the foot of a sideways phone's single screen). From `lg` the
-          highlights panel overlaps the hero's last 128px and the lockup sits
-          24px above it, leaving the space under the header to the
-          photograph. */}
+          at the foot of a sideways phone's single screen). From `lg` it sits
+          low, leaving the space under the header to the photograph and its
+          sign. */}
       <m.div
-        className="container-site short:pb-36 phone-landscape:justify-end phone-landscape:pt-24 phone-landscape:pb-8 relative z-10 flex flex-1 flex-col items-center justify-end pt-36 pb-16 text-center md:justify-center md:pt-40 md:pb-12 lg:justify-end lg:pt-38 lg:pb-38"
+        className="container-site short:pb-36 phone-landscape:justify-end phone-landscape:pt-24 phone-landscape:pb-8 relative z-10 flex flex-1 flex-col items-center justify-end pt-36 pb-16 text-center md:justify-center md:pt-40 md:pb-12 lg:justify-end lg:pt-38 lg:pb-24"
         style={drift ? { opacity: lockupOpacity, y: lockupY } : undefined}
       >
         {lockup ? <HeroLockup slide={lockup} /> : null}
@@ -245,10 +244,9 @@ function HeroLockup({ slide }: { slide: Slide }) {
           trigger="mount"
           delay={0.6}
           stagger={0.11}
-          // From `lg` the hero shares the screen with the panel, and a
-          // sideways phone has little height, so there the title also
+          // A sideways phone has little height, so there the title also
           // answers to the screen's height.
-          className="text-display text-me-ivory phone-landscape:text-[length:min(var(--text-display),15svh)] max-w-[16ch] lg:text-[length:min(var(--text-display),12svh)]"
+          className="text-display text-me-ivory phone-landscape:text-[length:min(var(--text-display),15svh)] max-w-[16ch]"
         />
       ) : null}
 
@@ -473,9 +471,7 @@ function HeroMedia({
       priority={index === 0}
       decorative
       frameClassName="absolute inset-0 bg-me-night"
-      // From `lg` the panel covers the hero's foot, so the frame favours the
-      // upper part of the picture.
-      className="size-full object-cover [filter:var(--me-grade)] lg:object-[50%_25%]"
+      className="size-full object-cover [filter:var(--me-grade)]"
     />
   );
 }

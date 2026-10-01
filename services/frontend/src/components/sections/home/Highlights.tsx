@@ -3,8 +3,6 @@
 import { SmartImage } from "@/components/media/SmartImage";
 import { RevealGroup } from "@/components/motion/midnight/RevealGroup";
 import { RevealItem } from "@/components/motion/midnight/RevealItem";
-import { LARGE_UP } from "@/components/motion/midnight/tokens";
-import { useMedia } from "@/components/motion/midnight/useMotionOn";
 import { Heading } from "@/components/typography/Heading";
 import { Container } from "@/components/ui/Container";
 import { TextLink } from "@/components/ui/TextLink";
@@ -13,29 +11,23 @@ import { autoLang } from "@/lib/lang";
 import { internalHref } from "@/lib/links";
 
 /**
- * The three highlights as one forest panel lifting off the hero
- * (prompts/06b-home-redesign.md §5.2): 128px over it from `lg` up, a deep
- * shadow, a gold hairline along the top and gold hairlines between columns.
- *
- * On large screens it is the last beat of the hero's entrance, rising at
- * 1.4s; below `lg` it sits under the hero and its rows enter on scroll.
+ * The three highlights as one forest panel under the hero
+ * (prompts/06b-home-redesign.md §5.2): a deep shadow, a gold hairline along
+ * the top and gold hairlines between columns. The hero keeps the whole first
+ * screen, so the panel starts where the photograph ends and its rows enter
+ * on scroll.
  */
 export function Highlights({ highlights }: { highlights: HomeData["highlights"] }) {
-  const large = useMedia(LARGE_UP);
   if (highlights.length === 0) return null;
 
   return (
-    // Phones: the panel floats on night. From `lg` it is lifted 128px into the
-    // hero, so the photograph runs on beneath its top edge and About's ivory
-    // begins right at the hero's foot — the two rooms are joined by one
-    // object rather than a hard line. `flow-root` keeps the lift from
-    // collapsing through to this box, whose ivory would cover the photograph.
-    <div className="bg-me-night lg:bg-me-ivory relative z-20 pb-16 md:pb-20 lg:flow-root lg:pb-0">
+    // Phones: the panel floats on night. From `lg` it sits on About's ivory,
+    // a little below the hero's foot.
+    <div className="bg-me-night lg:bg-me-ivory relative z-20 pb-16 md:pb-20 lg:pt-20 lg:pb-0">
       <Container className="relative">
         <RevealGroup
           as="ul"
-          delay={large ? 1.4 : 0}
-          className="bg-me-forest shadow-me-deep lg:shadow-me-float divide-me-hairline-gold relative grid divide-y before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-(--me-frame) lg:-mt-32 lg:grid-cols-3 lg:divide-x lg:divide-y-0"
+          className="bg-me-forest shadow-me-deep lg:shadow-me-float divide-me-hairline-gold relative grid divide-y before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-(--me-frame) lg:grid-cols-3 lg:divide-x lg:divide-y-0"
         >
           {highlights.map((item) => {
             const href = internalHref(item.cta.href) ?? "#";
