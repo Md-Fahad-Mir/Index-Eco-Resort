@@ -235,6 +235,8 @@ export const homeSchema = z.object({
   testimonials: z.object({
     eyebrow: z.string(),
     title: z.string(),
+    /** The line under the heading; empty renders nothing. */
+    text: z.string().default(""),
     items: z.array(testimonialSchema),
   }),
   latestPosts: z.object({

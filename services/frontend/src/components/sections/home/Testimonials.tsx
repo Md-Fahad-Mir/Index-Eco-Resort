@@ -1,183 +1,230 @@
 "use client";
 
-import { ChevronLeft, ChevronRight, Star } from "lucide-react";
-import { m } from "motion/react";
-import { useState } from "react";
+import { Star } from "lucide-react";
+import { useInView } from "motion/react";
+import { useRef, type CSSProperties } from "react";
 import { useDictionary, useFormatter } from "@/components/i18n/LocaleProvider";
 import { SmartImage } from "@/components/media/SmartImage";
 import { RevealGroup } from "@/components/motion/midnight/RevealGroup";
 import { RevealItem } from "@/components/motion/midnight/RevealItem";
-import { EASE, VIEWPORT } from "@/components/motion/midnight/tokens";
-import { useMotionOn } from "@/components/motion/midnight/useMotionOn";
+import { LARGE_UP, MEDIUM_UP } from "@/components/motion/midnight/tokens";
+import { useMedia, useMotionOn } from "@/components/motion/midnight/useMotionOn";
 import { Container } from "@/components/ui/Container";
 import type { HomeData, Testimonial } from "@/lib/data";
 import { autoLang } from "@/lib/lang";
 import { cn } from "@/lib/utils";
 import { EstateHeading } from "./EstateHeading";
-import { EstateIconButton } from "./EstateIconButton";
 
-const pad = (n: number) => String(n).padStart(2, "0");
+/** Roughly how long one card takes to pass; sets every column's pace. */
+const SECONDS_PER_CARD = 9;
+/** A copy must outrun the window it scrolls through, or the loop shows a gap. */
+const MIN_PER_COPY = 4;
+/** The outer columns rise and the middle one falls, each at its own pace. */
+const DRIFT = [
+  { name: "me-drift-up", pace: 1 },
+  { name: "me-drift-down", pace: 1.18 },
+  { name: "me-drift-up", pace: 0.9 },
+] as const;
+
+type Slot = { testimonial: Testimonial; repeat: boolean };
 
 /**
- * Client quotes — "voices" (prompts/06b-home-redesign.md §5.11), on ivory. One
- * quote at a time, set large in the display face under an oversized bronze
- * quotation mark; the stars fill in turn. With more than one quote they
- * crossfade, with arrows and a fraction; with exactly one, nothing moves —
- * the live site runs an autoplaying loop over a single item, which is motion
- * for nothing.
+ * Client quotes — "voices", on ivory: a wall of review cards in up to three
+ * columns that drift past each other, fading out at the top and bottom edges.
+ * Hover and keyboard focus hold the wall still, and it stops whenever it is off
+ * screen.
  *
- * PARITY: that single review is placeholder data ("jack sparrow / Actor", with
- * an avatar hotlinked from a theme demo). It renders as stored;
- * docs/OWNER-REPORT.md §B asks for a real review.
+ * Fewer than three reviews, or reduced motion, and nothing drifts: every card
+ * is shown once, in still columns.
+ *
+ * PARITY: the live site has a single placeholder review ("jack sparrow /
+ * Actor"). The rest of the snapshot's reviews are PLACEHOLDERS added so the
+ * wall can be seen in preview; the CMS must supply real ones before launch.
  */
 export function Testimonials({ testimonials }: { testimonials: HomeData["testimonials"] }) {
   const items = testimonials.items;
-  const [index, setIndex] = useState(0);
-  const dict = useDictionary();
-  const { t, digits } = useFormatter();
+  const on = useMotionOn();
+  const large = useMedia(LARGE_UP, true);
+  const medium = useMedia(MEDIUM_UP, true);
+  const wallRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(wallRef, { margin: "200px 0px" });
   if (items.length === 0) return null;
-  const many = items.length > 1;
-  const go = (next: number) => setIndex(((next % items.length) + items.length) % items.length);
+
+  const drift = on && items.length > 2;
+  const columns = columnsOf(items, Math.min(large ? 3 : medium ? 2 : 1, items.length), drift);
+  const lede = testimonials.text.trim();
 
   return (
     <section className="bg-me-ivory text-me-night section-y relative overflow-hidden">
-      <Container className="flex flex-col items-center gap-14 md:gap-20">
-        <EstateHeading
-          tone="ivory"
-          align="center"
-          eyebrow={testimonials.eyebrow}
-          title={testimonials.title}
-        />
+      {/* A low lamp over the heading. Decoration only. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-[40rem] bg-[radial-gradient(45%_55%_at_50%_0%,rgb(201_169_110/0.2),transparent_75%)]"
+      />
 
-        <div className="relative grid w-full max-w-5xl">
-          {/* The oversized mark, behind the quote. Decoration only. */}
-          <span
-            aria-hidden
-            className="font-display text-me-bronze/15 pointer-events-none absolute -top-[0.3em] left-1/2 -translate-x-1/2 text-[clamp(9rem,6rem+10vw,15rem)] leading-none select-none"
-          >
-            &ldquo;
-          </span>
-
-          {items.map((item, i) => (
-            <div
-              key={i}
-              inert={i !== index}
-              className={cn(
-                "col-start-1 row-start-1 transition-opacity duration-700 ease-(--me-ease-inout)",
-                i === index ? "opacity-100" : "opacity-0",
-              )}
-            >
-              <Quote testimonial={item} />
-            </div>
-          ))}
+      <Container className="relative flex flex-col items-center gap-12 md:gap-16">
+        <div className="flex flex-col items-center gap-6 md:gap-8">
+          <EstateHeading
+            tone="ivory"
+            align="center"
+            eyebrow={testimonials.eyebrow}
+            title={testimonials.title}
+          />
+          {lede ? (
+            <RevealGroup delay={0.35}>
+              <RevealItem
+                as="p"
+                lang={autoLang(lede)}
+                className="text-me-stone text-lead max-w-[40rem] text-center text-balance"
+              >
+                {lede}
+              </RevealItem>
+            </RevealGroup>
+          ) : null}
         </div>
 
-        {many ? (
-          <div className="flex items-center gap-5">
-            <EstateIconButton
-              tone="ivory"
-              label={dict.carousel.previousReview}
-              onClick={() => go(index - 1)}
-            >
-              <ChevronLeft aria-hidden strokeWidth={1.25} />
-            </EstateIconButton>
-            <span aria-hidden className="text-label tabular text-me-stone">
-              {digits(pad(index + 1))} / {digits(pad(items.length))}
-            </span>
-            <EstateIconButton
-              tone="ivory"
-              label={dict.carousel.nextReview}
-              onClick={() => go(index + 1)}
-            >
-              <ChevronRight aria-hidden strokeWidth={1.25} />
-            </EstateIconButton>
-            <p aria-live="polite" className="sr-only">
-              {t(dict.carousel.reviewStatus, { n: index + 1, total: items.length })}
-            </p>
+        <RevealGroup className="w-full" stagger={0.15}>
+          <div
+            ref={wallRef}
+            data-paused={drift && !inView ? "" : undefined}
+            className={cn(
+              "me-wall mx-auto flex w-full gap-5 lg:gap-6",
+              drift
+                ? "h-[38rem] overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,#000_14%,#000_86%,transparent)] md:h-[46rem]"
+                : "max-w-5xl items-start justify-center",
+            )}
+          >
+            {columns.map((slots, c) => {
+              const lane = DRIFT[c] ?? DRIFT[0];
+              return (
+                <RevealItem key={c} className={cn("min-w-0 flex-1", !drift && "max-w-md")}>
+                  {drift ? (
+                    <div
+                      className="me-drift"
+                      style={
+                        {
+                          "--drift-name": lane.name,
+                          "--drift-duration": `${slots.length * SECONDS_PER_CARD * lane.pace}s`,
+                        } as CSSProperties
+                      }
+                    >
+                      <Column slots={slots} />
+                      <Column slots={slots} copy />
+                    </div>
+                  ) : (
+                    <Column slots={slots} />
+                  )}
+                </RevealItem>
+              );
+            })}
           </div>
-        ) : null}
+        </RevealGroup>
       </Container>
     </section>
   );
 }
 
-function Quote({ testimonial }: { testimonial: Testimonial }) {
+/**
+ * Deals the reviews out across the columns. A drifting column repeats its own
+ * cards until a copy is long enough to loop; the repeats are hidden from
+ * assistive tech, so each review is read once.
+ */
+function columnsOf(items: Testimonial[], count: number, drift: boolean): Slot[][] {
+  return Array.from({ length: count }, (_, c) => {
+    const own = items.filter((_, i) => i % count === c);
+    const slots: Slot[] = own.map((testimonial) => ({ testimonial, repeat: false }));
+    while (drift && slots.length < MIN_PER_COPY) {
+      slots.push(...own.map((testimonial) => ({ testimonial, repeat: true })));
+    }
+    return slots;
+  });
+}
+
+/** One run of a column's cards. `copy` is the second, looping run. */
+function Column({ slots, copy = false }: { slots: Slot[]; copy?: boolean }) {
   return (
-    <figure className="relative flex flex-col items-center gap-10 pt-16 text-center md:gap-12 md:pt-24">
-      {testimonial.rating > 0 ? <Stars rating={testimonial.rating} /> : null}
+    <ul
+      aria-hidden={copy || undefined}
+      inert={copy}
+      className="flex flex-col gap-5 pb-5 lg:gap-6 lg:pb-6"
+    >
+      {slots.map((slot, i) => (
+        <li key={i} aria-hidden={(!copy && slot.repeat) || undefined}>
+          <Card testimonial={slot.testimonial} />
+        </li>
+      ))}
+    </ul>
+  );
+}
 
-      <RevealGroup className="flex flex-col items-center gap-10 md:gap-12">
-        <RevealItem>
-          <blockquote
-            lang={autoLang(testimonial.quote)}
-            className="font-display text-me-night max-w-[30ch] text-[clamp(1.625rem,1.1rem+1.9vw,2.75rem)] leading-[1.25] text-balance"
+function Card({ testimonial }: { testimonial: Testimonial }) {
+  const dict = useDictionary();
+  const { t } = useFormatter();
+  // The CMS sometimes types the quotation marks into the quote itself.
+  const quote = testimonial.quote.trim().replace(/^["“”]+|["“”]+$/g, "");
+  return (
+    <figure className="border-me-hairline-ink hover:border-me-champagne flex flex-col gap-6 rounded-[1.25rem] border bg-white/50 p-7 shadow-[0_24px_48px_-32px_rgb(14_26_21/0.35)] transition-[translate,border-color,background-color] duration-500 ease-(--me-ease) hover:-translate-y-1 hover:bg-white/75 md:p-8">
+      {testimonial.rating > 0 ? (
+        <div
+          // role="img" so the label is permitted and the stars read as one graphic.
+          role="img"
+          aria-label={t(dict.carousel.stars, { rating: testimonial.rating })}
+          className="text-me-bronze flex gap-1"
+        >
+          {Array.from({ length: testimonial.rating }).map((_, index) => (
+            <Star key={index} aria-hidden className="size-4 fill-current" strokeWidth={0} />
+          ))}
+        </div>
+      ) : null}
+
+      <blockquote lang={autoLang(quote)} className="text-me-night/85 text-body">
+        &ldquo;{quote}&rdquo;
+      </blockquote>
+
+      <figcaption className="flex items-center gap-4">
+        <Avatar testimonial={testimonial} />
+        <span className="flex min-w-0 flex-col">
+          <span
+            lang={autoLang(testimonial.name)}
+            className="text-me-night text-body leading-snug font-medium"
           >
-            {testimonial.quote}
-          </blockquote>
-        </RevealItem>
-
-        <RevealItem>
-          <figcaption className="flex items-center gap-4">
-            {testimonial.avatar ? (
-              <SmartImage
-                image={testimonial.avatar}
-                sizes="56px"
-                ratio="square"
-                decorative
-                frameClassName="size-14 rounded-full bg-me-parchment ring-1 ring-me-bronze ring-offset-3 ring-offset-me-ivory"
-              />
-            ) : null}
-            <span className="flex flex-col text-left">
-              <span
-                lang={autoLang(testimonial.name)}
-                className="text-me-night text-body font-medium"
-              >
-                {testimonial.name}
-              </span>
-              <span lang={autoLang(testimonial.role)} className="text-me-stone text-small">
-                {testimonial.role}
-              </span>
-            </span>
-          </figcaption>
-        </RevealItem>
-      </RevealGroup>
+            {testimonial.name}
+          </span>
+          <span lang={autoLang(testimonial.role)} className="text-me-stone text-small">
+            {testimonial.role}
+          </span>
+        </span>
+      </figcaption>
     </figure>
   );
 }
 
-/** The rating: bronze stars that fill one after another, 70ms apart. */
-function Stars({ rating }: { rating: number }) {
-  const on = useMotionOn();
-  const dict = useDictionary();
-  const { t } = useFormatter();
+/** The reviewer's photograph, or their initials on a forest disc. */
+function Avatar({ testimonial }: { testimonial: Testimonial }) {
+  if (testimonial.avatar?.src) {
+    return (
+      <SmartImage
+        image={testimonial.avatar}
+        sizes="48px"
+        ratio="square"
+        decorative
+        frameClassName="size-12 shrink-0 rounded-full bg-me-parchment"
+      />
+    );
+  }
+  const initials = testimonial.name
+    .trim()
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((word) => Array.from(word)[0] ?? "")
+    .join("")
+    .toLocaleUpperCase();
   return (
-    <m.div
-      // role="img" so the label is permitted and the stars read as one graphic.
-      role="img"
-      aria-label={t(dict.carousel.stars, { rating })}
-      className="flex gap-1.5"
-      initial="hidden"
-      whileInView="shown"
-      viewport={VIEWPORT}
-      variants={{ hidden: {}, shown: { transition: { staggerChildren: on ? 0.07 : 0 } } }}
+    <span
+      aria-hidden
+      className="from-me-forest to-me-night text-me-champagne-soft text-small grid size-12 shrink-0 place-items-center rounded-full bg-linear-to-br font-medium tracking-wide"
     >
-      {Array.from({ length: rating }).map((_, index) => (
-        <m.span
-          key={index}
-          data-me-reveal
-          className="text-me-bronze block"
-          variants={{
-            hidden: { opacity: 0, scale: 0.6 },
-            shown: {
-              opacity: 1,
-              scale: 1,
-              transition: on ? { duration: 0.6, ease: EASE } : { duration: 0 },
-            },
-          }}
-        >
-          <Star aria-hidden className="size-4 fill-current" strokeWidth={0} />
-        </m.span>
-      ))}
-    </m.div>
+      {initials}
+    </span>
   );
 }

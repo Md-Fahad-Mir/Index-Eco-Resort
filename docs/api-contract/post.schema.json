@@ -1,0 +1,211 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "slug": {
+      "type": "string"
+    },
+    "href": {
+      "type": "string"
+    },
+    "title": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "titleRenderedOnPage": {
+      "type": "boolean"
+    },
+    "image": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "src": {
+              "type": "string"
+            },
+            "alt": {
+              "default": "",
+              "type": "string"
+            },
+            "width": {
+              "type": "number"
+            },
+            "height": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "src",
+            "alt"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "categoryTag": {
+      "type": "string"
+    },
+    "meta": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "html": {
+      "type": "string"
+    },
+    "share": {
+      "type": "object",
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "links": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "network": {
+                "type": "string"
+              },
+              "href": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "network",
+              "href"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "label",
+        "links"
+      ],
+      "additionalProperties": false
+    },
+    "sidebar": {
+      "type": "object",
+      "properties": {
+        "recent": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "num": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "href": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "num",
+              "title",
+              "href"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "categories": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "label": {
+                "type": "string"
+              },
+              "count": {
+                "type": "string"
+              },
+              "href": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "label",
+              "count",
+              "href"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "cta": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "text": {
+              "type": "string"
+            },
+            "link": {
+              "type": "object",
+              "properties": {
+                "label": {
+                  "default": "",
+                  "type": "string"
+                },
+                "href": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "label",
+                "href"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "title",
+            "text",
+            "link"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "recent",
+        "categories",
+        "cta"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "slug",
+    "href",
+    "title",
+    "titleRenderedOnPage",
+    "image",
+    "categoryTag",
+    "meta",
+    "html",
+    "share",
+    "sidebar"
+  ],
+  "additionalProperties": false
+}

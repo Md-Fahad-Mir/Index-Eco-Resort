@@ -1,5 +1,4 @@
 import Link from "@/components/i18n/Link";
-import { SmartImage } from "@/components/media/SmartImage";
 import { LineReveal } from "@/components/motion/midnight/LineReveal";
 import { RevealGroup } from "@/components/motion/midnight/RevealGroup";
 import { RevealItem } from "@/components/motion/midnight/RevealItem";
@@ -15,13 +14,12 @@ import { internalHref, isInternal } from "@/lib/links";
  * §5.6). A Home-only wrapper: `CtaStrip` stays as it is for the Gallery page.
  *
  * One quiet, centred card of ivory between two night rooms: bronze hairlines
- * drawn outward from a small diamond, the avatar in a bronze ring, the line
- * in the display face, the button. It ends on a clean edge, so the vault
- * below opens like a door.
+ * drawn outward from a small diamond, the line in the display face, the
+ * button. It ends on a clean edge, so the vault below opens like a door.
  *
- * PARITY: the avatar is hotlinked from a WordPress theme demo on the live site
- * (audit §9.8). It is mirrored into our snapshot, but it is still not a photo
- * of anyone at the resort — listed in docs/OWNER-REPORT.md §B.
+ * The CMS also sends an avatar (on the live site, a WordPress theme demo's
+ * stock photo, not anyone at the resort). The owner asked for it to go, so it
+ * is not rendered here.
  */
 export function CtaInvitation({ cta }: { cta: HomeData["ctaStrip"] }) {
   const href = internalHref(cta.cta.href) ?? "#";
@@ -31,20 +29,6 @@ export function CtaInvitation({ cta }: { cta: HomeData["ctaStrip"] }) {
     <section className="bg-me-ivory text-me-night relative py-[clamp(5rem,3rem+6vw,9.5rem)]">
       <Container className="flex flex-col items-center gap-10 text-center md:gap-12">
         <Ornament />
-
-        {cta.avatar ? (
-          <RevealGroup>
-            <RevealItem>
-              <SmartImage
-                image={cta.avatar}
-                sizes="72px"
-                ratio="square"
-                decorative
-                frameClassName="size-18 rounded-full bg-me-parchment ring-1 ring-me-bronze ring-offset-4 ring-offset-me-ivory"
-              />
-            </RevealItem>
-          </RevealGroup>
-        ) : null}
 
         {text ? (
           <LineReveal

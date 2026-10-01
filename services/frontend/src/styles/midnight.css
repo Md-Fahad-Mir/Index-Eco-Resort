@@ -439,3 +439,34 @@ html:not([data-motion="on"]) [data-me-draw] {
     opacity: 1;
   }
 }
+
+/* The voices wall (sections/home/Testimonials.tsx). Each column holds its cards
+   twice, so travelling exactly one copy's height loops without a seam. The
+   direction and the pace are set per column; hover, focus and leaving the
+   screen all hold every column where it is. */
+@keyframes me-drift-up {
+  from {
+    translate: 0 0;
+  }
+  to {
+    translate: 0 -50%;
+  }
+}
+
+@keyframes me-drift-down {
+  from {
+    translate: 0 -50%;
+  }
+  to {
+    translate: 0 0;
+  }
+}
+
+.me-drift {
+  animation: var(--drift-name, me-drift-up) var(--drift-duration, 40s) linear infinite;
+  will-change: translate;
+}
+
+.me-wall:is(:hover, :focus-within, [data-paused]) .me-drift {
+  animation-play-state: paused;
+}

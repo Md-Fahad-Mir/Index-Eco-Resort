@@ -781,6 +781,7 @@
   "testimonials": {
     "eyebrow": "Our Testimonial",
     "title": "What Our Clients Say",
+    "text": "Share owners, families and event hosts on what it is like to own, stay and celebrate at INDEX Eco Resort.",
     "items": [
       {
         "rating": 5,
@@ -791,6 +792,62 @@
         },
         "name": "jack sparrow",
         "role": "Actor"
+      },
+      {
+        "rating": 5,
+        "quote": "The booking process was clear from day one. Every document was explained, and the team answered each question before we signed.",
+        "avatar": null,
+        "name": "Tanvir Ahmed",
+        "role": "Share Owner, Dhaka"
+      },
+      {
+        "rating": 5,
+        "quote": "We came for a weekend and stayed four days. The villas are quiet, the lake at dusk is beautiful, and the staff remembered our names.",
+        "avatar": null,
+        "name": "Nusrat Jahan",
+        "role": "Guest, Chattogram"
+      },
+      {
+        "rating": 5,
+        "quote": "Owning a share means my family has a place to come back to every year. Reserving our nights is simple, and the resort is always ready for us.",
+        "avatar": null,
+        "name": "Rafiqul Islam",
+        "role": "Share Owner, Sylhet"
+      },
+      {
+        "rating": 5,
+        "quote": "We held our anniversary dinner by the water. The decoration, the food and the timing were handled so well that we simply enjoyed the evening.",
+        "avatar": null,
+        "name": "Farhana Rahman",
+        "role": "Event Host, Dhaka"
+      },
+      {
+        "rating": 5,
+        "quote": "Our team retreat needed space to work and space to unwind. The hall, the green lawns and the evening barbecue gave us both.",
+        "avatar": null,
+        "name": "Mahmudul Hasan",
+        "role": "Corporate Guest, Gazipur"
+      },
+      {
+        "rating": 5,
+        "quote": "The restaurant was a highlight: fresh fish, home-style curries and a breakfast our children still talk about.",
+        "avatar": null,
+        "name": "Sadia Karim",
+        "role": "Guest, Narayanganj"
+      },
+      {
+        "rating": 4,
+        "quote": "I visited the site twice before deciding. Both times the progress matched what we had been shown, which gave me real confidence.",
+        "avatar": null,
+        "name": "Arif Chowdhury",
+        "role": "Share Owner, Cumilla"
+      },
+      {
+        "rating": 5,
+        "quote": "A real escape from the city. Mornings by the lake, evenings under the lights, and not a single thing to worry about.",
+        "avatar": null,
+        "name": "Nadia Sultana",
+        "role": "Guest, Rajshahi"
       }
     ]
   },
