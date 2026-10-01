@@ -67,7 +67,9 @@ export function SiteHeader({
         <Container
           data-region="header"
           className={cn(
-            "flex items-center justify-between gap-6 transition-all duration-300",
+            // Below `xl` the nav shares a 1024px screen with the logo and the
+            // CTAs, so every gap tightens there and widens again from `xl`.
+            "flex items-center justify-between gap-4 transition-all duration-300 xl:gap-6",
             solid ? "h-[72px]" : "h-[88px]",
           )}
         >
@@ -83,7 +85,7 @@ export function SiteHeader({
           </Link>
 
           <nav data-region="header" aria-label={dict.chrome.mainNav} className="hidden lg:block">
-            <ul className="flex items-center gap-8">
+            <ul className="flex items-center gap-5 xl:gap-8">
               {settings.nav.map((item) =>
                 item.children?.length ? (
                   <li key={item.label}>
@@ -107,7 +109,11 @@ export function SiteHeader({
           <div className="flex items-center gap-2 lg:gap-3">
             <LanguageSwitch />
             {/* Its two states follow the header's data-solid (globals.css). */}
-            <Button asChild variant="chrome-cta" className="hidden h-11 px-6 lg:inline-flex">
+            <Button
+              asChild
+              variant="chrome-cta"
+              className="hidden h-11 px-4 whitespace-nowrap lg:inline-flex xl:px-6"
+            >
               <Link href={bookNowHref}>{settings.bookNow.label}</Link>
             </Button>
             <MobileNav settings={settings} pathname={pathname} />
@@ -130,7 +136,7 @@ function NavLink({
   const target = internalHref(href) ?? "#";
   const active = isActiveRoute(href, pathname);
   const className = cn(
-    "text-small relative inline-block py-2 font-medium transition-colors duration-[var(--dur-micro)]",
+    "text-small relative inline-block py-2 font-medium whitespace-nowrap transition-colors duration-[var(--dur-micro)]",
     active ? "text-chrome-text" : "text-chrome-text/85 hover:text-chrome-text",
   );
   const underline = active && (

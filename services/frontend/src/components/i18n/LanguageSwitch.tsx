@@ -27,7 +27,7 @@ export function LanguageSwitch({ className }: { className?: string }) {
   const dict = useDictionary();
 
   const segment =
-    "grid h-full min-w-9 place-items-center rounded-(--chrome-btn-radius) px-2 text-label font-semibold " +
+    "grid h-full min-w-10 place-items-center rounded-(--chrome-btn-radius) px-2 text-label font-semibold lg:min-w-9 " +
     "transition-colors duration-[var(--dur-micro)]";
 
   return (
@@ -35,7 +35,9 @@ export function LanguageSwitch({ className }: { className?: string }) {
       role="group"
       aria-label={dict.language.label}
       className={cn(
-        "inline-flex h-9 items-center gap-0.5 rounded-(--chrome-btn-radius) p-0.5 lg:h-11 lg:p-1",
+        // 44px tall everywhere, level with the menu button on phones, so each
+        // option is a 40px square to the thumb; desktop keeps its inset.
+        "inline-flex h-11 items-center gap-0.5 rounded-(--chrome-btn-radius) p-0.5 lg:p-1",
         "shadow-[inset_0_0_0_1px_var(--chrome-hairline)]",
         className,
       )}

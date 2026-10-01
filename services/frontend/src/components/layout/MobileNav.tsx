@@ -75,7 +75,9 @@ export function MobileNav({ settings, pathname }: { settings: SiteSettings; path
                         <Accordion.Item value={item.label}>
                           <Accordion.Trigger
                             className={cn(
-                              "group font-display flex w-full items-center justify-between gap-3 py-5 text-(length:--chrome-sheet-link-size)",
+                              // text-start: a button centres its text, and a
+                              // long label wraps on a phone.
+                              "group font-display flex w-full items-center justify-between gap-3 py-5 text-start text-(length:--chrome-sheet-link-size)",
                               active ? "text-chrome-accent" : "text-chrome-text",
                             )}
                           >
@@ -134,10 +136,11 @@ export function MobileNav({ settings, pathname }: { settings: SiteSettings; path
           >
             <div className="flex gap-3">
               {/* PARITY: Call Now dials a third number, different from the top bar and footer. */}
-              <Button asChild variant="chrome-primary" className="flex-1">
+              {/* px-4: two buttons share a 280px sheet at 320px and must not wrap. */}
+              <Button asChild variant="chrome-primary" className="flex-1 px-4 whitespace-nowrap">
                 <a href={callNow.href ?? "#"}>{callNow.label}</a>
               </Button>
-              <Button asChild variant="chrome-secondary" className="flex-1">
+              <Button asChild variant="chrome-secondary" className="flex-1 px-4 whitespace-nowrap">
                 <Link href={bookNow}>{settings.bookNow.label}</Link>
               </Button>
             </div>
@@ -147,7 +150,7 @@ export function MobileNav({ settings, pathname }: { settings: SiteSettings; path
                   <a
                     href={social.href}
                     aria-label={socialLabel(social.network)}
-                    className="text-chrome-text/80 hover:bg-chrome-social-hover hover:text-chrome-social-hover-fg rounded-pill grid size-10 place-items-center transition-colors"
+                    className="text-chrome-text/80 hover:bg-chrome-social-hover hover:text-chrome-social-hover-fg rounded-pill grid size-11 place-items-center transition-colors"
                     {...anchorProps(social.href, social.target)}
                   >
                     <SocialIcon network={social.network} className="size-4" />

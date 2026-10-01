@@ -41,7 +41,7 @@ export function PackagesMenu({
         <Nav.Item>
           <Nav.Trigger
             className={cn(
-              "group text-small relative inline-flex cursor-pointer items-center gap-1.5 py-2 font-medium transition-colors duration-[var(--dur-micro)]",
+              "group text-small relative inline-flex cursor-pointer items-center gap-1.5 py-2 font-medium whitespace-nowrap transition-colors duration-[var(--dur-micro)]",
               onDark ? "text-chrome-text/90 hover:text-chrome-text" : "text-ink hover:text-index",
               active && (onDark ? "text-chrome-text" : "text-index"),
             )}
