@@ -148,6 +148,7 @@ function RoomPanel({ room, switched }: { room: Room; switched: boolean }) {
           label={t(dict.carousel.roomPhotos, { name: room.name })}
           frameClassName="aspect-4/3"
           autoplay
+          navigation={false}
           // The lightbox covers the page; the room waits beneath it.
           paused={lightboxAt !== null}
           slides={room.images.map((image, index) => (

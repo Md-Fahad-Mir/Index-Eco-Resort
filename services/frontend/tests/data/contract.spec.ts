@@ -112,9 +112,9 @@ test.describe("events filter reproduces the live behaviour", () => {
 test.describe("media and forms", () => {
   test("fixture media points at the local mirror", async () => {
     const home = await mockAdapter.getHome();
-    const video = home.hero.slides.find((s) => s.videoUrl)?.videoUrl ?? "";
-    expect(video).toMatch(/^\/media\//);
-    expect(assetUrl(video)).toBe(video); // no MEDIA_BASE_URL set locally
+    const hero = home.hero.slides[0]?.image.src ?? "";
+    expect(hero).toMatch(/^\/media\//);
+    expect(assetUrl(hero)).toBe(hero); // no MEDIA_BASE_URL set locally
   });
 
   test("assetUrl leaves absolute URLs alone", () => {

@@ -30,12 +30,14 @@ const SWIPE_PX = 48;
 /**
  * The hero — Midnight Estate's "lights on" (prompts/06b-home-redesign.md §5.1).
  *
- * The live site's two-slide carousel is kept (audit §11.1): the settings video
- * first, then the banner image, 6s per image slide, and the video slide
- * advancing when its clip ends. One presentation change, recorded in
+ * The owner replaced the live site's video-then-banner carousel (audit §11.1)
+ * with a single still: the resort's entrance gate. The carousel machinery stays
+ * for whatever the CMS sends — 6s per image slide, a video slide advancing when
+ * its clip ends — but with one slide nothing rotates and it is not announced
+ * as a carousel. One presentation change, recorded in
  * tests/parity/allowed-diffs.ts: the lockup — the subline, title and button of
- * the slide that has a title — stays in place across both slides while only
- * the media crossfades beneath it. So the page's single `<h1>` never moves or
+ * the slide that has a title — stays in place across slides while only the
+ * media crossfades beneath it. So the page's single `<h1>` never moves or
  * hides, whichever slide is showing.
  *
  * There is no visible slide counter, progress line or pause control; the owner
@@ -68,6 +70,8 @@ export function HeroCarousel({ hero }: { hero: HomeData["hero"] }) {
     [count],
   );
   const advance = useCallback(() => show(selected + 1), [show, selected]);
+  // A single slide is a still, not a carousel, for assistive tech too.
+  const carousel = count > 1;
 
   // Only the active slide's video plays; the others are reset.
   useEffect(() => {
@@ -105,7 +109,7 @@ export function HeroCarousel({ hero }: { hero: HomeData["hero"] }) {
     <section
       ref={sectionRef}
       data-testid="hero"
-      aria-roledescription="carousel"
+      aria-roledescription={carousel ? "carousel" : undefined}
       aria-label={dict.carousel.heroLabel}
       className="on-dark bg-me-night text-me-ivory relative isolate flex min-h-[max(640px,100svh)] touch-pan-y flex-col overflow-hidden"
       onMouseEnter={() => setInteracting(true)}
@@ -145,9 +149,11 @@ export function HeroCarousel({ hero }: { hero: HomeData["hero"] }) {
             return (
               <div
                 key={index}
-                role="group"
-                aria-roledescription="slide"
-                aria-label={t(dict.carousel.slideOf, { n: index + 1, total: count })}
+                role={carousel ? "group" : undefined}
+                aria-roledescription={carousel ? "slide" : undefined}
+                aria-label={
+                  carousel ? t(dict.carousel.slideOf, { n: index + 1, total: count }) : undefined
+                }
                 data-active={active}
                 className={cn(
                   "absolute inset-0",
@@ -199,9 +205,11 @@ export function HeroCarousel({ hero }: { hero: HomeData["hero"] }) {
       </m.div>
 
       {/* Which slide is showing, for assistive tech. */}
-      <p aria-live="polite" className="sr-only">
-        {t(dict.carousel.slideStatus, { n: selected + 1, total: count })}
-      </p>
+      {carousel ? (
+        <p aria-live="polite" className="sr-only">
+          {t(dict.carousel.slideStatus, { n: selected + 1, total: count })}
+        </p>
+      ) : null}
     </section>
   );
 }

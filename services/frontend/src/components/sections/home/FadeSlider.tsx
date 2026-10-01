@@ -47,6 +47,9 @@ type Turn = {
  * Below the frame: optional thumbnails, square arrows, the `01 / 05` fraction
  * and the line. It loops, follows a horizontal swipe, and takes ← → while
  * focus is inside. Hidden slides are `inert`, so their buttons never take focus.
+ *
+ * `navigation={false}` drops the arrows, fraction and pause control, leaving
+ * the thumbnails (which carry the timer) as the only controls; it needs `thumbs`.
  */
 export function FadeSlider({
   label,
@@ -59,6 +62,7 @@ export function FadeSlider({
   controlsClassName,
   autoplay = false,
   paused = false,
+  navigation = true,
 }: {
   /** Names the carousel for assistive tech. */
   label: string;
@@ -76,6 +80,8 @@ export function FadeSlider({
   autoplay?: boolean;
   /** Hold the rotation, e.g. while a lightbox covers the page. */
   paused?: boolean;
+  /** Show the arrows, fraction and pause control beside the thumbnails. */
+  navigation?: boolean;
 }) {
   const count = slides.length;
   const dict = useDictionary();
@@ -283,49 +289,52 @@ export function FadeSlider({
             </div>
           ) : null}
 
-          <div className="flex items-center gap-5">
-            <div className="flex gap-2">
-              <EstateIconButton
-                label={dict.carousel.previousSlide}
-                onClick={() => go(index - 1, -1)}
-              >
-                <ChevronLeft aria-hidden strokeWidth={1.25} />
-              </EstateIconButton>
-              <EstateIconButton label={dict.carousel.nextSlide} onClick={() => go(index + 1, 1)}>
-                <ChevronRight aria-hidden strokeWidth={1.25} />
-              </EstateIconButton>
-            </div>
-            <span aria-hidden className="text-label tabular text-me-parchment whitespace-nowrap">
-              {digits(pad(index + 1))} <span className="text-me-sage">/ {digits(pad(count))}</span>
-            </span>
-            {thumbs ? null : (
-              <span
-                aria-hidden
-                className="bg-me-hairline-gold relative block h-px w-24 overflow-hidden md:w-32"
-              >
-                {timed ? (
-                  <Timer key={n} running={running} onDone={advance} className="inset-0" />
-                ) : (
-                  <span
-                    className="bg-me-champagne ease-me absolute inset-0 origin-left transition-transform duration-700"
-                    style={{ transform: `scaleX(${(index + 1) / count})` }}
-                  />
-                )}
+          {navigation ? (
+            <div className="flex items-center gap-5">
+              <div className="flex gap-2">
+                <EstateIconButton
+                  label={dict.carousel.previousSlide}
+                  onClick={() => go(index - 1, -1)}
+                >
+                  <ChevronLeft aria-hidden strokeWidth={1.25} />
+                </EstateIconButton>
+                <EstateIconButton label={dict.carousel.nextSlide} onClick={() => go(index + 1, 1)}>
+                  <ChevronRight aria-hidden strokeWidth={1.25} />
+                </EstateIconButton>
+              </div>
+              <span aria-hidden className="text-label tabular text-me-parchment whitespace-nowrap">
+                {digits(pad(index + 1))}{" "}
+                <span className="text-me-sage">/ {digits(pad(count))}</span>
               </span>
-            )}
-            {timed ? (
-              <EstateIconButton
-                label={playing ? dict.carousel.pauseSlideshow : dict.carousel.playSlideshow}
-                onClick={() => setPlaying(!playing)}
-              >
-                {playing ? (
-                  <Pause aria-hidden strokeWidth={1.25} />
-                ) : (
-                  <Play aria-hidden strokeWidth={1.25} className="translate-x-px" />
-                )}
-              </EstateIconButton>
-            ) : null}
-          </div>
+              {thumbs ? null : (
+                <span
+                  aria-hidden
+                  className="bg-me-hairline-gold relative block h-px w-24 overflow-hidden md:w-32"
+                >
+                  {timed ? (
+                    <Timer key={n} running={running} onDone={advance} className="inset-0" />
+                  ) : (
+                    <span
+                      className="bg-me-champagne ease-me absolute inset-0 origin-left transition-transform duration-700"
+                      style={{ transform: `scaleX(${(index + 1) / count})` }}
+                    />
+                  )}
+                </span>
+              )}
+              {timed ? (
+                <EstateIconButton
+                  label={playing ? dict.carousel.pauseSlideshow : dict.carousel.playSlideshow}
+                  onClick={() => setPlaying(!playing)}
+                >
+                  {playing ? (
+                    <Pause aria-hidden strokeWidth={1.25} />
+                  ) : (
+                    <Play aria-hidden strokeWidth={1.25} className="translate-x-px" />
+                  )}
+                </EstateIconButton>
+              ) : null}
+            </div>
+          ) : null}
 
           {/* Silent while it rotates, so a screen reader is not interrupted
               every few seconds (APG carousel pattern). */}

@@ -18,14 +18,14 @@ test.describe("sections", () => {
     await expect(page.locator("main > *")).toHaveCount(12);
   });
 
-  test("exactly one non-empty h1, and it survives a slide change", async ({ page }) => {
+  test("exactly one non-empty h1, in the accessibility tree", async ({ page }) => {
     await page.goto(en("/"));
     const h1 = page.locator("h1");
     await expect(h1).toHaveCount(1);
     await expect(h1).toHaveText("Index Eco Resort");
 
-    // The title lives on slide 2. Inactive slides must not be hidden from
-    // assistive tech, or the page would lose its heading while slide 1 shows.
+    // The hero's lockup holds the title; nothing may hide it from assistive
+    // tech, or the page would lose its heading.
     const hiddenFromA11y = await h1.evaluate((el) => {
       let node: Element | null = el;
       while (node) {
@@ -41,7 +41,7 @@ test.describe("sections", () => {
 
   test("empty CMS text is not rendered", async ({ page }) => {
     await page.goto(en("/"));
-    // Slide 1's subline and title are empty in the data; nothing should stand in.
+    // Empty CMS fields render nothing; no blank element should stand in.
     const empties = await page.evaluate(
       () =>
         [...document.querySelectorAll("section p, section h1, section h2, section h3")].filter(
@@ -61,115 +61,24 @@ test.describe("hero", () => {
     await expect(hero.getByText("01")).toHaveCount(0);
   });
 
-  test("the video is muted, inline and not looping", async ({ page }) => {
-    await page.goto(en("/"));
-    const attrs = await page.evaluate(() => {
-      const v = document.querySelector("video");
-      if (!v) return null;
-      return {
-        muted: v.muted,
-        playsInline: v.playsInline,
-        loop: v.loop,
-        // The attribute is what we ask for; `v.preload` reports what the
-        // browser decided, and mobile browsers force "none" to save data.
-        preloadAttr: v.getAttribute("preload"),
-      };
-    });
-    expect(attrs).toMatchObject({ muted: true, playsInline: true, loop: false });
-    // Nothing is fetched up front: the clip is 18MB with no smaller variant,
-    // and a full-viewport video that paints late becomes the LCP element.
-    expect(attrs?.preloadAttr).toBe("none");
-  });
-});
-
-test.describe("media budget", () => {
-  test("no video is fetched before the largest paint", async ({ page }) => {
-    const videoRequests: { url: string; atMs: number }[] = [];
-    const started = Date.now();
+  test("is a single still: no video, no carousel", async ({ page }) => {
+    const videoRequests: string[] = [];
     page.on("request", (r) => {
-      if (/\.mp4(\?|$)/.test(r.url()))
-        videoRequests.push({ url: r.url(), atMs: Date.now() - started });
-    });
-
-    await page.goto(en("/"));
-    // Read the largest paint the browser actually recorded.
-    const lcpMs = await page.evaluate(
-      () =>
-        new Promise<number>((resolve) => {
-          let last = 0;
-          new PerformanceObserver((list) => {
-            for (const entry of list.getEntries()) last = entry.startTime;
-          }).observe({ type: "largest-contentful-paint", buffered: true });
-          setTimeout(() => resolve(last), 1200);
-        }),
-    );
-    expect(lcpMs, "the page should record a largest paint").toBeGreaterThan(0);
-
-    // The clip must not compete with it: nothing requested before it painted.
-    const early = videoRequests.filter((r) => r.atMs < lcpMs);
-    expect(
-      early.map((r) => r.url),
-      "video requested before LCP",
-    ).toEqual([]);
-  });
-
-  test("Save-Data is honoured: the poster is the whole experience", async ({ browser }) => {
-    const context = await browser.newContext({ extraHTTPHeaders: { "Save-Data": "on" } });
-    const page = await context.newPage();
-    await page.addInitScript(() => {
-      Object.defineProperty(navigator, "connection", {
-        configurable: true,
-        get: () => ({ saveData: true, effectiveType: "4g" }),
-      });
-    });
-    let videoBytes = 0;
-    page.on("response", (r) => {
-      if (/\.mp4(\?|$)/.test(r.url())) videoBytes += Number(r.headers()["content-length"] ?? 1);
+      if (/\.mp4(\?|$)/.test(r.url())) videoRequests.push(r.url());
     });
     await page.goto(en("/"));
-    await page.waitForTimeout(4000);
-    expect(videoBytes, "no video on a metered connection").toBe(0);
-
-    // But the poster is there, so the hero is not an empty panel.
-    const posterVisible = await page
-      .locator("section img")
-      .first()
-      .isVisible()
-      .catch(() => false);
-    expect(posterVisible).toBe(true);
-    await context.close();
-  });
-
-  test("the phone encode is offered below 1024px, the original above", async ({ page }) => {
-    await page.goto(en("/"));
-    // Press play so the sources are attached regardless of connection.
-    await page
-      .getByTestId("hero")
-      .getByRole("button", { name: /slideshow/i })
-      .click();
-    await page.waitForTimeout(500);
-    const sources = await page.evaluate(() =>
-      [...document.querySelectorAll("video source")].map((s) => ({
-        src: s.getAttribute("src"),
-        media: s.getAttribute("media"),
-      })),
-    );
-    const phone = sources.find((s) => s.media);
-    expect(phone?.media).toBe("(max-width: 1023px)");
-    expect(phone?.src).toMatch(/-720p\.mp4$/);
-    expect(sources.some((s) => !s.media && /\.mp4$/.test(s.src ?? ""))).toBe(true);
+    const hero = page.getByTestId("hero");
+    await expect(hero.locator("video")).toHaveCount(0);
+    await expect(hero.locator("img").first()).toBeVisible();
+    // One slide is not announced as a carousel.
+    await expect(hero).not.toHaveAttribute("aria-roledescription", "carousel");
+    await page.waitForTimeout(1000);
+    expect(videoRequests, "the hero fetches no video").toEqual([]);
   });
 });
 
 test.describe("reduced motion", () => {
   test.use({ reducedMotion: "reduce" });
-
-  test("nothing autoplays", async ({ page }) => {
-    await page.goto(en("/"));
-    await page.waitForTimeout(1200);
-    const paused = await page.evaluate(() => document.querySelector("video")?.paused ?? null);
-    expect(paused).toBe(true);
-  });
 
   test("the page still shows all of its sections", async ({ page }) => {
     await page.goto(en("/"));

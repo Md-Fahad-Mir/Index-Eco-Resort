@@ -3,25 +3,13 @@
     "autoplayMs": 6000,
     "slides": [
       {
-        "kind": "video",
-        "videoUrl": "/media/public/storage/images/general-settings/background_video/index-eco-resort-hero.mp4",
-        "image": {
-          "src": "",
-          "alt": ""
-        },
-        "subline": "",
-        "title": "",
-        "cta": {
-          "label": "READ MORE →",
-          "href": "#"
-        }
-      },
-      {
         "kind": "image",
         "videoUrl": null,
         "image": {
-          "src": "/media/public/storage/images/admin/banner/ZrjEpUhDyiNrggICfxlt9y7rauH4HGcdtUDtV43x.png",
-          "alt": ""
+          "src": "/media/public/storage/images/admin/banner/index-eco-resort-gate.jpg",
+          "alt": "",
+          "width": 1536,
+          "height": 1024
         },
         "subline": "IndexVilla – Smart Property Buying, Selling & Rental Platform",
         "title": "Index Eco Resort",
