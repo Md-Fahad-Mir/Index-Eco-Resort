@@ -11,7 +11,7 @@ import { Restaurant } from "@/components/sections/home/Restaurant";
 import { Testimonials } from "@/components/sections/home/Testimonials";
 import { Villa } from "@/components/sections/home/Villa";
 import { WhyBuy } from "@/components/sections/home/WhyBuy";
-import { getHome } from "@/lib/data";
+import { getHome, getPackages } from "@/lib/data";
 import { dictionaryFor } from "@/lib/i18n/dictionaries";
 import { languageAlternates } from "@/lib/i18n/metadata";
 import { getLocale } from "@/lib/i18n/server";
@@ -47,7 +47,8 @@ export async function generateMetadata(): Promise<Metadata> {
  * GallerySection and CtaStrip keep their Canopy look for the other pages.
  */
 export default async function HomePage() {
-  const home = await getHome(await getLocale());
+  const locale = await getLocale();
+  const [home, packages] = await Promise.all([getHome(locale), getPackages(locale)]);
 
   return (
     <>
@@ -61,6 +62,7 @@ export default async function HomePage() {
         eyebrow={home.plans.eyebrow}
         title={home.plans.title}
         packages={home.plans.packages}
+        details={packages}
       />
       <WhyBuy whyBuy={home.whyBuy} />
       <Villa villa={home.villa} />

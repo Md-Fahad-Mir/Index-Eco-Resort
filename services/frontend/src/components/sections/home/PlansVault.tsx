@@ -4,14 +4,18 @@ import { RevealItem } from "@/components/motion/midnight/RevealItem";
 import { Spotlight } from "@/components/motion/midnight/Spotlight";
 import { Container } from "@/components/ui/Container";
 import { Eyebrow } from "@/components/ui/Eyebrow";
-import type { PackageSummary } from "@/lib/data";
+import type { OwnershipPackage, PackageSummary } from "@/lib/data";
 import { autoLang } from "@/lib/lang";
-import { VaultCards } from "./VaultCards";
+import { PlanCompare } from "./PlanCompare";
+import { comparePlans } from "./planComparison";
 
 /**
  * Home's Plans section — "the vault" (prompts/06b-home-redesign.md §5.7), the
- * page's signature moment. The four membership cards are the brightest things
- * on the page, under a lamp that brightens as the section arrives.
+ * page's signature moment. The four membership cards head a comparison of
+ * what each plan holds, under a lamp that brightens as the section arrives.
+ *
+ * `packages` are the plans Home lists; `details` the full packages their
+ * shares, discounts and benefits come from.
  *
  * A Home-only wrapper: About and the package pages keep `PlansStage`.
  */
@@ -19,10 +23,12 @@ export function PlansVault({
   eyebrow,
   title,
   packages,
+  details,
 }: {
   eyebrow: string;
   title: string;
   packages: PackageSummary[];
+  details: OwnershipPackage[];
 }) {
   return (
     <section
@@ -30,7 +36,7 @@ export function PlansVault({
       className="on-dark bg-me-night-deep text-me-parchment section-y relative isolate overflow-hidden"
     >
       <Spotlight className="inset-x-0 top-0 -z-10 h-[90%]" />
-      <Container className="flex flex-col items-center gap-16 lg:gap-24">
+      <Container className="flex flex-col items-center gap-14 lg:gap-20">
         <div className="flex flex-col items-center gap-5 text-center">
           <RevealGroup>
             <RevealItem>
@@ -47,7 +53,7 @@ export function PlansVault({
             className="text-h2 text-me-ivory"
           />
         </div>
-        <VaultCards packages={packages} />
+        <PlanCompare comparison={comparePlans(packages, details)} />
       </Container>
     </section>
   );

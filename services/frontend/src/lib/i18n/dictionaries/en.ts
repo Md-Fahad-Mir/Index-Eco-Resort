@@ -62,6 +62,15 @@ export const en = {
     playBackgroundVideo: "Play background video",
     lightbox: { previous: "Previous", next: "Next", close: "Close" },
   },
+  plans: {
+    caption: "Ownership plans compared",
+    benefits: "Benefits",
+    shares: "Shares",
+    cashDiscount: "Cash discount",
+    included: "Included",
+    notIncluded: "Not included",
+    choosePlan: "Choose a plan",
+  },
   forms: {
     invalidEmail: "Enter a valid email address.",
     required: "{label} is required.",

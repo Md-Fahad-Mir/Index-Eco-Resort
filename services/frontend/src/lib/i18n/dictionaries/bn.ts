@@ -56,6 +56,15 @@ export const bn: Dictionary = {
     playBackgroundVideo: "ব্যাকগ্রাউন্ড ভিডিও চালু করুন",
     lightbox: { previous: "আগের ছবি", next: "পরের ছবি", close: "বন্ধ করুন" },
   },
+  plans: {
+    caption: "মালিকানা প্ল্যানের তুলনা",
+    benefits: "সুবিধাসমূহ",
+    shares: "শেয়ার",
+    cashDiscount: "ক্যাশ ছাড়",
+    included: "অন্তর্ভুক্ত",
+    notIncluded: "অন্তর্ভুক্ত নয়",
+    choosePlan: "একটি প্ল্যান বেছে নিন",
+  },
   forms: {
     invalidEmail: "সঠিক ইমেইল ঠিকানা লিখুন।",
     required: "{label} আবশ্যক।",
