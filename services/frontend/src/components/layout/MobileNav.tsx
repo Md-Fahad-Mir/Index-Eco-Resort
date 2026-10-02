@@ -12,6 +12,13 @@ import { anchorProps, internalHref, isActiveRoute, isInternal } from "@/lib/link
 import { cn } from "@/lib/utils";
 
 /**
+ * A row's padding follows the screen's height: roomy on a tall phone, tighter
+ * on a short one, so the list shows more rows and a cut-off row hints at the
+ * scroll.
+ */
+const ROW = "py-[clamp(0.75rem,2.2svh,1.25rem)]";
+
+/**
  * The mobile menu: a full-height sheet from the right. Radix Dialog gives it a
  * focus trap, Escape and focus return to the trigger — none of which the live
  * site's `classList.toggle` menu has.
@@ -37,15 +44,19 @@ export function MobileNav({ settings, pathname }: { settings: SiteSettings; path
 
       <Dialog.Portal>
         <Dialog.Overlay className="bg-chrome-overlay/70 data-[state=open]:animate-in data-[state=open]:fade-in fixed inset-0 z-60 backdrop-blur-[2px]" />
+        {/* The links scroll between a pinned header and pinned CTAs. A
+            sideways phone has no height to pin both, so there the whole sheet
+            scrolls and only the header (with its close button) stays. */}
         <Dialog.Content
           className={cn(
             "bg-chrome-sheet on-dark fixed inset-y-0 right-0 z-60 flex w-[min(22rem,88vw)] flex-col",
+            "phone-landscape:overflow-y-auto phone-landscape:overscroll-contain",
             "data-[state=open]:animate-in data-[state=open]:slide-in-from-right data-[state=open]:duration-450",
           )}
         >
           <Dialog.Title className="sr-only">{dict.chrome.menu}</Dialog.Title>
 
-          <div className="border-chrome-hairline flex items-center justify-between border-b px-6 py-5">
+          <div className="border-chrome-hairline phone-landscape:sticky phone-landscape:top-0 phone-landscape:z-10 phone-landscape:bg-chrome-sheet phone-landscape:py-3 flex items-center justify-between border-b px-6 py-5">
             <span className="text-chrome-text/70 text-label font-semibold">{dict.chrome.menu}</span>
             <Dialog.Close
               aria-label={dict.chrome.closeMenu}
@@ -58,7 +69,9 @@ export function MobileNav({ settings, pathname }: { settings: SiteSettings; path
           <nav
             data-region="mobile-nav"
             aria-label={dict.chrome.mobileNav}
-            className="flex-1 overflow-y-auto overscroll-contain px-6 pb-6"
+            // The last 2rem fades, so a row cut off by the CTAs reads as "more
+            // below"; at the end of the list only the bottom padding is faded.
+            className="phone-landscape:flex-none phone-landscape:overflow-visible flex-1 overflow-y-auto overscroll-contain [mask-image:linear-gradient(to_bottom,black_calc(100%-2rem),transparent)] px-6 pb-8"
           >
             <ul className="divide-chrome-hairline divide-y">
               {settings.mobileNav.map((item) => {
@@ -77,7 +90,8 @@ export function MobileNav({ settings, pathname }: { settings: SiteSettings; path
                             className={cn(
                               // text-start: a button centres its text, and a
                               // long label wraps on a phone.
-                              "group font-display flex w-full items-center justify-between gap-3 py-5 text-start text-(length:--chrome-sheet-link-size) leading-tight",
+                              "group font-display flex w-full items-center justify-between gap-3 text-start text-(length:--chrome-sheet-link-size) leading-tight",
+                              ROW,
                               active ? "text-chrome-accent" : "text-chrome-text",
                             )}
                           >
@@ -117,7 +131,8 @@ export function MobileNav({ settings, pathname }: { settings: SiteSettings; path
                       pathname={pathname}
                       onNavigate={close}
                       className={cn(
-                        "font-display block py-5 text-(length:--chrome-sheet-link-size) leading-tight",
+                        "font-display block text-(length:--chrome-sheet-link-size) leading-tight",
+                        ROW,
                         active ? "text-chrome-accent" : "text-chrome-text",
                       )}
                     >

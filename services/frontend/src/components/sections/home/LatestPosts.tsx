@@ -50,15 +50,18 @@ export function LatestPosts({ latestPosts }: { latestPosts: HomeData["latestPost
           className={cn(
             // One gap both ways, so the stack's seam matches the gutter.
             "grid gap-5 md:gap-6 xl:gap-8",
+            // 640–767: the lead goes wide and the other two pair up beneath it.
+            rest.length > 1 && "sm:grid-cols-2",
             rest.length > 0 && "md:grid-cols-12 md:grid-rows-2",
           )}
         >
           <RevealItem
             as="li"
             className={cn(
-              "relative aspect-4/5",
+              "relative aspect-4/5 sm:aspect-4/3",
+              rest.length > 1 && "sm:col-span-2",
               rest.length > 0
-                ? "md:col-span-7 md:row-span-2 lg:aspect-5/6 xl:aspect-9/10"
+                ? "md:col-span-7 md:row-span-2 md:aspect-4/5 lg:aspect-5/6 xl:aspect-9/10"
                 : "md:aspect-16/9",
             )}
           >
@@ -88,7 +91,7 @@ export function LatestPosts({ latestPosts }: { latestPosts: HomeData["latestPost
 const SIZES: Record<Size, string> = {
   single: "(min-width: 1320px) 1224px, 92vw",
   lead: "(min-width: 1320px) 720px, (min-width: 768px) 56vw, 92vw",
-  side: "(min-width: 1320px) 500px, (min-width: 768px) 40vw, 92vw",
+  side: "(min-width: 1320px) 500px, (min-width: 768px) 40vw, (min-width: 640px) 46vw, 92vw",
 };
 
 /** One post: a full-bleed photograph with its title, excerpt and Read More over it. */
@@ -112,10 +115,15 @@ function JournalCard({ post, size }: { post: PostSummary; size: Size }) {
         />
       </LightsOn>
 
-      {/* Deep at the foot, clear by two-thirds up: ivory text reads on any photograph. */}
+      {/* Deep at the foot, clear by two-thirds up: ivory text reads on any
+          photograph. A side card is short, its title climbs past the middle,
+          and the scrim climbs with it. */}
       <span
         aria-hidden
-        className="from-me-night-deep/90 via-me-night-deep/40 pointer-events-none absolute inset-0 bg-linear-to-t via-35% to-transparent to-70%"
+        className={cn(
+          "from-me-night-deep/90 pointer-events-none absolute inset-0 bg-linear-to-t to-transparent",
+          side ? "via-me-night-deep/50 via-50% to-90%" : "via-me-night-deep/40 via-35% to-70%",
+        )}
       />
 
       {/* A flex item with a z-index stacks over the image without becoming the

@@ -115,7 +115,8 @@ export function TabsTrigger({ value, children }: { value: string; children: stri
         "group relative cursor-pointer whitespace-nowrap transition-colors duration-[var(--dur-micro)]",
         variant === "underline"
           ? "text-h4 font-display text-ink-muted data-[state=active]:text-ink pb-4"
-          : "rounded-pill text-label label-track text-ink-muted data-[state=active]:text-paper flex-auto px-2.5 py-3 font-semibold text-balance whitespace-normal sm:flex-none sm:px-5 sm:py-2.5 sm:whitespace-nowrap",
+          : // A finger gets the full 44px however short the label.
+            "rounded-pill text-label label-track text-ink-muted data-[state=active]:text-paper flex-auto px-2.5 py-3 font-semibold text-balance whitespace-normal sm:flex-none sm:px-5 sm:py-2.5 sm:whitespace-nowrap pointer-coarse:min-h-11",
       )}
     >
       {/* The moving indicator: one element shared across triggers via layoutId. */}

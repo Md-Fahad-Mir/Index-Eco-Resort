@@ -34,7 +34,7 @@ export function WhyBuy({ whyBuy }: { whyBuy: HomeData["whyBuy"] }) {
       <Container>
         <StickyStory
           media={
-            <div className="relative aspect-4/5 overflow-hidden md:aspect-16/11 lg:aspect-auto lg:h-full">
+            <div className="relative aspect-4/5 overflow-hidden sm:aspect-16/11 lg:aspect-auto lg:h-full">
               <LightsOn className="absolute inset-0">
                 <ScrollScale target={sectionRef} className="size-full">
                   <SmartImage
@@ -60,6 +60,9 @@ export function WhyBuy({ whyBuy }: { whyBuy: HomeData["whyBuy"] }) {
           items={whyBuy.features.map((feature) => (
             <Reason key={feature.title} feature={feature} />
           ))}
+          // On a tablet the reasons pair up; one column of short lines would
+          // leave half the page empty. From 1024px they stack beside the image.
+          columnClassName="md:[&>ol]:grid md:[&>ol]:grid-cols-2 md:[&>ol]:gap-x-10 lg:[&>ol]:flex"
         />
       </Container>
     </section>

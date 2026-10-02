@@ -58,8 +58,13 @@ export function LiteYouTube({
             className="object-cover"
           />
           <span className="bg-canopy-deep/25 group-hover:bg-canopy-deep/10 absolute inset-0 transition-colors duration-[var(--dur-micro)]" />
-          <span className="rounded-pill border-brass bg-canopy/70 text-mist absolute top-1/2 left-1/2 grid size-20 -translate-x-1/2 -translate-y-1/2 place-items-center border-2 backdrop-blur-sm transition-transform duration-[var(--dur-ui)] ease-[var(--ease-out-soft)] group-hover:scale-105">
-            <Play aria-hidden className="size-7 translate-x-0.5 fill-current" strokeWidth={1} />
+          {/* Sized down on a phone, where an 80px disc covers half the poster. */}
+          <span className="rounded-pill border-brass bg-canopy/70 text-mist absolute top-1/2 left-1/2 grid size-16 -translate-x-1/2 -translate-y-1/2 place-items-center border-2 backdrop-blur-sm transition-transform duration-[var(--dur-ui)] ease-[var(--ease-out-soft)] group-hover:scale-105 sm:size-20">
+            <Play
+              aria-hidden
+              className="size-6 translate-x-0.5 fill-current sm:size-7"
+              strokeWidth={1}
+            />
           </span>
         </button>
       )}

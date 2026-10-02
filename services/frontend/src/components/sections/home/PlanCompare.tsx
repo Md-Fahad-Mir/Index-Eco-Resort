@@ -32,8 +32,12 @@ import { anchorProps, isInternal } from "@/lib/links";
 import { cn } from "@/lib/utils";
 import type { PlanColumn, PlanComparison } from "./planComparison";
 
-/** The benefit column's width against one plan column's. */
-const LABEL_FR = 1.55;
+/**
+ * The benefit column's width against one plan column's, as `--label-fr`.
+ * Wider below 1280px: there the benefits would wrap word by word while the
+ * plan columns hold little more than a mark.
+ */
+const LABEL_FR = "[--label-fr:1.9fr] xl:[--label-fr:1.55fr]";
 /** Seconds between neighbouring columns as a row arrives: a wave, left to right. */
 const COLUMN_STAGGER = 0.08;
 /** Seconds between the cards being dealt onto the table. */
@@ -283,7 +287,7 @@ function PlanCta({ plan, className }: { plan: PlanColumn; className?: string }) 
     <Button
       asChild
       variant="home-secondary"
-      className={cn("h-auto min-h-[52px] px-4 py-3 text-center", className)}
+      className={cn("h-auto min-h-[52px] px-4 py-3 text-center text-balance", className)}
     >
       {isInternal(href) ? (
         <Link href={href} lang={autoLang(label)}>
@@ -322,7 +326,7 @@ function CompareTable({ comparison }: { comparison: PlanComparison }) {
   const [hot, setHot] = useState<number | null>(null);
 
   const columns: CSSProperties = {
-    gridTemplateColumns: `minmax(0,${LABEL_FR}fr) repeat(${plans.length},minmax(0,1fr))`,
+    gridTemplateColumns: `minmax(0,var(--label-fr)) repeat(${plans.length},minmax(0,1fr))`,
   };
 
   return (
@@ -332,7 +336,10 @@ function CompareTable({ comparison }: { comparison: PlanComparison }) {
           ref={panelRef}
           data-me-reveal
           data-testid="plan-compare"
-          className="border-me-hairline-gold shadow-me-deep relative hidden w-full overflow-hidden rounded-[28px] border bg-[linear-gradient(to_bottom,rgb(30_46_39/0.45),rgb(14_26_21/0.7)_30%,rgb(14_26_21/0.55))] md:block"
+          className={cn(
+            "border-me-hairline-gold shadow-me-deep relative hidden w-full overflow-hidden rounded-[28px] border bg-[linear-gradient(to_bottom,rgb(30_46_39/0.45),rgb(14_26_21/0.7)_30%,rgb(14_26_21/0.55))] md:block",
+            LABEL_FR,
+          )}
           initial="hidden"
           animate={shown ? "shown" : "hidden"}
           variants={rise}
@@ -341,7 +348,7 @@ function CompareTable({ comparison }: { comparison: PlanComparison }) {
             if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setHot(null);
           }}
         >
-          <ColumnBand hot={hot} count={plans.length} />
+          <ColumnBand hot={hot} columns={columns} />
           <div role="table" aria-label={dict.plans.caption} className="relative">
             <div role="rowgroup">
               <HeadRow plans={plans} columns={columns} />
@@ -384,9 +391,10 @@ function CompareTable({ comparison }: { comparison: PlanComparison }) {
 /**
  * The light over the hot column. It glides between columns on a spring and
  * appears in place when the pointer arrives from outside. Transform and
- * opacity only.
+ * opacity only. It is laid on the rows' own grid, so it starts over the first
+ * plan column whatever the benefit column's width, and one step is one column.
  */
-function ColumnBand({ hot, count }: { hot: number | null; count: number }) {
+function ColumnBand({ hot, columns }: { hot: number | null; columns: CSSProperties }) {
   const on = useMotionOn();
   const col = useSpring(0, { stiffness: 320, damping: 34 });
   const last = useRef<number | null>(null);
@@ -400,19 +408,19 @@ function ColumnBand({ hot, count }: { hot: number | null; count: number }) {
   }, [hot, on, col]);
 
   const x = useTransform(col, (c) => `${c * 100}%`);
-  const total = LABEL_FR + count;
 
   return (
-    <m.div
-      aria-hidden
-      className="pointer-events-none absolute inset-y-0"
-      style={{ left: `${(LABEL_FR / total) * 100}%`, width: `${100 / total}%`, x }}
-      initial={false}
-      animate={{ opacity: hot === null ? 0 : 1 }}
-      transition={{ duration: on ? 0.45 : 0, ease: EASE }}
-    >
-      <span className="absolute inset-x-1.5 inset-y-3 rounded-[20px] bg-[linear-gradient(to_bottom,rgb(201_169_110/0.14),rgb(201_169_110/0.04)_45%,rgb(201_169_110/0.1))] shadow-[inset_0_0_0_1px_rgb(201_169_110/0.3)]" />
-    </m.div>
+    <div aria-hidden className="pointer-events-none absolute inset-0 grid" style={columns}>
+      <m.div
+        className="relative col-start-2"
+        style={{ x }}
+        initial={false}
+        animate={{ opacity: hot === null ? 0 : 1 }}
+        transition={{ duration: on ? 0.45 : 0, ease: EASE }}
+      >
+        <span className="absolute inset-x-1.5 inset-y-3 rounded-[20px] bg-[linear-gradient(to_bottom,rgb(201_169_110/0.14),rgb(201_169_110/0.04)_45%,rgb(201_169_110/0.1))] shadow-[inset_0_0_0_1px_rgb(201_169_110/0.3)]" />
+      </m.div>
+    </div>
   );
 }
 
@@ -431,7 +439,7 @@ function LabelCell({
     <div
       role={role}
       onPointerEnter={() => setHot(null)}
-      className={cn("flex items-center pr-4 pl-6 text-start lg:pl-11", className)}
+      className={cn("flex items-center pr-4 pl-6 text-start lg:pl-8 xl:pl-11", className)}
     >
       {children}
     </div>
@@ -508,7 +516,8 @@ function HeadRow({ plans, columns }: { plans: PlanColumn[]; columns: CSSProperti
             key={plan.slug}
             col={col}
             role="columnheader"
-            className="flex-col gap-4 pt-10 pb-8 lg:gap-5 lg:pt-12 lg:pb-10"
+            // Top-aligned: a name that wraps must not lift its card off the row.
+            className="flex-col justify-start gap-4 pt-10 pb-8 lg:gap-5 lg:pt-12 lg:pb-10"
           >
             <m.div
               data-me-reveal
@@ -617,7 +626,7 @@ function BenefitRow({
           variants={rise}
           custom={delay}
           lang={autoLang(benefit)}
-          className="text-me-ivory/90 text-small lg:text-body max-w-[22rem]"
+          className="text-me-ivory/90 text-small xl:text-body max-w-[22rem] text-pretty"
         >
           {benefit}
         </m.span>
@@ -651,7 +660,7 @@ function CtaRow({ plans, columns }: { plans: PlanColumn[]; columns: CSSPropertie
       <RowRule delay={delay} />
       <LabelCell role="cell" />
       {plans.map((plan, col) => (
-        <PlanCell key={plan.slug} col={col} className="py-8 lg:py-10">
+        <PlanCell key={plan.slug} col={col} className="px-1.5 py-8 lg:px-4 lg:py-10">
           {plan.cta ? (
             <m.div
               data-me-reveal
@@ -659,7 +668,9 @@ function CtaRow({ plans, columns }: { plans: PlanColumn[]; columns: CSSPropertie
               custom={delay + col * COLUMN_STAGGER}
               className="w-full max-w-[240px]"
             >
-              <PlanCta plan={plan} className="w-full" />
+              {/* Narrow columns below 1024px: tighter insets, here and in the
+                  cell, keep the Bangla label to two lines at 768px. */}
+              <PlanCta plan={plan} className="w-full px-2 lg:px-4" />
             </m.div>
           ) : null}
         </PlanCell>
@@ -675,7 +686,7 @@ function PlanExplorer({ comparison }: { comparison: PlanComparison }) {
   const { digits } = useFormatter();
   const { on, rise } = useVariants();
   const { plans, benefits } = comparison;
-  const [emblaRef, embla] = useEmblaCarousel({ align: "center" });
+  const [emblaRef, embla] = useEmblaCarousel({ align: "center", containScroll: false });
   const [active, setActive] = useState(0);
   const triggerRef = useRef<HTMLDivElement>(null);
   const inView = useInView(triggerRef, VIEWPORT);
@@ -703,14 +714,16 @@ function PlanExplorer({ comparison }: { comparison: PlanComparison }) {
   return (
     <m.div data-testid="plan-explorer" className="w-full md:hidden" {...state}>
       <m.div ref={triggerRef} data-me-reveal variants={rise} custom={0}>
-        <div ref={emblaRef} className="overflow-hidden">
+        {/* Edge to edge, the lit card centred over its name, the neighbours
+            running off the screen on either side. */}
+        <div ref={emblaRef} className="-mx-(--container-pad) overflow-hidden">
           <ul className="flex">
             {plans.map((item, index) => {
               const current = index === active;
               return (
                 <li
                   key={item.slug}
-                  className="min-w-0 shrink-0 grow-0 basis-[78%] px-2"
+                  className="min-w-0 shrink-0 grow-0 basis-[78%] px-2 sm:basis-[22rem]"
                   // A tap on a neighbour brings it forward instead of leaving.
                   onClickCapture={(event) => {
                     if (current || !embla) return;
@@ -769,7 +782,8 @@ function PlanExplorer({ comparison }: { comparison: PlanComparison }) {
         data-me-reveal
         variants={rise}
         custom={0.2}
-        className="border-me-hairline-gold shadow-me-deep mt-8 overflow-hidden rounded-[22px] border bg-[linear-gradient(to_bottom,rgb(30_46_39/0.45),rgb(14_26_21/0.7))]"
+        // Phone-width from 640px too: stretched, each benefit sits far from its mark.
+        className="border-me-hairline-gold shadow-me-deep mt-8 overflow-hidden rounded-[22px] border bg-[linear-gradient(to_bottom,rgb(30_46_39/0.45),rgb(14_26_21/0.7))] sm:mx-auto sm:max-w-md"
       >
         <dl className="divide-me-hairline-gold grid grid-cols-2 divide-x">
           {(

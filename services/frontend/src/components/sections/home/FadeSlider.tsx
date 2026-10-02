@@ -290,7 +290,10 @@ export function FadeSlider({
           ) : null}
 
           {navigation ? (
-            <div className="flex items-center gap-5">
+            // min-w-0: on a 320–360px phone the arrows, fraction, line and
+            // pause control are wider than the column; the line gives way
+            // rather than pushing the pause control off the screen.
+            <div className="flex min-w-0 items-center gap-4 sm:gap-5">
               <div className="flex gap-2">
                 <EstateIconButton
                   label={dict.carousel.previousSlide}

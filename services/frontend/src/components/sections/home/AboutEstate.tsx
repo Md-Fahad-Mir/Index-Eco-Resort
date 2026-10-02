@@ -59,12 +59,13 @@ export function AboutEstate({ about }: { about: HomeData["about"] }) {
           stickyClassName="lg:flex lg:flex-col lg:justify-center-safe"
           columnClassName="gap-9 lg:pl-4"
           media={
-            // Phones: the tall photograph, then two side by side. From 768px
+            // Phones: the tall photograph, then two side by side, starting
+            // below the mat's 20px drop rather than on it. From 768px
             // the desktop arrangement: tall beside a stacked, lowered pair.
             // From 1024px the collage is pinned in an 80vh box, and it stands
             // about 0.875 × its width plus the mat's 40px: on a short laptop
             // screen its width is capped so the whole collage stays in view.
-            <div className="grid grid-cols-2 gap-3 md:grid-cols-12 md:gap-4 lg:max-w-[calc((80vh-2rem)/0.875)]">
+            <div className="grid grid-cols-2 gap-x-3 gap-y-8 md:grid-cols-12 md:gap-4 lg:max-w-[calc((80vh-2rem)/0.875)]">
               {/* z-10: the play disc crosses the gap, over the drifting column
                   beside it (whose transform makes its own stacking context).
                   self-start: the frame and mat hug the photograph, not the row. */}
@@ -115,7 +116,16 @@ export function AboutEstate({ about }: { about: HomeData["about"] }) {
               </ScrollDrift>
             </div>
           }
-          header={<EstateHeading tone="ivory" eyebrow={about.eyebrow} title={about.title} />}
+          header={
+            <EstateHeading
+              tone="ivory"
+              eyebrow={about.eyebrow}
+              title={about.title}
+              // From 1024px the heading shares five columns with the collage,
+              // and at the full h2 its opening words stand one to a line.
+              titleClassName="lg:text-[clamp(2.5rem,0.5rem+3.4vw,3.625rem)]"
+            />
+          }
           // The text: body → features → actions. Below 1024px, 40px between
           // them as before; from 1024px each is centred in its 40vh.
           items={[

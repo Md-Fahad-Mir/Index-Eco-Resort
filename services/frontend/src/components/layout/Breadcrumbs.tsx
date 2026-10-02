@@ -24,8 +24,9 @@ export async function Breadcrumbs({
   const dict = await getDictionary();
   return (
     <nav aria-label={dict.chrome.breadcrumb} className={cn("text-small text-mist/80", className)}>
+      {/* The current crumb keeps to one line; the title below it says it in full. */}
       <ol className="flex items-center gap-3">
-        <li>
+        <li className="shrink-0">
           {isInternal(href) ? (
             <Link href={href} className={TOUCH}>
               {home.label}
@@ -36,9 +37,9 @@ export async function Breadcrumbs({
             </a>
           )}
         </li>
-        <li aria-hidden className="bg-mist/40 h-3.5 w-px rotate-[20deg]" />
-        <li>
-          <span lang={autoLang(current)} aria-current="page" className="text-mist">
+        <li aria-hidden className="bg-mist/40 h-3.5 w-px shrink-0 rotate-[20deg]" />
+        <li className="min-w-0">
+          <span lang={autoLang(current)} aria-current="page" className="text-mist block truncate">
             {current}
           </span>
         </li>

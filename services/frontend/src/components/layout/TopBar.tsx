@@ -16,7 +16,8 @@ export function TopBar({ settings }: { settings: SiteSettings }) {
   return (
     <div
       data-region="topbar"
-      className="border-chrome-hairline/60 bg-chrome-topbar hidden border-b py-2.5 lg:block"
+      // A fixed 56px, so SiteHeader can lift exactly this much out of view.
+      className="border-chrome-hairline/60 bg-chrome-topbar hidden h-14 items-center border-b lg:flex"
     >
       <Container className="flex items-center justify-between gap-6">
         <div className="text-chrome-topbar-text/85 flex items-center gap-7">

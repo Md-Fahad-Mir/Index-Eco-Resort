@@ -71,8 +71,10 @@ function VisionPanel({ tab }: { tab: VisionTab }) {
       sizes="(min-width: 1024px) 40vw, 100vw"
       ratio="portrait"
       // A 4:5 frame balances a tall text column beside it. Stacked under the
-      // text it is simply a very tall photograph, so it turns landscape there.
-      frameClassName="rounded-media aspect-4/3 lg:aspect-4/5"
+      // text it is simply a very tall photograph, so it turns landscape there,
+      // and wider still on a tablet or landscape phone, where 4:3 at full
+      // width runs past the screen.
+      frameClassName="rounded-media aspect-4/3 sm:aspect-video lg:aspect-4/5"
     />
   );
 

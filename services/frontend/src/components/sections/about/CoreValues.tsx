@@ -44,7 +44,7 @@ export function CoreValues({ coreValues }: { coreValues: CoreValuesData }) {
           }
         />
 
-        <ul data-testid="core-values" className="grid gap-4 lg:grid-cols-3">
+        <ul data-testid="core-values" className="grid gap-4 md:grid-cols-3">
           {coreValues.items.map((item) => {
             const tone = TONE[item.tone] ?? CANOPY_TILE;
             return (
@@ -52,7 +52,7 @@ export function CoreValues({ coreValues }: { coreValues: CoreValuesData }) {
                 key={item.title}
                 lang={autoLang(item.title)}
                 className={cn(
-                  "rounded-media group relative isolate flex min-h-[11rem] flex-col items-center justify-center gap-3 overflow-hidden p-10 text-center lg:min-h-[15rem] lg:p-12",
+                  "rounded-media group relative isolate flex min-h-[11rem] flex-col items-center justify-center gap-3 overflow-hidden px-6 py-10 text-center sm:px-10 md:min-h-[15rem] md:px-5 lg:p-12",
                   tone.tile,
                 )}
               >

@@ -53,7 +53,9 @@ export function ProjectGlance({ glance }: { glance: HomeData["glance"] }) {
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-10 bg-(image:--me-lamp)"
       />
-      <Container className="grid gap-16 lg:grid-cols-12 lg:gap-x-8 lg:gap-y-0">
+      {/* grid-cols-1, not the implicit auto column: that one grows to the
+          slider controls' natural width, past a narrow phone's edge. */}
+      <Container className="grid grid-cols-1 gap-16 lg:grid-cols-12 lg:gap-x-8 lg:gap-y-0">
         <div className="flex flex-col gap-12 md:gap-14 lg:col-span-7">
           <EstateHeading tone="night" eyebrow={glance.eyebrow} title={glance.title} />
 

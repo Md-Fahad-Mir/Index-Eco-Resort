@@ -48,11 +48,11 @@ export function AboutBlock({ about }: { about: HomeData["about"] }) {
                   type="button"
                   onClick={() => setVideoOpen(true)}
                   aria-label={dict.media.watchVideo}
-                  className="bg-brass text-canopy rounded-pill shadow-lift absolute -right-7 bottom-10 grid size-22 place-items-center transition-transform duration-[var(--dur-ui)] ease-[var(--ease-out-soft)] hover:scale-105"
+                  className="bg-brass text-canopy rounded-pill shadow-lift absolute -right-6 bottom-6 grid size-16 place-items-center transition-transform duration-[var(--dur-ui)] ease-[var(--ease-out-soft)] hover:scale-105 sm:-right-7 sm:bottom-10 sm:size-22"
                 >
                   <Play
                     aria-hidden
-                    className="size-7 translate-x-0.5 fill-current"
+                    className="size-6 translate-x-0.5 fill-current sm:size-7"
                     strokeWidth={1}
                   />
                 </button>
@@ -77,7 +77,9 @@ export function AboutBlock({ about }: { about: HomeData["about"] }) {
           <Heading level={2}>{about.title}</Heading>
           <Paragraph className="text-ink-muted">{about.text}</Paragraph>
 
-          <ul className="flex flex-col gap-6 pt-2">
+          {/* Full width on a tablet, the two features sit side by side rather
+              than as a stretched phone list; beside the collage they stack. */}
+          <ul className="flex flex-col gap-6 pt-2 md:grid md:grid-cols-2 md:gap-x-8 lg:flex">
             {about.features.map((feature) => (
               <li key={feature.title} className="flex gap-4">
                 <span

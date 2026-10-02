@@ -10,8 +10,9 @@ import { autoLang } from "@/lib/lang";
  * Ownership benefits beside the package's video (§8).
  *
  * The benefits are short lines, so they run in two columns from 768px up, each
- * on its own hairline rule — a list of facts rather than a stack of cards. The
- * video is a facade: nothing from YouTube loads until it is clicked.
+ * on its own hairline rule — a list of facts rather than a stack of cards.
+ * Beside the video on a laptop the halves are too narrow, so it is one column
+ * until xl. The video is a facade: nothing from YouTube loads until clicked.
  */
 export function PackageBenefits({ pkg }: { pkg: OwnershipPackage }) {
   return (
@@ -20,7 +21,7 @@ export function PackageBenefits({ pkg }: { pkg: OwnershipPackage }) {
         <div className="flex flex-col gap-8 lg:col-span-7">
           <Heading level={2}>{pkg.benefitsTitle}</Heading>
 
-          <ul className="grid gap-x-10 md:grid-cols-2">
+          <ul className="grid gap-x-10 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
             {pkg.benefits.map((benefit) => (
               <li
                 key={benefit}

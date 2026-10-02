@@ -14,15 +14,17 @@ import { anchorProps, internalHref, isInternal } from "@/lib/links";
  * plinth to the right — the one place on the site where boldness is spent.
  *
  * On a phone the card comes first: it is what the visitor came to see, and the
- * heading repeats the one already in the page hero.
+ * heading repeats the one already in the page hero. From sm the two sit side
+ * by side: stacked on a tablet or a landscape phone, the card alone filled
+ * the screen.
  */
 export function PackageIntro({ pkg }: { pkg: OwnershipPackage }) {
   const href = internalHref(pkg.cta.href) ?? "#";
 
   return (
     <Section tone="paper">
-      <Container className="grid items-center gap-[clamp(2.5rem,5vw,4.5rem)] lg:grid-cols-12">
-        <div className="order-2 flex flex-col items-start gap-6 lg:order-1 lg:col-span-6">
+      <Container className="grid items-center gap-[clamp(2.5rem,5vw,4.5rem)] sm:grid-cols-12">
+        <div className="order-2 flex flex-col items-start gap-6 sm:order-1 sm:col-span-6">
           {/* PARITY: every package's heading reads "Silver Ownership" on the
               live site, emoji included (audit §9.1, OWNER-REPORT §B2). */}
           <Heading level={2}>{pkg.heading}</Heading>
@@ -40,14 +42,14 @@ export function PackageIntro({ pkg }: { pkg: OwnershipPackage }) {
           </Button>
         </div>
 
-        <Reveal className="order-1 lg:order-2 lg:col-span-6 lg:col-start-7">
+        <Reveal className="order-1 sm:order-2 sm:col-span-6 sm:col-start-7">
           <div className="bg-mist border-hairline rounded-media border p-[clamp(1.25rem,4vw,2.5rem)]">
             <div className="mx-auto max-w-[560px]">
               <MembershipCard
                 card={pkg.card}
                 name={pkg.name}
                 priority
-                sizes="(min-width: 1024px) 520px, (min-width: 640px) 60vw, 84vw"
+                sizes="(min-width: 1024px) 520px, (min-width: 640px) 42vw, 84vw"
               />
             </div>
           </div>

@@ -7,7 +7,7 @@ import { useDictionary, useFormatter } from "@/components/i18n/LocaleProvider";
 import { SmartImage } from "@/components/media/SmartImage";
 import { RevealGroup } from "@/components/motion/midnight/RevealGroup";
 import { RevealItem } from "@/components/motion/midnight/RevealItem";
-import { LARGE_UP, MEDIUM_UP } from "@/components/motion/midnight/tokens";
+import { LARGE_UP } from "@/components/motion/midnight/tokens";
 import { useMedia, useMotionOn } from "@/components/motion/midnight/useMotionOn";
 import { Container } from "@/components/ui/Container";
 import type { HomeData, Testimonial } from "@/lib/data";
@@ -25,6 +25,9 @@ const DRIFT = [
   { name: "me-drift-down", pace: 1.18 },
   { name: "me-drift-up", pace: 0.9 },
 ] as const;
+
+/** Two columns from here: one card across a tablet runs to 80-character lines. */
+const SMALL_UP = "(min-width: 640px)";
 
 type Slot = { testimonial: Testimonial; repeat: boolean };
 
@@ -45,13 +48,13 @@ export function Testimonials({ testimonials }: { testimonials: HomeData["testimo
   const items = testimonials.items;
   const on = useMotionOn();
   const large = useMedia(LARGE_UP, true);
-  const medium = useMedia(MEDIUM_UP, true);
+  const small = useMedia(SMALL_UP, true);
   const wallRef = useRef<HTMLDivElement>(null);
   const inView = useInView(wallRef, { margin: "200px 0px" });
   if (items.length === 0) return null;
 
   const drift = on && items.length > 2;
-  const columns = columnsOf(items, Math.min(large ? 3 : medium ? 2 : 1, items.length), drift);
+  const columns = columnsOf(items, Math.min(large ? 3 : small ? 2 : 1, items.length), drift);
   const lede = testimonials.text.trim();
 
   return (

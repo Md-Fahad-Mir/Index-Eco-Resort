@@ -138,13 +138,19 @@ export function GalleryNight({ gallery }: { gallery: GalleryBlock }) {
                       />
 
                       {/* The caption rises over a night gradient; always shown
-                          where there is no hover to reveal it. */}
+                          where there is no hover to reveal it. There, every
+                          tile is captioned at once, and a single-column tile
+                          on a phone or tablet would repeat the category cut
+                          to its first word, so it carries the title alone. */}
                       <span className="from-me-night-deep/90 pointer-events-none absolute inset-x-0 bottom-0 flex translate-y-3 flex-col gap-1 bg-linear-to-t to-transparent p-4 pt-12 opacity-0 transition-[opacity,translate] duration-500 ease-(--me-ease) group-hover/tile:translate-y-0 group-hover/tile:opacity-100 group-focus-visible/tile:translate-y-0 group-focus-visible/tile:opacity-100 md:p-5 md:pt-16 [@media(hover:none)]:translate-y-0 [@media(hover:none)]:opacity-100">
                         <span
                           lang={autoLang(item.categoryName)}
                           className={cn(
                             "font-display text-me-champagne line-clamp-1 text-[1rem] md:text-[1.0625rem]",
                             !isBangla(item.categoryName) && "italic",
+                            item.title &&
+                              (at?.col ?? 1) === 1 &&
+                              "max-lg:[@media(hover:none)]:hidden",
                           )}
                         >
                           {item.categoryName}
@@ -244,7 +250,7 @@ function Chips({
                 }
               }}
               className={cn(
-                "text-label relative shrink-0 rounded-full px-5 py-3 font-medium whitespace-nowrap transition-colors duration-500",
+                "text-label relative min-h-11 shrink-0 rounded-full px-5 py-3 font-medium whitespace-nowrap transition-colors duration-500",
                 current
                   ? "text-me-night bg-me-champagne in-data-[indicator=ready]:bg-transparent"
                   : "text-me-parchment hover:text-me-ivory shadow-[inset_0_0_0_1px_var(--color-me-hairline-gold)] hover:shadow-[inset_0_0_0_1px_var(--me-frame)]",

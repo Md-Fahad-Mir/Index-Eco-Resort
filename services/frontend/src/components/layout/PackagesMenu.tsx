@@ -41,7 +41,7 @@ export function PackagesMenu({
         <Nav.Item>
           <Nav.Trigger
             className={cn(
-              "group text-small relative inline-flex cursor-pointer items-center gap-1.5 py-2 font-medium whitespace-nowrap transition-colors duration-[var(--dur-micro)]",
+              "group text-small relative inline-flex cursor-pointer items-center gap-1.5 py-2.5 font-medium whitespace-nowrap transition-colors duration-[var(--dur-micro)]",
               onDark ? "text-chrome-text/90 hover:text-chrome-text" : "text-ink hover:text-index",
               active && (onDark ? "text-chrome-text" : "text-index"),
             )}
@@ -53,7 +53,7 @@ export function PackagesMenu({
               className="size-4 transition-transform duration-[var(--dur-ui)] group-data-[state=open]:rotate-180"
             />
             {active && (
-              <span aria-hidden className="bg-chrome-accent absolute inset-x-0 -bottom-0.5 h-px" />
+              <span aria-hidden className="bg-chrome-accent absolute inset-x-0 bottom-0 h-px" />
             )}
           </Nav.Trigger>
 

@@ -217,7 +217,9 @@ function RoomPanel({ room, switched }: { room: Room; switched: boolean }) {
                     key={`${amenity.label}-${amenity.value}-${index}`}
                     className="flex flex-col gap-1"
                   >
-                    <dt className="text-label text-me-champagne">{amenity.label}</dt>
+                    <dt lang={autoLang(amenity.label)} className="text-label text-me-champagne">
+                      {amenity.label}
+                    </dt>
                     <dd
                       lang={autoLang(amenity.value)}
                       className="text-body text-me-ivory flex items-center gap-3"

@@ -49,8 +49,9 @@ export function Restaurant({ restaurant }: { restaurant: HomeData["restaurant"] 
         </div>
 
         {/* The panel: night on night-deep, a gold hairline along its top,
-            overlapping the image by about a column. */}
-        <div className="bg-me-night shadow-me-deep relative z-10 mx-3 -mt-8 flex flex-col gap-8 p-7 before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-(--me-frame) md:mx-10 md:-mt-16 md:p-12 lg:col-span-6 lg:col-start-1 lg:row-start-1 lg:mx-0 lg:mt-0 lg:p-14">
+            overlapping the image by about a column. On phones it keeps to the
+            gutters; inset further, the text ran to a 200px column at 320px. */}
+        <div className="bg-me-night shadow-me-deep relative z-10 -mt-8 flex flex-col gap-8 p-7 before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-(--me-frame) sm:mx-3 md:mx-10 md:-mt-16 md:p-12 lg:col-span-6 lg:col-start-1 lg:row-start-1 lg:mx-0 lg:mt-0 lg:p-14">
           <EstateHeading tone="night" eyebrow={restaurant.eyebrow} title={restaurant.title} />
           <RevealGroup delay={0.3} className="flex flex-col gap-9">
             <RevealItem>

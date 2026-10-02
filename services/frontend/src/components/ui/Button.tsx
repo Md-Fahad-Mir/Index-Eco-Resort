@@ -65,8 +65,7 @@ const VARIANT: Record<ButtonVariant, string> = {
     "shadow-[inset_0_0_0_1px_var(--chrome-cta-ring)]",
   // Mobile sheet Call Now: `on-dark`.
   "chrome-primary":
-    CHROME_SHAPE +
-    "bg-chrome-primary text-chrome-primary-fg before:bg-chrome-primary-hover",
+    CHROME_SHAPE + "bg-chrome-primary text-chrome-primary-fg before:bg-chrome-primary-hover",
   // Mobile sheet Book Now: `outline` in mist.
   "chrome-secondary":
     CHROME_SHAPE +

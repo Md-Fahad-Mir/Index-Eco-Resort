@@ -27,7 +27,9 @@ export function ContactModal({ settings }: { settings: SiteSettings["contactModa
             restoreFocus();
           }}
           data-chrome="modal"
-          className="bg-chrome-modal data-[state=open]:animate-in data-[state=open]:fade-in data-[state=open]:zoom-in-98 fixed top-1/2 left-1/2 z-60 max-h-[90vh] w-[min(560px,92vw)] -translate-x-1/2 -translate-y-1/2 overflow-y-auto rounded-(--chrome-modal-radius) p-8 shadow-(--chrome-modal-shadow)"
+          // dvh: the visible height, so the dialog clears a phone's browser
+          // bars. A phone's narrow width or short height takes a slimmer frame.
+          className="bg-chrome-modal data-[state=open]:animate-in data-[state=open]:fade-in data-[state=open]:zoom-in-98 phone-landscape:p-6 fixed top-1/2 left-1/2 z-60 max-h-[90dvh] w-[min(560px,92vw)] -translate-x-1/2 -translate-y-1/2 overflow-y-auto overscroll-contain rounded-(--chrome-modal-radius) p-6 shadow-(--chrome-modal-shadow) sm:p-8"
         >
           <div className="mb-6 flex items-start justify-between gap-4">
             <Dialog.Title className="font-display text-h3 text-chrome-modal-text">
@@ -35,7 +37,7 @@ export function ContactModal({ settings }: { settings: SiteSettings["contactModa
             </Dialog.Title>
             <Dialog.Close
               aria-label={dict.chrome.closeContactForm}
-              className="text-chrome-modal-muted hover:bg-chrome-modal-close-hover hover:text-chrome-modal-close-hover-fg rounded-pill -mt-1 grid size-10 shrink-0 place-items-center transition-colors"
+              className="text-chrome-modal-muted hover:bg-chrome-modal-close-hover hover:text-chrome-modal-close-hover-fg rounded-pill -mt-2 -mr-2 grid size-11 shrink-0 place-items-center transition-colors"
             >
               <X aria-hidden className="size-5" strokeWidth={1.5} />
             </Dialog.Close>

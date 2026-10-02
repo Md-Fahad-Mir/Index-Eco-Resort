@@ -32,12 +32,13 @@ export async function Footer({ settings }: { settings: SiteSettings }) {
   const dict = await getDictionary();
   return (
     <footer data-region="footer" className="bg-chrome-footer text-chrome-footer-text on-dark">
-      {/* Phones: one column, the two link lists side by side from 480px.
+      {/* Phones: one column, the two link lists side by side from 360px
+          (a narrower gap until 480px keeps the Bangla heading on one line).
           Tablets: the brand across the top (logo and socials beside the
           text), then the lists, then contact. Small laptops: brand across
           the top, then three columns. From `xl`: the four-column row. */}
-      <Container className="grid gap-12 py-[clamp(3.5rem,6vw,5.5rem)] min-[30rem]:grid-cols-2 min-[30rem]:gap-x-8 lg:grid-cols-3 xl:grid-cols-12 xl:gap-8">
-        <div className="flex flex-col gap-6 min-[30rem]:col-span-2 md:grid md:grid-cols-subgrid md:gap-x-8 lg:col-span-3 xl:col-span-4 xl:flex">
+      <Container className="grid gap-12 py-[clamp(3.5rem,6vw,5.5rem)] min-[22.5rem]:grid-cols-2 min-[22.5rem]:gap-x-6 min-[30rem]:gap-x-8 lg:grid-cols-3 xl:grid-cols-12 xl:gap-8">
+        <div className="flex flex-col gap-6 min-[22.5rem]:col-span-2 md:grid md:grid-cols-subgrid md:gap-x-8 lg:col-span-3 xl:col-span-4 xl:flex">
           <Link
             href="/"
             aria-label={settings.siteName}
@@ -108,7 +109,7 @@ export async function Footer({ settings }: { settings: SiteSettings }) {
           </nav>
         ))}
 
-        <div className="min-[30rem]:col-span-2 lg:col-span-1 xl:col-span-4">
+        <div className="min-[22.5rem]:col-span-2 lg:col-span-1 xl:col-span-4">
           <h2 className={FOOTER_HEADING}>{dict.chrome.footerContact}</h2>
           <ul className="divide-chrome-footer-rule divide-y">
             {footer.contact.map((item) => (
@@ -134,12 +135,16 @@ export async function Footer({ settings }: { settings: SiteSettings }) {
       </Container>
 
       <div className="bg-chrome-footer-bar">
-        <Container className="text-small flex flex-col items-center justify-between gap-2 py-4 sm:flex-row">
-          <p className="text-chrome-footer-bar-text/90 flex flex-wrap items-center gap-2">
+        {/* The last line of the page, and the floating dock sits over its
+            right end with nothing left to scroll: the right padding keeps the
+            text clear of it, less whatever margin a wide screen already gives
+            the container. Left-aligned on phones, like the columns above. */}
+        <Container className="text-small flex flex-col items-start justify-between gap-x-6 gap-y-2 py-4 pr-[max(var(--container-pad),calc(var(--chrome-dock-reserve)_-_max(0px,(100vw_-_var(--container-max))_/_2)))] md:flex-row md:items-center">
+          <p className="text-chrome-footer-bar-text/90 flex flex-wrap items-center gap-x-2">
             <span>{footer.bottom.companyName}</span>
             <span>{footer.bottom.copyright}</span>
           </p>
-          <p className="text-chrome-footer-bar-text/90 flex items-center gap-1.5">
+          <p className="text-chrome-footer-bar-text/90 flex flex-wrap items-center gap-x-1.5">
             {footer.bottom.creditLabel} {/* PARITY: the live credit link has no href. */}
             <span className="font-medium">{footer.bottom.creditSite}</span>
           </p>

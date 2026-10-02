@@ -60,7 +60,8 @@ function PlanCard({ pkg, current }: { pkg: PackageSummary; current: boolean }) {
       className={cn(
         "rounded-media flex flex-col gap-4 p-2 transition-colors",
         // The package you are already on gets a brass ring rather than a badge.
-        current && "ring-brass/70 ring-1",
+        // Inset, so the carousel's overflow clip cannot shave off its edges.
+        current && "ring-brass/70 ring-1 ring-inset",
       )}
       {...(current ? { "aria-current": "page" as const } : {})}
     >

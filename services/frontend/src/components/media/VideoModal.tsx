@@ -71,9 +71,11 @@ export function VideoModal({
     <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
       <DialogPrimitive.Portal>
         <DialogPrimitive.Overlay className={cn(skin.overlay, "fixed inset-0 z-50")} />
+        {/* The width also answers to the height, so on a sideways phone the
+            16:9 film and the close button above it (3.5rem) still fit. */}
         <DialogPrimitive.Content
           className={cn(
-            "fixed top-1/2 left-1/2 z-50 w-[min(92vw,1100px)] -translate-x-1/2 -translate-y-1/2 outline-none",
+            "fixed top-1/2 left-1/2 z-50 w-[min(92vw,1100px,calc((100svh-9rem)*16/9))] -translate-x-1/2 -translate-y-1/2 outline-none",
             skin.content,
           )}
         >

@@ -471,7 +471,11 @@ function HeroMedia({
       priority={index === 0}
       decorative
       frameClassName="absolute inset-0 bg-me-night"
-      className="size-full object-cover [filter:var(--me-grade)]"
+      // Anchored at the top: a screen wider than the photograph's 3:2 crops
+      // its height, and centred that slides the gate's sign up under the
+      // fixed header (a sideways phone, a 16:9 laptop). Taller screens crop
+      // only the sides, which stay centred.
+      className="size-full object-cover object-top [filter:var(--me-grade)]"
     />
   );
 }

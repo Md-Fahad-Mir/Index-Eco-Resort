@@ -36,7 +36,7 @@ export function PageHero({
       data-testid="page-hero"
       data-has-image={hasImage}
       className={cn(
-        "bg-canopy-deep on-dark relative flex min-h-[clamp(420px,62vh,640px)] items-end overflow-hidden",
+        "bg-canopy-deep on-dark phone-landscape:min-h-svh relative flex min-h-[clamp(420px,62vh,640px)] items-end overflow-hidden",
         className,
       )}
     >
@@ -45,9 +45,16 @@ export function PageHero({
       <PatternBackdrop />
       {hasImage && <HeroImage image={hero.image} />}
 
-      <Container className="relative z-10 flex flex-col gap-4 pb-14">
+      {/* The top padding clears the fixed header (and the top bar from `lg`),
+          so a long title grows the hero rather than running under them. A
+          sideways phone gets one screen, and a title sized to it. */}
+      <Container className="phone-landscape:pb-8 relative z-10 flex flex-col gap-4 pt-28 pb-14 lg:pt-44">
         <Breadcrumbs home={home} current={hero.breadcrumb.current} />
-        <Heading level={1} size="h1" className="text-mist max-w-[16ch]">
+        <Heading
+          level={1}
+          size="h1"
+          className="text-mist phone-landscape:text-[length:min(var(--text-h1),12svh)] max-w-[16ch]"
+        >
           {hero.title}
         </Heading>
       </Container>

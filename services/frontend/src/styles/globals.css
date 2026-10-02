@@ -262,6 +262,10 @@
   --chrome-dock-label: var(--color-canopy);
   --chrome-dock-label-fg: var(--color-mist);
   --chrome-dock-label-shift: 0px;
+  /* The strip at the right edge the folded dock covers, with a gap: its
+     offset plus its 58px width (66px and a 24px offset from `lg`). The
+     footer's bottom line keeps out of it, since nothing scrolls past that. */
+  --chrome-dock-reserve: 5.25rem;
 
   /* Contact modal */
   --chrome-modal: var(--color-paper);
@@ -284,6 +288,12 @@
   --chrome-footer-social-hover-fg: var(--color-canopy-deep);
   --chrome-footer-bar: var(--color-index);
   --chrome-footer-bar-text: var(--color-mist);
+}
+
+@media (min-width: 64rem) {
+  :root {
+    --chrome-dock-reserve: 6.5rem;
+  }
 }
 
 /* The header CTA's second state. */
@@ -338,6 +348,15 @@ header[data-solid="true"] {
 
   :where(h1, h2, h3, h4, h5, h6):lang(bn) {
     line-height: 1.25;
+  }
+
+  /* Bangla never sets at `label`: at 13px, sized to 90%, its conjuncts close
+     up on a phone. The step is re-pointed on the element rather than its
+     font-size overridden, so a breakpoint's own size still wins; the
+     attribute catches a label applied only at a breakpoint (`max-md:`). */
+  :is(.text-label, [class*=":text-label"]):lang(bn) {
+    --text-label: var(--text-small);
+    --text-label--line-height: var(--text-small--line-height);
   }
 
   /* Optical size match (§4.5): Bangla runs large next to Latin, so the Bangla

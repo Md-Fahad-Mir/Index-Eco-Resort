@@ -61,7 +61,8 @@ export function SiteHeader({
         />
       )}
 
-      <div className={cn("relative transition-all duration-300", solid && "lg:-mt-11")}>
+      {/* Solid, it lifts the 56px top bar (h-14) out of view. */}
+      <div className={cn("relative transition-all duration-300", solid && "lg:-mt-14")}>
         <TopBar settings={settings} />
 
         <Container
@@ -135,12 +136,14 @@ function NavLink({
 }) {
   const target = internalHref(href) ?? "#";
   const active = isActiveRoute(href, pathname);
+  // The hit area reaches 44px tall and half the gap either side, so a short
+  // label (ব্লগ is 17px) is still a full target; the text does not move.
   const className = cn(
-    "text-small relative inline-block py-2 font-medium whitespace-nowrap transition-colors duration-[var(--dur-micro)]",
+    "text-small relative -mx-2.5 inline-block px-2.5 py-2.5 font-medium whitespace-nowrap transition-colors duration-[var(--dur-micro)]",
     active ? "text-chrome-text" : "text-chrome-text/85 hover:text-chrome-text",
   );
   const underline = active && (
-    <span aria-hidden className="bg-chrome-accent absolute inset-x-0 -bottom-0.5 h-px" />
+    <span aria-hidden className="bg-chrome-accent absolute inset-x-2.5 bottom-0 h-px" />
   );
 
   if (isInternal(target)) {
