@@ -637,7 +637,43 @@
     "image": {
       "src": "/media/public/storage/video/admin/whoWeAre/tVfK8IgBbzs2RfXNK1tfvO2qhNH4SPlOm2gHsmj9.png",
       "alt": "Luxury apartment building"
-    }
+    },
+    "images": [
+      {
+        "src": "/media/public/storage/images/admin/why_buy/index-eco-resort-garden-entrance.jpg",
+        "alt": "Index Eco Resort's garden entrance, with a lily pond and pool among tropical planting",
+        "width": 1408,
+        "height": 768,
+        "focus": "34% 50%"
+      },
+      {
+        "src": "/media/public/storage/images/admin/why_buy/index-eco-resort-woodland-entrance.jpg",
+        "alt": "The timber-clad entrance of Index Eco Resort among woodland gardens",
+        "width": 1408,
+        "height": 768,
+        "focus": "55% 50%"
+      },
+      {
+        "src": "/media/public/storage/images/admin/why_buy/index-eco-resort-lake-house.jpg",
+        "alt": "A timber lake house with glass balconies above the water",
+        "width": 1408,
+        "height": 768,
+        "focus": "30% 50%"
+      },
+      {
+        "src": "/media/public/storage/images/admin/why_buy/index-eco-resort-lakefront.jpg",
+        "alt": "Index Eco Resort's lakefront terraces beneath the forest, reflected in the lake",
+        "width": 1408,
+        "height": 768
+      },
+      {
+        "src": "/media/public/storage/images/admin/why_buy/index-eco-resort-garden-tower.jpg",
+        "alt": "Index Eco Resort's planted tower beside a lake with a wooden jetty",
+        "width": 1408,
+        "height": 768,
+        "focus": "45% 50%"
+      }
+    ]
   },
   "villa": {
     "eyebrow": "Villa",

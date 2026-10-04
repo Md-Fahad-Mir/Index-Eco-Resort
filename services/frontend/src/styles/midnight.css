@@ -450,6 +450,18 @@ html:not([data-motion="on"]) [data-me-draw] {
   }
 }
 
+/* Why buy's photographs (sections/home/WhyBuyGallery.tsx): each one draws back
+   a few percent across its whole time in the frame, linear so the drift reads
+   as a camera rather than a settle, and ending at rest so a turn never jumps. */
+@keyframes me-linger {
+  from {
+    scale: 1.06;
+  }
+  to {
+    scale: 1;
+  }
+}
+
 /* The voices wall (sections/home/Testimonials.tsx). Each column holds its cards
    twice, so travelling exactly one copy's height loops without a seam. The
    direction and the pace are set per column; hover, focus and leaving the

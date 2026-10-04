@@ -3,31 +3,33 @@
 import { useRef } from "react";
 import { SmartImage } from "@/components/media/SmartImage";
 import { FrameDraw } from "@/components/motion/midnight/FrameDraw";
-import { LightsOn } from "@/components/motion/midnight/LightsOn";
-import { ScrollScale } from "@/components/motion/midnight/ScrollScale";
 import { StickyStory } from "@/components/motion/midnight/StickyStory";
 import { Container } from "@/components/ui/Container";
 import type { HomeData } from "@/lib/data";
 import { autoLang } from "@/lib/lang";
 import { EstateHeading } from "./EstateHeading";
+import { WhyBuyGallery } from "./WhyBuyGallery";
 
 type Feature = HomeData["whyBuy"]["features"][number];
 
 /**
  * Why buy — "four reasons" (prompts/06b-home-redesign.md §5.8), on ivory.
  *
- * From 1024px the building stays in view, sticky in its champagne frame and
- * settling from 1.08 as the section passes, while the reasons scroll beside
- * it; the one at the viewport's centre is lit — night text, a bronze rule
- * grown beside it, a bronze mark. The others rest in stone rather than at a
- * low opacity, so every line keeps AA contrast. Below 1024px the image leads
- * and the reasons follow as a staggered list, all lit (StickyStory).
+ * From 1024px the resort stays in view — its photographs turning slowly in
+ * the sticky champagne frame (WhyBuyGallery), settling from 1.08 as the
+ * section passes — while the reasons scroll beside it; the one at the
+ * viewport's centre is lit — night text, a bronze rule grown beside it, a
+ * bronze mark. The others rest in stone rather than at a low opacity, so every
+ * line keeps AA contrast. Below 1024px the photographs lead and the reasons
+ * follow as a staggered list, all lit (StickyStory).
  *
  * PARITY: the fourth feature's title is truncated in the CMS — "Strategic
  * Investment Locatio" — and renders as stored (docs/OWNER-REPORT.md §B).
  */
 export function WhyBuy({ whyBuy }: { whyBuy: HomeData["whyBuy"] }) {
   const sectionRef = useRef<HTMLElement>(null);
+  // The gallery when there is one; otherwise the live site's single photograph.
+  const photos = whyBuy.images.length > 0 ? whyBuy.images : whyBuy.image ? [whyBuy.image] : [];
 
   return (
     <section ref={sectionRef} className="bg-me-ivory text-me-night section-y relative">
@@ -35,17 +37,12 @@ export function WhyBuy({ whyBuy }: { whyBuy: HomeData["whyBuy"] }) {
         <StickyStory
           media={
             <div className="relative aspect-4/5 overflow-hidden sm:aspect-16/11 lg:aspect-auto lg:h-full">
-              <LightsOn className="absolute inset-0">
-                <ScrollScale target={sectionRef} className="size-full">
-                  <SmartImage
-                    image={whyBuy.image}
-                    sizes="(min-width: 1024px) 46vw, 92vw"
-                    ratio="auto"
-                    frameClassName="absolute inset-0 bg-me-parchment"
-                    className="size-full object-cover"
-                  />
-                </ScrollScale>
-              </LightsOn>
+              <WhyBuyGallery
+                images={photos}
+                label={whyBuy.eyebrow}
+                target={sectionRef}
+                className="absolute inset-0"
+              />
               <FrameDraw delay={0.4} />
             </div>
           }

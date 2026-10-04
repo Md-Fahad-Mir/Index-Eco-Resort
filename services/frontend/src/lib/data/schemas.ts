@@ -222,7 +222,15 @@ export const homeSchema = z.object({
     features: z.array(
       z.object({ icon: imgSchema.nullable(), title: z.string(), text: z.string() }),
     ),
+    /** The live site's single photograph; shown only when `images` is empty. */
     image: imgSchema.nullable(),
+    /**
+     * The photographs that turn in the section's frame. The frame is portrait
+     * on phones and desktops, so a landscape photograph is cropped: `focus` is
+     * the point to keep in view, as a CSS object-position ("35% 50%"); centred
+     * when absent.
+     */
+    images: z.array(imgSchema.extend({ focus: z.string().optional() })).default([]),
   }),
   villa: z.object({ eyebrow: z.string(), title: z.string(), rooms: z.array(roomSchema) }),
   restaurant: z.object({

@@ -42,6 +42,7 @@ const SKIP_KEYS = new Set([
   "dateFormat",
   "pane",
   "tone",
+  "focus",
   "html",
 ]);
 

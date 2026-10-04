@@ -730,13 +730,44 @@
               "type": "null"
             }
           ]
+        },
+        "images": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "src": {
+                "type": "string"
+              },
+              "alt": {
+                "default": "",
+                "type": "string"
+              },
+              "width": {
+                "type": "number"
+              },
+              "height": {
+                "type": "number"
+              },
+              "focus": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "src",
+              "alt"
+            ],
+            "additionalProperties": false
+          }
         }
       },
       "required": [
         "eyebrow",
         "title",
         "features",
-        "image"
+        "image",
+        "images"
       ],
       "additionalProperties": false
     },
